@@ -227,6 +227,8 @@ django_heroku.settings(locals())
 
 # del DATABASES['default']['OPTIONS']['sslmode']
 
+
+
 sentry_sdk.init(
     dsn="https://c65bac75837247648592312de561bab2@sentry.io/1515282",
     integrations=[DjangoIntegration()]
