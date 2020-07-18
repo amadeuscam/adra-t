@@ -1,0 +1,186 @@
+{% extends "_base.html" %}
+
+
+{% block title %}
+Almacen
+{% endblock %}
+<div class="row">
+    {% block content %}
+
+
+    <div class="col-md-12">
+        <aside class="profile-nav alt">
+            <section class="card">
+                <div class="card-header user-header alt bg-dark">
+                    <div class="media">
+
+                        <div class="media-body">
+                            <h2 class="text-light display-6">Almacen</h2>
+                            <p class="text-danger">Unidades disponibles</p>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <ul class="list-group list-group-flush">
+
+                    {% for alimento in almacen_adra %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Aroz Blanco
+                        <span class="badge badge-primary">{{ alimento.arroz_blanco }}</span>
+                    </li>
+
+                    <li class="list-group-item  d-flex justify-content-between align-items-center">
+                        Garbanzo cocido
+                        <span class="badge badge-primary ">{{ alimento.garbanzo_cocido }}</span>
+
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Atun
+                        <span class="badge badge-primary ">{{ alimento.atun_sardina }}</span>
+
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Sardina
+                        <span class="badge badge-primary ">{{ alimento.sardina }}</span>
+
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                        Pasta Espagueti
+                        <span class="badge badge-primary ">{{ alimento.pasta_espagueti }}</span>
+
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                        Tomate Frito
+                        <span class="badge badge-primary ">{{ alimento.tomate_frito}}</span>
+
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                        Galletas
+                        <span class="badge badge-primary ">{{ alimento.galletas}}</span>
+
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                        Macedonia verdura
+                        <span class="badge badge-primary ">{{ alimento.macedonia_verdura_conserva}}</span>
+
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                        Conserva Pera
+                        <span class="badge badge-primary ">{{ alimento.fruta_conserva_pera}}</span>
+
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                        Conserva Coctel
+                        <span class="badge badge-primary ">{{ alimento.fruta_conserva_coctel}}</span>
+
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                        Tarito pollo
+                        <span class="badge badge-primary ">{{ alimento.tarito_pollo}}</span>
+
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                        Tarito fruta
+                        <span class="badge badge-primary ">{{ alimento.tarito_fruta}}</span>
+
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                        Leche
+                        <span class="badge badge-primary ">{{ alimento.leche}}</span>
+
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                        Batido de chocolate
+                        <span class="badge badge-primary ">{{ alimento.batido_chocolate}}</span>
+
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                        Aceite de oliva
+                        <span class="badge badge-primary ">{{ alimento.aceite_de_oliva}}</span>
+
+                    </li>
+                    {% empty %}
+                    <p>Almacen vacio</p>
+                    {% endfor %}
+                </ul>
+
+            </section>
+        </aside>
+    </div>
+
+
+
+
+
+    <!-- 
+    <div class="col-md-12 col-sm-12">
+
+        <table class="table  table-sm table-responsive">
+            <thead>
+                <tr>
+                    <th scope="col">Aroz Blanco</th>
+                    <th scope="col">Garbanzo cocido</th>
+                    <th scope="col">Atun</th>
+                    <th scope="col">Sardina</th>
+                    <th scope="col">Pasta Espagueti</th>
+                    <th scope="col">Tomate Frito</th>
+                    <th scope="col">Galletas</th>
+                    <th scope="col">Macedonia Verduras</th>
+                    <th scope="col">Fruta en conserva Pera</th>
+                    <th scope="col">Fruta en conserva Coctel</th>
+                    <th scope="col">Tarito Pollo</th>
+                    <th scope="col">Tarito Fruta</th>
+                    <th scope="col">Leche</th>
+                    <th scope="col">Batido de Chocolate</th>
+                    <th scope="col">Aceite de Oliva</th>
+                    <th scope="col">Modificado Por:</th>
+                    <th colspan="3" scope="col">Actiones:</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alimento in almacen_adra %}
+                <tr>
+                    <td>{{ alimento.arroz_blanco }}</td>
+                    <td>{{ alimento.garbanzo_cocido }}</td>
+                    <td>{{ alimento.atun_sardina }}</td>
+                    <td>{{ alimento.sardina }}</td>
+                    <td>{{ alimento.pasta_espagueti }}</td>
+                    <td>{{ alimento.tomate_frito }}</td>
+                    <td>{{ alimento.galletas }}</td>
+                    <td>{{ alimento.macedonia_verdura_conserva }}</td>
+                    <td>{{ alimento.fruta_conserva_pera }}</td>
+                    <td>{{ alimento.fruta_conserva_coctel }}</td>
+                    <td>{{ alimento.tarito_pollo }}</td>
+                    <td>{{ alimento.tarito_fruta }}</td>
+                    <td>{{ alimento.leche }}</td>
+                    <td>{{ alimento.batido_chocolate }}</td>
+                    <td>{{ alimento.aceite_de_oliva }}</td>
+                    <td>{{ alimento.modificado_por }}</td>
+                    {#                <td><a href="{% url 'adra:persona-detail' persona.id %}">Ver</a></td>#}
+                    {#                <td><a href="{% url 'adra:persona-update-alimentos' alimento.id %}">Editar</a></td>#}
+                    {#                <td><a href="{% url 'adra:persona-alimentos-delete' alimento.id %}">Sterge</a></td>#}
+                </tr>
+                {% empty %}
+                <p>Nu sa dat alimente acestei personane :(</p>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {#    <a class="btn btn-success" role="button" href="{% url 'adra:alimentos-create' persona.id %}">Repartir Alimento#}
+    {#        para {{ object.nombre_apellido }}</a>#}
+    {% endblock %} -->
+
+</div>

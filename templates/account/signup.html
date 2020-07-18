@@ -1,0 +1,20 @@
+{% extends "_base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+<h1>Registrar usuario</h1>
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ form|crispy }}
+
+        <div class="form-group">
+            <button class="btn btn-outline-success" type="submit">Registrar</button>
+        </div>
+    </form>
+<div class="is-bordered">
+    <small class="text-muted">Ai deaja cont? <a class="ml-2" href="{% url 'account_login' %}">Intra acuma</a></small>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "layouts/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div>
+<h1>Añadir  usuarios</h1>
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ form|crispy }}
+
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Register</button>
+        </div>
+    </form>
+<div class="is-bordered">
+    <small class="text-muted">Ai deaja cont? <a class="ml-2" href="{% url 'login' %}">Tienes cuanta? Entra ahora</a></small>
+</div>
+</div>
+{% endblock %}

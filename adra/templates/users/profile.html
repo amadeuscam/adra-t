@@ -1,0 +1,31 @@
+{% extends "layouts/base.html" %}
+
+{% load crispy_forms_tags %}
+<div class="row">
+{% block content %}
+<div class="col-sm-4">
+    <div class="content-section">
+        <div class="media">
+            <img src="{{ user.profile.image.url }}" class="rounded-circle account-img" width="150" height="150"
+                 alt="imagen perfil">
+            <div class="media-body space">
+                <h2 class="account-heading">{{ user.username }}</h2>
+                <p class="text-secondary">{{ user.email }}</p>
+            </div>
+        </div>
+        <h1>Actualizeaza perfil</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
+
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Update perfil</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock %}
+</div>

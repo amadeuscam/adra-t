@@ -1,0 +1,10 @@
+{% extends "layouts/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h2>Ai iesit din site</h2>
+<div class="is-bordered">
+    <small class="text-muted">Vrei sa intri iar? <a class="ml-2" href="{% url 'login' %}">Intra acuma</a></small>
+</div>
+
+{% endblock %}

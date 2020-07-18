@@ -1,0 +1,17 @@
+{% extends "_base.html" %}
+{% load crispy_forms_tags %}
+<div class="row">
+    {% block content %}
+        <div class="col-md-8">
+            <h1>FAMILIAR</h1>
+            <form method="POST">
+                {% csrf_token %}
+                <h1>Quieres borrar el familiar "{{ object.nombre_apellido }}" ?</h1>
+                <div class="form-group">
+                    <button class="btn btn-outline-danger" type="submit">Borrrar</button>
+                    <a href=" {% url 'adra:persona-home' %}" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    {% endblock %}
+</div>

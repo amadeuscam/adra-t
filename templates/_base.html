@@ -1,0 +1,502 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Ong Adra">
+    <meta name="author" content="Lucian cati">
+    <meta name="keywords" content="adra ,omg">
+
+    <!-- Title Page-->
+    <title>{% block title %}
+        Home
+    {% endblock %} </title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap-4.1/bootstrap.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/animsition/animsition.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/wow/animate.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}" rel="stylesheet" media="all">
+    <!-- Main CSS-->
+    <link href="{% static 'css/theme.css' %}" rel="stylesheet" media="all"/>
+
+</head>
+
+<body>
+<div class="page-wrapper">
+    <!-- HEADER MOBILE-->
+    <header class="header-mobile d-block d-lg-none">
+        <div class="header-mobile__bar">
+            <div class="container-fluid">
+                <div class="header-mobile-inner">
+                    <a class="logo" href="{% url 'adra:persona-home' %}">
+                        <!-- <img src="images/icon/logo.png" alt="CoolAdmin" /> -->
+                        <h1>Adra Torrejon</h1>
+                    </a>
+                    <button class="hamburger hamburger--slider" type="button">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>
+                            </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar-mobile">
+            <div class="container-fluid">
+                <ul class="navbar-mobile__list list-unstyled">
+
+                    <li>
+                        <a href="{% url 'adra:persona-home' %}"
+                           class="{% if nbar == 'home' %}text-primary{% endif %}">
+                            <i class="large material-icons" style="font-size: 14px;color: darkslategrey">dashboard</i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'adra:persona-create' %}"
+                           class="{% if nbar == 'create' %}text-primary{% endif %}">
+                            <i class="large material-icons" style="font-size: 14px;color: darkslategrey">person_add</i>
+                            Añadir persona
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'adra:almacen-home' %}"
+                           class="{% if nbar == 'almacen_a' %}text-primary{% endif %}">
+                            <i class="large material-icons" style="font-size: 14px;color: darkslategrey">storage</i>
+
+                            Stock
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'adra:buscar-por-fecha' %}"
+                           class="{% if nbar == 'buscar_av' %}text-primary{% endif %}">
+                            <i class="large material-icons" style="font-size: 14px;color: darkslategrey">search</i>
+                            Busqueda avanzada</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'adra:statistics-personas' %}"
+                           class="{% if nbar == 'stat' %}text-primary{% endif %}">
+                            <i class="large material-icons" style="font-size: 14px;color: darkslategrey">trending_up</i>
+                            Estadísticas</a>
+                    </li>
+
+
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- END HEADER MOBILE-->
+
+    <!-- MENU SIDEBAR-->
+    <aside class="menu-sidebar d-none d-lg-block">
+        <div class="logo">
+            <a href="{% url 'adra:persona-home' %}">
+                <h4>Adra Torrejon</h4>
+            </a>
+        </div>
+        <div class="menu-sidebar__content js-scrollbar1">
+            <nav class="navbar-sidebar">
+                <ul class="list-unstyled navbar__list">
+                    <li class="has-sub {% if nbar == 'home' %}active{% endif %} ">
+
+                        <a href="{% url 'adra:persona-home' %}"
+                           class="d-flex justify-content-start align-items-center ">
+                            <i class="large material-icons" style="font-size: 36px;color: darkslategrey">dashboard</i>
+                            <p>Dashboard</p>
+                        </a>
+
+
+                    </li>
+                    <li class="{% if nbar == 'create' %}active{% endif %}">
+                        <a href="{% url 'adra:persona-create' %}"
+                           class="d-flex justify-content-start align-items-center ">
+                            <i class="large material-icons" style="font-size: 36px;color: darkslategrey">person_add</i>
+
+                            <p>Persona</p>
+                        </a>
+                    </li>
+                    <li class="{% if nbar == 'almacen_a' %}active{% endif %}">
+                        <a href="{% url 'adra:almacen-home' %}" class="d-flex justify-content-start align-items-center ">
+                            <i class="large material-icons" style="font-size:36px;color: darkslategrey">storage</i>
+                            <p>Stock</p>
+                        </a>
+                    </li>
+                    <li class="{% if nbar == 'buscar_av' %}active{% endif %}">
+                        <a href="{% url 'adra:buscar-por-fecha' %}" class="d-flex justify-content-start align-items-center ">
+                            <i class="large material-icons" style="font-size: 36px;color: darkslategrey">search</i>
+                            <p>Busqueda avanzada</p>
+                        </a>
+                    </li>
+                    <li class="{% if nbar == 'stat' %}active{% endif %}">
+                        <a href="{% url 'adra:statistics-personas' %}" class="d-flex justify-content-start align-items-center ">
+                            <i class="large material-icons" style="font-size: 36px;color: darkslategrey">trending_up</i>
+                            <p>Estadísticas</p>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+    </aside>
+    <!-- END MENU SIDEBAR-->
+
+    <!-- PAGE CONTAINER-->
+    <div class="page-container">
+
+        <!-- HEADER DESKTOP-->
+        <header class="header-desktop">
+            <div class="section__content section__content--p30">
+                <div class="container-fluid">
+                    <div class="header-wrap">
+                        <form class="form-header" action="{% url 'adra:buscar' %}" method="GET">
+                            <input class="au-input au-input--xl" type="text" name="q"
+                                   placeholder="nr adra,nume,nie"/>
+                            <button class="au-btn--submit" type="submit">
+                                <i class="large material-icons" style="font-size: 36px;color: #fff">search</i>
+                            </button>
+                        </form>
+
+                        <div class="account-wrap">
+                            {% if user.is_authenticated %}
+
+                                <div class="account-item clearfix js-item-menu">
+                                <div class="image">
+                                    <img src="{% static 'images/chico.png' %}" alt="John Doe"/>
+                                </div>
+                                <div class="content">
+                                    <a class="js-acc-btn" href="#">
+                                        {% if user.last_name %}
+                                            {{ user.last_name | capfirst }}
+                                        {% else %}
+                                            {{ user.username | capfirst }}
+                                        {% endif %}
+
+                                    </a>
+                                </div>
+                                <div class="account-dropdown js-dropdown">
+                                    <div class="info clearfix">
+                                        <div class="image">
+                                            <a href="#">
+                                                <img src="{% static 'images/chico.png' %}"
+                                                     alt="{{ user.username | capfirst }}"/>
+
+                                            </a>
+
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="name">
+                                                <a href="#">{{ user.username | capfirst }}</a>
+                                            </h5>
+                                            <span class="email">{{ user.email }}</span>
+
+                                        </div>
+                                    </div>
+                                    <div class="account-dropdown__body">
+
+                                        <div class="account-dropdown__footer">
+                                            <a href="{% url 'adra:edit-profile' %}">Edita tu perfil</a>
+                                            <a href="{% url 'account_logout' %}">
+                                                <i class="large material-icons" style="font-size: 26px;color: darkslategrey">power_settings_new</i>
+                                                Salir</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {% else %}
+                                <a href="{% url 'account_login' %}" class="nav-item nav-link">Login</a>
+                                {% comment %} <a href="{% url 'account_signup' %}"
+                                                 class="nav-item nav-link">Register</a>
+                                {% endcomment %}
+                            {% endif %}
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+        </header>
+        <!-- HEADER DESKTOP-->
+
+        <!-- MAIN CONTENT-->
+        <div class="main-content">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" style="z-index: 4"
+                         role="alert">
+                        <strong> {{ message|safe }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="section__content section__content--p30">
+                <div class="container" style="background-color: white; padding: 20px;">
+
+                    {% block content %}
+
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+        <!-- END MAIN CONTENT-->
+        <!-- END PAGE CONTAINER-->
+    </div>
+
+    <div class="modal fade" tabindex="-1" style="position: absolute;" role="dialog" id="exampleModal">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">Paples</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>Empadronamiento: {% if object.empadronamiento %}
+                                <span style="color:#ACEB98;">Si</span> {% else %}
+                                <span style="color: red">No</span> {% endif %}</p>
+                            <p>Libro de familia: {% if object.libro_familia %}
+                                <span style="color:#ACEB98;">Si</span> {% else %}
+                                <span style="color: red">No</span> {% endif %}</p>
+                            <p>Prestaciones: {% if object.prestaciones %}
+                                <span style="color:#ACEB98;">Si</span> {% else %}
+                                <span style="color: red">No</span> {% endif %}</p>
+                            <p>Aquiler o Hipoteca: {% if object.aquiler_hipoteca %}
+                                <span style="color:#ACEB98;">Si</span> {% else %}
+                                <span style="color: red">No</span> {% endif %}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p>Fotocopias dnis: {% if object.fotocopia_dni %}
+                                <span style="color:#ACEB98;">Si</span> {% else %}
+                                <span style="color: red">No</span> {% endif %}</p>
+                            <p>Nomia: {% if object.nomnia %}
+                                <span style="color:#ACEB98;">Si</span> {% else %}
+                                <span style="color: red">No</span> {% endif %}</p>
+                            <p>Certificado Negativo:{% if object.cert_negativo %}
+                                <span style="color:#ACEB98;">Si</span> {% else %}
+                                <span style="color: red">No</span> {% endif %}</p>
+                            <p>Recibos: {% if object.recibos %}
+                                <span style="color:#ACEB98;">Si</span> {% else %}
+                                <span style="color: red">No</span> {% endif %}</p>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn  btn-block btn-dark" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalListadoAlimentos" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Alimentos Entegados</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        {% for alimento in persona.alimentos.all %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Se ha recogido
+                                <span class="badge badge-primary badge-pill">{{ alimento.fecha_recogida }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Arroz Blanco
+                                <span class="badge badge-primary badge-pill">{{ alimento.arroz_blanco }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Garbanzo Cocido
+                                <span class="badge badge-primary badge-pill">{{ alimento.garbanzo_cocido }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Atun
+                                <span class="badge badge-primary badge-pill">{{ alimento.atun_sardina }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Sardina
+                                <span class="badge badge-primary badge-pill">{{ alimento.sardina }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Pasta Espagueti
+                                <span class="badge badge-primary badge-pill">{{ alimento.pasta_espagueti }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Tomate Frito
+                                <span class="badge badge-primary badge-pill">{{ alimento.tomate_frito }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Galletas
+                                <span class="badge badge-primary badge-pill">{{ alimento.galletas }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Macedonia Verdura Conserva
+                                <span
+                                        class="badge badge-primary badge-pill">{{ alimento.macedonia_verdura_conserva }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Fruta Conserva Pera
+                                <span class="badge badge-primary badge-pill">{{ alimento.fruta_conserva_pera }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Fruta Conserva Coctel
+                                <span class="badge badge-primary badge-pill">{{ alimento.fruta_conserva_coctel }}</span>
+                            </li>
+
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Tarito de Pollo
+                                <span class="badge badge-primary badge-pill">{{ alimento.tarito_pollo }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Tarito de Fruta
+                                <span class="badge badge-primary badge-pill">{{ alimento.tarito_fruta }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Leche
+                                <span class="badge badge-primary badge-pill">{{ alimento.leche }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Batido Chocolate
+                                <span class="badge badge-primary badge-pill">{{ alimento.batido_chocolate }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Aceite de oliva
+                                <span class="badge badge-primary badge-pill">{{ alimento.aceite_de_oliva }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Modificado por
+                                <span class="badge badge-primary badge-pill">{{ alimento.modificado_por }}</span>
+                            </li>
+
+                            <li class="list-group-item d-flex justify-content-center  align-items-center" style="background: #e4e4e4;padding: 0">
+                                <a class="btn " role="button"
+                                   href="{% url 'adra:persona-update-alimentos' alimento.id %}">
+                                  <i class="large material-icons" title="" style="font-size: 36px;color: darkslategrey">mode_edit</i>
+                                </a>
+                                <a class="btn " role="button"
+                                   href="{% url 'adra:persona-alimentos-delete' alimento.id %}">
+                                      <i class="large material-icons" style="font-size: 34px; color: red">delete</i>
+                                </a>
+                            </li>
+
+                        {% empty %}
+                            <div class="alert alert-primary" role="alert">
+                                Nu sa dat alimente acestei personane :(
+                            </div>
+                        {% endfor %}
+
+
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" style="background: darkslategrey;color: #fff" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modalListadoFamiliares" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Listado familiares</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% with persona.hijo.count as total_hijos %}
+                        <h3>{{ total_hijos }} familiare{{ total_hijos|pluralize }}</h3>
+                    {% endwith %}
+
+                    <div class="row">
+                        {% for hijo in persona.hijo.all %}
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <div class="card text-dark  mt-2"
+                                     style="border: none;box-shadow:  20px 20px 40px #b1b8bb,-20px -20px 40px #eff8fd;   {% if hijo.age <= 3 %}
+                                         background-image: linear-gradient(to right bottom, #d9e2e3, #bbe5e8, #99e7eb, #6de9ec, #12ebeb);
+                                     {% endif %}">
+                                    <div class="card-body" id="evens">
+
+                                        <h2 class="text-dark text-truncate" title="{{ hijo.nombre_apellido }}">
+                                            {{ hijo.nombre_apellido }}</h2>
+                                        <p class="card-text  ">Parentesco:<span
+                                                class="text-warning">{{ hijo.parentesco|upper }}</span></p>
+                                        <p class="card-text">Dni: {{ hijo.dni|capfirst }}</p>
+                                        <p class="card-text">Sexo: {{ hijo.sexo }}</p>
+                                        <p class="card-text">Edad: {{ hijo.age }}</p>
+                                        <p class="card-text">Nacido: {{ hijo.fecha_nacimiento|date:"m-d-Y" }}</p>
+                                        <p class="card-text">Modificado por: <b>{{ hijo.modificado_por }}</b></p>
+                                        <hr>
+                                        <a class="btn " role="button"
+                                           href="{% url 'adra:hijo-update' hijo.id %}">
+                                            <i class="large material-icons" title="" style="font-size: 36px;color: darkslategrey">portrait</i>
+                                        </a>
+                                        {% if user.is_staff %}
+                                            <a class="btn " role="button"
+                                               href="{% url 'adra:hijo-delete' hijo.id %}">
+                                                <i class="large material-icons" style="font-size: 34px; color: red">delete</i>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        {% empty %}
+
+                            <div class="alert alert-primary" role="alert">
+                                No tiene hijos
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn " style="background: darkslategrey;color: #fff" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<script src="{% static 'vendor/jquery-3.2.1.min.js' %}"></script>
+<!-- Jquery JS-->
+<!-- <script src="vendor/jquery-3.2.1.min.js"></script> -->
+<!-- Bootstrap JS-->
+<script src="{% static 'vendor/bootstrap-4.1/popper.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap-4.1/bootstrap.min.js' %}"></script>
+{#<script src="{% static 'vendor/slick/slick.min.js' %}"></script>#}
+<script src="{% static 'vendor/animsition/animsition.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.0/perfect-scrollbar.min.js"></script>
+<script src="{% static 'vendor/wow/wow.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/base.js' %}"></script>
+<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts.min-v3110-english.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/world.js"></script>
+
+{% block script %}
+
+{% endblock %}
+
+
+</body>
+
+</html>
+<!-- end document-->

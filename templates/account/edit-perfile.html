@@ -1,0 +1,15 @@
+{% extends "_base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Edit your account{% endblock %}
+{% block content %}
+<h1>Edita tu perfil</h1>
+<p><strong>Puedes modificar tu datos en los siguentes campos:</strong></p>
+<br>
+<form method="post" enctype="multipart/form-data">
+    {{ user_form |crispy  }}
+    {{ profile_form |crispy  }}
+    {% csrf_token %}
+    <p><input type="submit" class="btn btn-success btn-block" value="Guardar Cambios"></p>
+</form>
+{% endblock %}

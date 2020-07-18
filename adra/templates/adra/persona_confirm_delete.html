@@ -1,0 +1,17 @@
+{% extends "_base.html" %}
+{% load crispy_forms_tags %}
+<div class="row">
+    {% block content %}
+        <div class="col-md-8">
+            <form method="POST">
+                {% csrf_token %}
+                <h1>Chiar vrei sa stergi persoana "{{ object.nombre_apellido }}" ?</h1>
+                <div class="form-group">
+                    <button class="btn btn-outline-danger" type="submit">Sterge</button>
+                    <a href=" {{ persona.get_absolute_url }}" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+
+        </div>
+    {% endblock %}
+</div>

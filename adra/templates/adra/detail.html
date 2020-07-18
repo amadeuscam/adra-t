@@ -1,0 +1,133 @@
+<!-- {% extends "_base.html" %} -->
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    {{ persona.nombre_apellido }}
+{% endblock %}
+
+
+
+{% block content %}
+
+
+    <div class="profile-container" style="box-shadow: 0px 0px 23px -2px rgba(186,186,186,1);">
+        <div class="row">
+            <div class="col-md-4 col-xs-12 mb-5 d-flex pt-3 justify-content-center">
+                {% if object.sexo == "hombre" %}
+                    <img src="{% static 'images/chico.png' %}" class="img-responsive" width="100" height="100"/>
+                {% else %}
+                    <img src="{% static 'images/girl.png' %}" class="img-responsive" width="100" height="100"/>
+                {% endif %}
+            </div>
+            <div class="col-md-8 col-xs-12  profile-info mb-5 p-xs-1 pt-md-3 text-lg-left text-center">
+                <h2 class="user-name" title="nombre del beneficiario"> {{ object.nombre_apellido }}</h2>
+                <h3 class="user-mail" title="fecha de nacimiento">{{ object.fecha_nacimiento }} </h3>
+                <h5 class="user-company " title="numero adra" style="font-size: 32px;"> {{ object.numero_adra }}</h5>
+            </div>
+        </div>
+        <div class="row " style="border-bottom: 2px solid darkslategrey;margin-bottom: 20px;">
+            <ul class="list-group list-group-flush ">
+                <li class="list-group-item ">
+
+                    <a class="btn " data-toggle="tooltip" data-placement="top" title="Editar la informacion del beneficiario" role="button" href="{% url 'adra:persona-update' persona.id %}">
+                        <i class="large material-icons" title=""
+                           style="font-size: 36px;color: darkslategrey">portrait</i>
+                    </a>
+                    <a class="btn"data-toggle="modal" data-target="#modalListadoAlimentos" role="button"
+                       style="color: white">
+                        <i class="large material-icons" title="ver alimentos entregados"
+                           style="font-size: 36px;color: darkslategrey">assignment</i>
+                    </a>
+                    <a class="btn " data-toggle="modal" data-target="#modalListadoFamiliares" role="button"
+                       style="color: white">
+                        <i class="large material-icons" title="ver familiares beneficiario"
+                           style="font-size: 36px;color: darkslategrey">people</i>
+                    </a>
+                    <a class="btn"   data-toggle="tooltip" data-placement="top" title="Añadir alimentos beneficiario" role="button" href="{% url 'adra:alimentos-create' persona.id %}">
+                        <i class="large material-icons"
+                           style="font-size: 36px;color: darkslategrey">library_add</i>
+                    </a>
+                    <a class="btn" data-toggle="tooltip" data-placement="top" title="Añadir familiares" role="button" href="{% url 'adra:hijo-create' persona.id %}">
+                        <i class="large material-icons"
+                           style="font-size: 36px;color: darkslategrey">group_add</i>
+                    </a>
+                    <a class="btn" data-toggle="tooltip" data-placement="top" title="Generar hoja de entrega" role="button"
+                       href="{% url 'adra:pdf_form' persona.id %}">
+                        <i class="large material-icons"
+                           style="font-size: 36px;color: darkslategrey">picture_as_pdf</i>
+                    </a>
+
+                </li>
+            </ul>
+        </div>
+
+
+        <div class="row more-info p-2">
+            <div class="col-md-4">
+                <h5><b>Documento de identidad</b></h5>
+                <p> {{ object.dni }}</p>
+            </div>
+            <div class="col-md-4">
+                <h5><b>Sexo</b></h5>
+                <p>{{ object.sexo|capfirst }}</p>
+            </div>
+            <div class="col-md-4">
+                <h5><b>Domingo</b></h5>
+                <p>{{ object.domingo }}</p> <!-- </3 :( -->
+            </div>
+        </div>
+        <div class="row more-info p-2">
+            <div class="col-md-4">
+                <h5><b>Nacionalidad</b></h5>
+                <p>{{ object.nacionalidad }}</p>
+            </div>
+            <div class="col-md-4">
+                <h5><b>Papeles</b></h5>
+                <p>{% if object.are_acte %}
+                    da{% else %} nu{% endif %}</p>
+            </div>
+            <div class="col-md-4">
+                <h5><b>Documentacíon traida</b></h5>
+                <p><a href="#" data-toggle="modal" data-target="#exampleModal">Ver
+                    paples traidos</a></p>
+            </div>
+        </div>
+        <div class="row more-info p-2">
+            <div class="col-md-4">
+                <h5><b>Numero de entregas</b></h5>
+                <p> {{ persona.alimentos.count }}</p>
+            </div>
+            <div class="col-md-4">
+                <h5><b>Telefono</b></h5>
+                <p><a href="tel:{{ object.telefono }}"> {{ object.telefono }}</a></p>
+            </div>
+            <div class="col-md-4">
+                <h5><b>Modificado por</b></h5>
+                <p>{{ object.modificado_por|capfirst }}</p>
+            </div>
+        </div>
+        <div class="row more-info p-2">
+            <div class="col-md-6">
+                <h5><b>Ciudad</b></h5>
+                <p> {{ object.ciudad }}</p>
+            </div>
+            <div class="col-md-6">
+                <h5><b>Domicilio</b></h5>
+                <p>{{ object.domicilio }}</p>
+            </div>
+        </div>
+
+        <div class="row p-2">
+            <div class="col-md-8 bg-warning p-2">
+                <h5><b>Mensaje</b></h5>
+                <p style="word-wrap: break-word;"> {{ persona.mensaje }}</p>
+            </div>
+            <div class="col-md-4  more-info p-2">
+                <h5><b>Edad</b></h5>
+                <p> {{ persona.age }}</p>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

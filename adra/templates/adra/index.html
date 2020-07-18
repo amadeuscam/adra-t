@@ -1,0 +1,211 @@
+<!-- {% extends "_base.html" %} -->
+{% load static %}
+{% block content %}
+
+    {% if ultima_persona %}
+        <div class="row">
+            {% for persona in ultima_persona %}
+                {% if persona.active %}
+
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card wow fadeIn" data-wow-duration="2s"
+                             style="box-shadow: 0px 0px 23px -2px rgba(186,186,186,1);">
+                            <div class="card-body">
+                                <div class="mx-auto d-block text-center">
+
+                                    {% if persona.sexo == "hombre" %}
+                                        <!-- <img src="{% static 'images/chico.png' %}" class="img-responsive" width="100" height="100" /> -->
+                                        <img class="rounded-circle mx-auto d-block"
+                                             src="{% static 'images/chico.png' %}"
+                                             alt="Card image cap" width="70" height="70">
+                                    {% else %}
+                                        <img class="rounded-circle mx-auto d-block" src="{% static 'images/girl.png' %}"
+                                             alt="Card image cap" width="70" height="70">
+                                    {% endif %}
+
+                                    <h5 class="text-sm-center mt-2 mb-1 text-truncate">{{ persona.nombre_apellido }}</h5>
+                                    <div class="location text-sm-center"> {{ persona.numero_adra }}</div>
+                                    <div class="card-text text-sm-center">
+                                        {% if persona.are_acte %}
+                                         <i class="large material-icons" style="color:green;font-size: 34px;">verified_user</i>
+
+                                        {% else %}
+                                            <i class="large material-icons" style="color:red;font-size: 34px;">verified_user</i>
+                                        {% endif %}
+                                        {% if persona.discapacidad %}
+                                            <i class="large material-icons" style="font-size: 34px;">accessible</i>
+                                        {% endif %}
+                                        {% if persona.covid %}
+                                           <i class="large material-icons" title="covid " style="font-size: 34px;color: #370617">grain</i>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="card-text text-center">
+                                    <a href="{{ persona.get_absolute_url }}" class="mr-2">
+                                          <i class="large material-icons" style="font-size: 34px;color: darkslategrey">remove_red_eye</i>
+                                    </a>
+                                    <a href="{% url 'adra:persona-update' persona.id %}" class="mr-2">
+                                       <i class="large material-icons" style="font-size: 34px;">settings</i>
+
+                                    </a>
+                                    {% if user.is_staff %}
+                                        <a href="{% url 'adra:persona-delete' persona.id %}">
+                                           <i class="large material-icons" style="font-size: 34px; color: red">delete</i>
+                                        </a>
+
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <strong class="card-title mb-3">
+                                    {% if persona.alimentos.all %}
+                                        <p class="text-center" style="color: #484848">Recogido:
+                                            {% for al in persona.alimentos.all %}
+                                                {% if forloop.first %}
+                                                    {{ al.fecha_recogida|date:"d-m-Y" }}<br>
+                                                    {{ al.fecha_recogida|timesince }}
+                                                    {% comment %} {{hoy}} {% endcomment %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </p>
+                                    {% else %}
+                                        <p class=" text-center text-danger">Sin entrega</p>
+                                    {% endif %}</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-md-6 col-xl-6 col-sm-12 col-xs-12 mb-3">
+
+        {#                       {% if persona.are_acte %}  {% else %} bg-danger{% endif %}#}
+        <div class="card h-100 text-center text-white bg-dark">
+            <div class="card-horizontal ">
+                <div class="d-flex align-items-center pl-3 pr-3">
+                    <h1>{{ persona.numero_adra }}</h1>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title  text-left">{{ persona.nombre_apellido }}</h3>
+                    <p class="card-text text-left">Papeles Completos:
+                        {% if persona.are_acte %}
+                        <i class="far fa-check-circle " style="color: #ACEB98"></i>
+                        {% else %}
+                        <i class="far fa-times-circle " style="color: #eb080b"></i>
+                        {% endif %}
+                    </p>
+                    {% if persona.discapacidad %}
+                    <p class="text-left">
+                        Discapacidad:
+                        {% if persona.discapacidad %}
+                        <i class="fab fa-accessible-icon "></i>
+
+                        {% endif %}</p>
+                    </p>
+                    {% endif %}
+                    <p class="text-left ">Modificado por:<span
+                            class="text-capitalize">{{ persona.modificado_por }}</span></p>
+                    <p class="text-left">
+                        {% with persona.hijo.count as total_hijos %}
+                        {{ total_hijos }} familiares
+                        {% endwith %}
+                    </p>
+                    <ul>
+                        {% for hijo in persona.hijo.all %}
+                        {% if hijo.edad <= 3 %}
+                        <li class="text-left">{{ hijo.nombre_apellido }}</li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+
+
+                    <div class="text-left">
+                        {% if persona.active %}
+                        <a class="btn btn-success animsition-link " role="button"
+                            href="{{ persona.get_absolute_url }}"><i class="far fa-eye"></i></a>
+                        <a class="btn btn-warning" role="button" href="{% url 'adra:persona-update' persona.id %}"><i
+                                class="far fa-edit"></i></a>
+                        <a class="btn btn-danger" role="button" href="{% url 'adra:persona-delete' persona.id %}"><i
+                                class="far fa-trash-alt"></i></a>
+                        {% else %}
+                        <a class="btn btn-success disabled " role="button" href="{{ persona.get_absolute_url }}"><i
+                                class="far fa-eye"></i></a>
+                        <a class="btn btn-warning disabled" role="button"
+                            href="{% url 'adra:persona-update' persona.id %}"><i class="far fa-edit"></i></a>
+                        <a class="btn btn-danger disabled" role="button"
+                            href="{% url 'adra:persona-delete' persona.id %}"><i class="far fa-trash-alt"></i></a>
+                        <p>contacta con el administrador</p>
+                        {% endif %}
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="card-footer">
+                {% if persona.alimentos.all %}
+                <p class=" text-left" style="color: #ACEB98">Ultima recogida:
+                    {% for al in persona.alimentos.all %}
+                    {% if forloop.first %}
+                    {{ al.fecha_recogida }}
+                    {% endif %}
+                    {% endfor %}
+                </p>
+                {% else %}
+                <p class=" text-left">No se le ha entregado alimentos todavia</p>
+                {% endif %}
+            </div>
+
+
+        </div>
+
+
+    </div> -->
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% if is_paginated %}
+            <nav aria-label="Page navigation example">
+                <ul class="pagination  pagination-sm  justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1"
+                               aria-disabled="false">Inapoi</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Inapoi</a>
+                        </li>
+                    {% endif %}
+                    {% for i in paginator.page_range %}
+                        {% if page_obj.number == i %}
+                            <li class="page-item active" aria-current="page">
+            <span class="page-link">
+                {{ i }}
+                <span class="sr-only">(current)</span>
+            </span>
+                            </li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Inainte</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Inainte</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+
+        {% endif %}
+    {% else %}
+        <p>No hay personas!!!</p>
+    {% endif %}
+
+
+{% endblock %}
