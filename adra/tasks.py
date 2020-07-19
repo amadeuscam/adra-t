@@ -12,7 +12,7 @@ logger = get_task_logger(__name__)
 
 
 @periodic_task(
-    run_every=(crontab(minute='1')),
+    run_every=(crontab(hour="*", minute=1)),
     name="create_random_user_accounts",
     ignore_result=True
 )
