@@ -7,8 +7,6 @@ from celery.task.schedules import crontab
 from celery.decorators import periodic_task
 from celery.utils.log import get_task_logger
 
-app = Celery()
-
 
 @periodic_task(
     run_every=(crontab(minute='1')),
