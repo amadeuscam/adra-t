@@ -6,17 +6,12 @@ from celery import shared_task
 from celery.task.schedules import crontab
 from celery.decorators import periodic_task
 from celery.utils.log import get_task_logger
+from datetime import timedelta
+from celery.task import PeriodicTask
 
 
-logger = get_task_logger(__name__)
+class ProcessClicksTask(PeriodicTask):
+    run_every = timedelta(seconds=30)
 
-
-@periodic_task(
-    run_every=(crontab(hour="*", minute=1)),
-    name="create_random_user_accounts",
-    ignore_result=True
-)
-def create_random_user_accounts():
-    logger.info('Adding estoy corriendo!!!!')
-    for i in range(1, 12):
-        print(i)
+    def run(self, **kwargs):
+        print("HELLO celery")
