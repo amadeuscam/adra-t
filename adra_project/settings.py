@@ -13,8 +13,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 from sentry_sdk.integrations.django import DjangoIntegration
 import sentry_sdk
-import django_heroku
 import environ
+
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
