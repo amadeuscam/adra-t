@@ -37,7 +37,8 @@ from PyPDF2.generic import BooleanObject, NameObject, IndirectObject
 from django.http import FileResponse
 from django.contrib import messages
 from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import (Mail, Subject, To, ReplyTo, SendAt, Content, From, CustomArg, Header)
+from sendgrid.helpers.mail import (
+    Mail, Subject, To, ReplyTo, SendAt, Content, From, CustomArg, Header)
 
 from allauth.account.adapter import DefaultAccountAdapter
 from django.conf import settings
@@ -126,10 +127,13 @@ class PersonaCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        p = Persona.objects.latest('created_at')
-        context['nbar'] = "create"
-        context['bas'] = p
-        return context
+        try:
+            p = Persona.objects.latest('created_at')
+            context['nbar'] = "create"
+            context['bas'] = p
+            return context
+        except Persona.DoesNotExist:
+            pass
 
 
 class PersonaUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
@@ -620,15 +624,15 @@ def statistics_persona(request):
     total_mujer_15_64 = count_15_64_mujer + count_15_64_mujer_f + count_15_64_hija
     total_mujer_65 = count_65_mujer + count_65_mujer_f + count_65_hija
     total_mujeres = total_mujer_02 + total_mujer_3_15 + \
-                    total_mujer_15_64 + total_mujer_65
+        total_mujer_15_64 + total_mujer_65
 
     total_hombre_02 = count_0_3_hombre + count_0_3_hombre_f + count_0_3_hijo
     total_hombre_3_15 = count_3_15_hombre + count_3_15_hombre_f + count_3_15_hijo
     total_hombre_15_64 = count_15_64_hombre + \
-                         count_15_64_hombre_f + count_15_64_hijo
+        count_15_64_hombre_f + count_15_64_hijo
     total_hombre_65 = count_65_hombre + count_65_hombre_f + count_65_hijo
     total_hombres = total_hombre_02 + total_hombre_3_15 + \
-                    total_hombre_15_64 + total_hombre_65
+        total_hombre_15_64 + total_hombre_65
 
     total_02 = total_hombre_02 + total_mujer_02
     total_3_15 = total_hombre_3_15 + total_mujer_3_15
@@ -1005,7 +1009,8 @@ class CustomAllauthAdapter(DefaultAccountAdapter):
             account_confirm_email = 'accounts/confirm-email/'
             # prod
             context['activate_url'] = (
-                    str(context.get('current_site')) + account_confirm_email + context['key']
+                str(context.get('current_site')) +
+                account_confirm_email + context['key']
             )
             # local dev
             # context['activate_url'] = (
@@ -1031,8 +1036,6 @@ class CustomAllauthAdapter(DefaultAccountAdapter):
             message.template_id = 'd-8dddee085b5e4479a28b7dace0adf686'
             response = sg.send(message)
 
-
-
         elif context.get('password_reset_url'):
 
             user = context.get('user')
@@ -1053,4 +1056,3 @@ class CustomAllauthAdapter(DefaultAccountAdapter):
 
             message.template_id = 'd-ab0adafe4dd14cb4b9aba688b7200830'
             response = sg.send(message)
-
