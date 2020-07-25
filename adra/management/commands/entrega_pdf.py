@@ -35,7 +35,7 @@ class Command(BaseCommand):
             today = date.today()
             return today.year - age.year - ((today.month, today.day) < (age.month, age.day))
 
-        infile = file_path = os.path.join(settings.PROJECT_ROOT, 'entrega.pdf')
+        infile = file_path = os.path.join(settings.PROJECT_ROOT, 'entrega2020.pdf')
         inputStream = open(infile, "rb")
         pdf_reader = PdfFileReader(inputStream, strict=False)
         if "/AcroForm" in pdf_reader.trailer["/Root"]:
@@ -48,7 +48,10 @@ class Command(BaseCommand):
             pdf_writer._root_object["/AcroForm"].update(
                 {NameObject("/NeedAppearances"): BooleanObject(True)})
 
-        personas = Persona.objects.all()
+        # personas = Persona.objects.exclude(covid=True).exclude(active=False)
+        personas = Persona.objects.filter(active=True).exclude(covid=True)
+        # print([ p.nombre_apellido for p in personas])
+        # print(personas.count())
         pdf_writer.addPage(pdf_reader.getPage(0))
         for persona in personas:
             if persona.active:
@@ -68,7 +71,7 @@ class Command(BaseCommand):
                 print(menores)
                 field_dictionary = {
                     "NombreOAR": "ADRA TORREJON",
-                    "DireccioOAR": "C/ DE LA CRUZ 21",
+                    "DireccioOAR": "C/ Primavera 15",
                     "Nombre y apellidos del representante de la unidad familiar": f"{persona.nombre_apellido}",
                     "DNINIEPasaporte 1": f"{persona.dni}",
                     "Teléfono": f"{persona.telefono}",
@@ -90,6 +93,7 @@ class Command(BaseCommand):
                 # pdf_writer.encrypt(str.lower(f"{persona.numero_adra}"))
                 with open(f"./entregas/{persona.numero_adra}.pdf", "wb") as out_file:
                     pdf_writer.write(out_file)
+
 
                 # extractedPage = open(pdf_file_path, 'rb')
                 # response = HttpResponse(content_type='application/pdf')

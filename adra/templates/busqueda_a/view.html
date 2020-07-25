@@ -1,6 +1,6 @@
 {% extends "_base.html" %}
 {% load crispy_forms_tags %}
-
+{% load verbose_names %}
 
 {% block content %}
     <div class="row ml-2 mr-2">
@@ -19,118 +19,119 @@
 
             <ul class="list-group ">
 
-                {% for key,val in arroz.items %}
+                {% for key,val in alimento_1.items %}
                     <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        Arroz Blanco
+                        {% get_verbose_field_name alimento "alimento_1" %}
                         <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
                             {{ val }}{% endif %} </span>
                     </li>
                 {% endfor %}
-                {% for key,val in garbanzo_cocido.items %}
+                {% for key,val in alimento_2.items %}
                     <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        Garbanzo cocido
+                        {% get_verbose_field_name alimento "alimento_2" %}
                         <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
                             {{ val }}{% endif %}</span>
                     </li>
                 {% endfor %}
-                {% for key,val in atun.items %}
+                {% for key,val in alimento_3.items %}
                     <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        Atun
+                        {% get_verbose_field_name alimento "alimento_3" %}
                         <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
                             {{ val }}{% endif %}</span>
                     </li>
                 {% endfor %}
-                {% for key,val in sardina.items %}
+                {% for key,val in alimento_4.items %}
                     <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        Sardina
+                        {% get_verbose_field_name alimento "alimento_4" %}
                         <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
                             {{ val }}{% endif %}</span>
                     </li>
                 {% endfor %}
-                {% for key,val in pasta_espagueti.items %}
+                {% for key,val in alimento_6.items %}
                     <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        Pasta Espagueti
+                        {% get_verbose_field_name alimento "alimento_6" %}
                         <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
                             {{ val }}{% endif %}</span>
                     </li>
                 {% endfor %}
-                {% for key,val in tomate.items %}
+                {% for key,val in alimento_7.items %}
                     <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        Tomate Frito
+                        {% get_verbose_field_name alimento "alimento_7" %}
                         <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
                             {{ val }}{% endif %}</span>
                     </li>
                 {% endfor %}
-                {% for key,val in galletas.items %}
+                {% for key,val in alimento_8.items %}
                     <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        Galletas
+                        {% get_verbose_field_name alimento "alimento_8" %}
                         <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
                             {{ val }}{% endif %}</span>
                     </li>
                 {% endfor %}
-                {% for key,val in macedonia_verdura_conserva.items %}
+                {% for key,val in alimento_9.items %}
                     <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        Macedonia Verdura
+                        {% get_verbose_field_name alimento "alimento_9" %}
                         <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
                             {{ val }}{% endif %}</span>
                     </li>
                 {% endfor %}
-                {% for key,val in judia.items %}
+                {% for key,val in alimento_10.items %}
                     <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        Judia Verde
+                        {% get_verbose_field_name alimento "alimento_10" %}
                         <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
                             {{ val }}{% endif %}</span>
                     </li>
                 {% endfor %}
-                {% for key,val in fruta_conserva_pera.items %}
+                {% for key,val in alimento_11.items %}
                     <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        Conserva Fruta Pera
+                        {% get_verbose_field_name alimento "alimento_11" %}
                         <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
                             {{ val }}{% endif %}</span>
                     </li>
                 {% endfor %}
-                {% for key,val in fruta_conserva_coctel.items %}
+                {% for key,val in alimento_12.items %}
                     <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        Conserva Fruta Coctel
+                        {% get_verbose_field_name alimento "alimento_12" %}
                         <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
                             {{ val }}{% endif %}</span>
                     </li>
                 {% endfor %}
-                {% for key,val in tarito_pollo.items %}
+                {% for key,val in alimento_13.items %}
                     <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        Taritos Pollo
+                        {% get_verbose_field_name alimento "alimento_13" %}
                         <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
                             {{ val }}{% endif %}</span>
                     </li>
                 {% endfor %}
-                {% for key,val in tarito_fruta.items %}
+                {% for key,val in alimento_14.items %}
                     <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        Taritos Fruta
+                        {% get_verbose_field_name alimento "alimento_14" %}
                         <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
                             {{ val }}{% endif %}</span>
                     </li>
                 {% endfor %}
-                {% for key,val in leche.items %}
+                {% for key,val in alimento_15.items %}
                     <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        Leche
+                        {% get_verbose_field_name alimento "alimento_15" %}
                         <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
                             {{ val }}{% endif %}</span>
                     </li>
                 {% endfor %}
-                {% for key,val in batido_chocolate.items %}
+
+                {% comment %} {% for key,val in alimento_1.items %}
                     <li class="list-group-item d-flex justify-content-between align-items-center ">
                         Batido de Chocolate
                         <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
                             {{ val }}{% endif %}</span>
                     </li>
                 {% endfor %}
-                {% for key,val in aceite.items %}
+                {% for key,val in alimento_1.items %}
                     <li class="list-group-item d-flex justify-content-between align-items-center ">
                         Aceite
                         <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
                             {{ val }}{% endif %}</span>
                     </li>
-                {% endfor %}
+                {% endfor %}{% endcomment %}
             </ul>
         </div>
         <div class="col-md-8 col-sm-12">
@@ -149,67 +150,67 @@
                         <span class="badge badge-primary badge-pill">{{ alimento.fecha_recogida }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Arroz Blanco
-                        <span class="badge badge-primary badge-pill">{{ alimento.arroz_blanco }}</span>
+                        {% get_verbose_field_name alimento "alimento_1" %}
+                        <span class="badge badge-primary badge-pill">{{ alimento.alimento_1 }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                       Garbanzo
-                        <span class="badge badge-primary badge-pill">{{ alimento.garbanzo_cocido }}</span>
+                        {% get_verbose_field_name alimento "alimento_2" %}
+                        <span class="badge badge-primary badge-pill">{{ alimento.alimento_2 }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Atun
-                        <span class="badge badge-primary badge-pill">{{ alimento.atun_sardina }}</span>
+                        {% get_verbose_field_name alimento "alimento_3" %}
+                        <span class="badge badge-primary badge-pill">{{ alimento.alimento_3 }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Sardina
-                        <span class="badge badge-primary badge-pill">{{ alimento.sardina }}</span>
+                        {% get_verbose_field_name alimento "alimento_4" %}
+                        <span class="badge badge-primary badge-pill">{{ alimento.alimento_4 }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Pasta Espagueti
-                        <span class="badge badge-primary badge-pill">{{ alimento.pasta_espagueti }}</span>
+                        {% get_verbose_field_name alimento "alimento_6" %}
+                        <span class="badge badge-primary badge-pill">{{ alimento.alimento_6 }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Tomate Frito
-                        <span class="badge badge-primary badge-pill">{{ alimento.tomate_frito }}</span>
+                        {% get_verbose_field_name alimento "alimento_7" %}
+                        <span class="badge badge-primary badge-pill">{{ alimento.alimento_7 }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Galletas
-                        <span class="badge badge-primary badge-pill">{{ alimento.galletas }}</span>
+                        {% get_verbose_field_name alimento "alimento_8" %}
+                        <span class="badge badge-primary badge-pill">{{ alimento.alimento_8 }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Macedonia Verdura
-                        <span class="badge badge-primary badge-pill">{{ alimento.macedonia_verdura_conserva }}</span>
+                        {% get_verbose_field_name alimento "alimento_9" %}
+                        <span class="badge badge-primary badge-pill">{{ alimento.alimento_9 }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Conserva Fruta Pera
-                        <span class="badge badge-primary badge-pill">{{ alimento.fruta_conserva_pera }}</span>
+                        {% get_verbose_field_name alimento "alimento_10" %}
+                        <span class="badge badge-primary badge-pill">{{ alimento.alimento_10 }}</span>
 
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Conserva Fruta Coctel
-                        <span class="badge badge-primary badge-pill">{{ alimento.fruta_conserva_coctel }}</span>
-                    </li>
-                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Tarito de Pollo
-                        <span class="badge badge-primary badge-pill">{{ alimento.tarito_pollo }}</span>
+                        {% get_verbose_field_name alimento "alimento_11" %}
+                        <span class="badge badge-primary badge-pill">{{ alimento.alimento_11 }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Tarito de Fruta
-                        <span class="badge badge-primary badge-pill">{{ alimento.tarito_fruta }}</span>
-                    </li>
-
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Leche
-                        <span class="badge badge-primary badge-pill">{{ alimento.leche }}</span>
+                        {% get_verbose_field_name alimento "alimento_12" %}
+                        <span class="badge badge-primary badge-pill">{{ alimento.alimento_12 }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Batido Chocolate
-                        <span class="badge badge-primary badge-pill">{{ alimento.batido_chocolate }}</span>
+                        {% get_verbose_field_name alimento "alimento_13" %}
+                        <span class="badge badge-primary badge-pill">{{ alimento.alimento_13 }}</span>
                     </li>
 
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Aceite de Oliva
-                        <span class="badge badge-primary badge-pill">{{ alimento.aceite_de_oliva }}</span>
+                        {% get_verbose_field_name alimento "alimento_14" %}
+                        <span class="badge badge-primary badge-pill">{{ alimento.alimento_14 }}</span>
                     </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {% get_verbose_field_name alimento "alimento_15" %}
+                        <span class="badge badge-primary badge-pill">{{ alimento.alimento_15 }}</span>
+                    </li>
+
+{#                    <li class="list-group-item d-flex justify-content-between align-items-center">#}
+{#                        Aceite de Oliva#}
+{#                        <span class="badge badge-primary badge-pill">{{ alimento.aceite_de_oliva }}</span>#}
+{#                    </li>#}
 
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         Modificado por
@@ -218,11 +219,11 @@
                     <li class="list-group-item d-flex justify-content-center  align-items-center" style="padding: 0">
                         <a class="btn " role="button"
                            href="{% url 'adra:persona-update-alimentos' alimento.id %}">
-                             <i class="large material-icons" title="" style="font-size: 36px;color: darkslategrey">mode_edit</i>
+                            <i class="large material-icons" title="" style="font-size: 36px;color: darkslategrey">mode_edit</i>
                         </a>
                         <a class="btn " role="button"
                            href="{% url 'adra:persona-alimentos-delete' alimento.id %}">
-                          <i class="large material-icons" style="font-size: 34px; color: red">delete</i>
+                            <i class="large material-icons" style="font-size: 34px; color: red">delete</i>
                         </a>
                     </li>
 

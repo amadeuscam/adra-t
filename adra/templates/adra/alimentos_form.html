@@ -8,63 +8,60 @@
             {% csrf_token %}
             <div class="form-row">
                 <div class="form-group col-md-4 mb-0">
-                    {{ form.arroz_blanco|as_crispy_field }}
+                    {{ form.alimento_1|as_crispy_field }}
                 </div>
                 <div class="form-group col-md-4 mb-0">
-                    {{ form.garbanzo_cocido|as_crispy_field }}
+                    {{ form.alimento_2|as_crispy_field }}
                 </div>
                 <div class="form-group col-md-4 mb-0">
-                    {{ form.atun_sardina|as_crispy_field }}
+                    {{ form.alimento_3|as_crispy_field }}
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4 mb-0">
-                    {{ form.sardina|as_crispy_field }}
+                    {{ form.alimento_4|as_crispy_field }}
                 </div>
                 <div class="form-group col-md-4 mb-0">
-                    {{ form.pasta_espagueti|as_crispy_field }}
+                    {{ form.alimento_6|as_crispy_field }}
                 </div>
                 <div class="form-group col-md-4 mb-0">
-                    {{ form.tomate_frito|as_crispy_field }}
+                    {{ form.alimento_7|as_crispy_field }}
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4 mb-0">
-                    {{ form.galletas|as_crispy_field }}
+                    {{ form.alimento_8|as_crispy_field }}
                 </div>
                 <div class="form-group col-md-4 mb-0">
-                    {{ form.macedonia_verdura_conserva|as_crispy_field }}
+                    {{ form.alimento_9|as_crispy_field }}
                 </div>
                 <div class="form-group col-md-4 mb-0">
-                    {{ form.fruta_conserva_pera|as_crispy_field }}
+                    {{ form.alimento_10|as_crispy_field }}
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4 mb-0">
-                    {{ form.fruta_conserva_coctel|as_crispy_field }}
+                    {{ form.alimento_11|as_crispy_field }}
                 </div>
                 <div class="form-group col-md-4 mb-0">
-                    {{ form.tarito_pollo|as_crispy_field }}
+                    {{ form.alimento_12|as_crispy_field }}
                 </div>
                 <div class="form-group col-md-4 mb-0">
-                    {{ form.tarito_fruta|as_crispy_field }}
+                    {{ form.alimento_13|as_crispy_field }}
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4 mb-0">
-                    {{ form.leche|as_crispy_field }}
+                    {{ form.alimento_14|as_crispy_field }}
                 </div>
                 <div class="form-group col-md-4 mb-0">
-                    {{ form.batido_chocolate|as_crispy_field }}
+                    {{ form.alimento_15|as_crispy_field }}
                 </div>
-                <div class="form-group col-md-4 mb-0">
-                    {{ form.aceite_de_oliva|as_crispy_field }}
-                </div>
+
                 <div class="form-group col-md-4 mb-0">
                     {{ form.fecha_recogida|as_crispy_field }}
                 </div>
             </div>
-            <!-- {{ form|crispy }} -->
 
             <div class="form-group">
                 <button class="btn btn-info btn-block btn-lg" type="submit">Adauga</button>

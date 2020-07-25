@@ -1,12 +1,9 @@
 from datetime import date
-from datetime import datetime
-from django.db import models
-from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
-from django.urls import reverse
+from django.contrib.auth.models import User
 from django.core.validators import validate_email
-from adra_project import settings
-from django.core.validators import MinLengthValidator
+from django.db import models
+from django.urls import reverse
 
 
 class Persona(models.Model):
@@ -32,10 +29,10 @@ class Persona(models.Model):
     are_acte = models.BooleanField(default=False, verbose_name="Tiene papeles")
     ciudad = models.CharField(max_length=350, choices=CIUDAD)
     telefono = models.IntegerField()
-    email= models.CharField(max_length=100,blank=True,default='',verbose_name="Email beneficiario",validators=[validate_email])
+    email = models.CharField(max_length=100, blank=True, default='', verbose_name="Email beneficiario", validators=[validate_email])
     mensaje = models.TextField(blank=True)
     active = models.BooleanField(default=True, verbose_name="Activo?")
-    modificado_por = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    modificado_por = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     sexo = models.CharField(max_length=20, choices=SEXO, )
@@ -86,7 +83,7 @@ class Hijo(models.Model):
         max_length=20, choices=FAMILIARES, )
     sexo = models.CharField(max_length=20, choices=SEXO, )
     nombre_apellido = models.CharField(max_length=50)
-    dni = models.CharField(max_length=100,blank=True)
+    dni = models.CharField(max_length=100, blank=True)
     fecha_nacimiento = models.DateField(auto_now=False)
     edad = models.IntegerField(default=0, blank=False, null=False)
 
@@ -109,31 +106,24 @@ class Hijo(models.Model):
 
 
 class Alimentos(models.Model):
-    persona = models.ForeignKey(
-        Persona, on_delete=models.CASCADE, related_name="alimentos")
-    arroz_blanco = models.IntegerField(default=None)
-    garbanzo_cocido = models.IntegerField(
-        default=None)  # new
-    atun_sardina = models.IntegerField(verbose_name="Atun", default=None)
-    sardina = models.IntegerField(default=None)  # new
-    pasta_espagueti = models.IntegerField(
-        default=None)  # new
-    tomate_frito = models.IntegerField(default=None)
-    galletas = models.IntegerField(default=None)
-    macedonia_verdura_conserva = models.IntegerField(
-        default=None)  # new
-    fruta_conserva_pera = models.IntegerField(
-        default=None)
-    fruta_conserva_coctel = models.IntegerField(
-        default=None)
-    tarito_pollo = models.IntegerField(default=None)
-    tarito_fruta = models.IntegerField(default=None)
-    leche = models.IntegerField(default=None)
-    batido_chocolate = models.IntegerField(default=None)
-    aceite_de_oliva = models.IntegerField(default=None)
+    alimento_1 = models.IntegerField(default=None, verbose_name="Arroz Blanco")
+    alimento_2 = models.IntegerField(default=None, verbose_name="Alubia cocida")
+    alimento_3 = models.IntegerField(verbose_name="Conserva de atún", default=None)
+    alimento_4 = models.IntegerField(default=None, verbose_name="Conserva de sardina")
+    alimento_5 = models.IntegerField(default=None,blank=True,null=True,verbose_name="Conserva de carne (magro de cerdo)")
+    alimento_6 = models.IntegerField(default=None, verbose_name="Pasta alimenticia tipo macarrón")
+    alimento_7 = models.IntegerField(default=None, verbose_name="Tomate frito en conserva")
+    alimento_8 = models.IntegerField(default=None, verbose_name="Galletas")
+    alimento_9 = models.IntegerField(default=None, verbose_name="Macedonia de verduras en conserva")
+    alimento_10 = models.IntegerField(default=None, verbose_name="Fruta en conserva")
+    alimento_11 = models.IntegerField(default=None, verbose_name="Tarritos infantiles con pollo")
+    alimento_12 = models.IntegerField(default=None, verbose_name="Tarritos infantiles de fruta")
+    alimento_13 = models.IntegerField(default=None, verbose_name="Leche entera UHT")
+    alimento_14 = models.IntegerField(default=None, verbose_name="Batidos de chocolate")
+    alimento_15 = models.IntegerField(default=None, verbose_name="Aceite de oliva")
 
-    modificado_por = models.ForeignKey(User, on_delete=models.CASCADE,
-                                       null=True)
+    modificado_por = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    persona = models.ForeignKey(Persona, on_delete=models.CASCADE, related_name="alimentos")
     fecha_recogida = models.DateTimeField(auto_now_add=False)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
@@ -146,29 +136,41 @@ class Alimentos(models.Model):
 
 
 class AlmacenAlimentos(models.Model):
-    arroz_blanco = models.IntegerField(blank=True, null=True)
-    garbanzo_cocido = models.IntegerField(
-        default=0, blank=True, null=True)  # new
-    atun_sardina = models.IntegerField(blank=True, null=True)
-    sardina = models.IntegerField(default=0, blank=True, null=True)  # new
-    pasta_espagueti = models.IntegerField(
-        default=0, blank=True, null=True)  # new
-    tomate_frito = models.IntegerField(blank=True, null=True)
-    galletas = models.IntegerField(blank=True, null=True)
-    macedonia_verdura_conserva = models.IntegerField(
-        default=0, blank=True, null=True)  # new
-    fruta_conserva_pera = models.IntegerField(default=0, blank=True, null=True)
-    fruta_conserva_coctel = models.IntegerField(
-        default=0, blank=True, null=True)
-    tarito_pollo = models.IntegerField(blank=True, null=True)
-    tarito_fruta = models.IntegerField(blank=True, null=True)
-    leche = models.IntegerField(blank=True, null=True)
-    batido_chocolate = models.IntegerField(default=0, blank=True, null=True)
-    aceite_de_oliva = models.IntegerField(blank=True, null=True)
-    modificado_por = models.ForeignKey(User, on_delete=models.CASCADE,
-                                       null=True)
+    alimento_1 = models.IntegerField(blank=True, null=True, verbose_name="Arroz Blanco")
+    alimento_2 = models.IntegerField(blank=True, null=True, verbose_name="Alubia cocida")
+    alimento_3 = models.IntegerField(blank=True, null=True, verbose_name="Conserva de atún")
+    alimento_4 = models.IntegerField(blank=True, null=True, verbose_name="Conserva de sardina")
+    alimento_5 = models.IntegerField(blank=True, null=True, verbose_name="Conserva de carne (magro de cerdo)")
+    alimento_6 = models.IntegerField(blank=True, null=True, verbose_name="Pasta alimenticia tipo macarrón")
+    alimento_7 = models.IntegerField(blank=True, null=True, verbose_name="Tomate frito en conserva")
+    alimento_8 = models.IntegerField(blank=True, null=True, verbose_name="Galletas")
+    alimento_9 = models.IntegerField(blank=True, null=True, verbose_name="Macedonia de verduras en conserva")
+    alimento_10 = models.IntegerField(blank=True, null=True, verbose_name="Fruta en conserva")
+    alimento_11 = models.IntegerField(blank=True, null=True, verbose_name="Tarritos infantiles con pollo")
+    alimento_12 = models.IntegerField(blank=True, null=True, verbose_name="Tarritos infantiles de fruta")
+    alimento_13 = models.IntegerField(blank=True, null=True, verbose_name="Leche entera UHT")
+    alimento_14 = models.IntegerField(blank=True, null=True, verbose_name="Batidos de chocolate")
+    alimento_15 = models.IntegerField(blank=True, null=True, verbose_name="Aceite de oliva")
+
+    modificado_por = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
+
+    alimento_1_caducidad = models.DateField(auto_now_add=False, blank=True, default=None)
+    alimento_2_caducidad = models.DateField(auto_now_add=False, blank=True, default=None)
+    alimento_3_caducidad = models.DateField(auto_now_add=False, blank=True, default=None)
+    alimento_4_caducidad = models.DateField(auto_now_add=False, blank=True, default=None)
+    # alimento_5_caducidad = models.DateField(auto_now_add=False, blank=True, default=None)
+    alimento_6_caducidad = models.DateField(auto_now_add=False, blank=True, default=None)
+    alimento_7_caducidad = models.DateField(auto_now_add=False, blank=True, default=None)
+    alimento_8_caducidad = models.DateField(auto_now_add=False, blank=True, default=None)
+    alimento_9_caducidad = models.DateField(auto_now_add=False, blank=True, default=None)
+    alimento_10_caducidad = models.DateField(auto_now_add=False, blank=True, default=None)
+    alimento_11_caducidad = models.DateField(auto_now_add=False, blank=True, default=None)
+    alimento_12_caducidad = models.DateField(auto_now_add=False, blank=True, default=None)
+    alimento_13_caducidad = models.DateField(auto_now_add=False, blank=True, default=None)
+    alimento_14_caducidad = models.DateField(auto_now_add=False, blank=True, default=None)
+    alimento_15_caducidad = models.DateField(auto_now_add=False, blank=True, default=None)
 
 
 class Profile(models.Model):

@@ -1,5 +1,6 @@
 import json
 import os
+import xlsxwriter
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
@@ -182,28 +183,28 @@ class PersonaDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
 def adauga_alimentos_persona(request, pk):
     persona = get_object_or_404(Persona, pk=pk)
-    almacen = AlmacenAlimentos.objects.get(pk=2)
+    almacen = AlmacenAlimentos.objects.get(pk=1)
 
     if request.method == 'POST':
         a_form = AlimentosFrom(request.POST)
         if a_form.is_valid():
             alimentos = a_form.save(commit=False)
 
-            almacen.arroz_blanco -= alimentos.arroz_blanco
-            almacen.garbanzo_cocido -= alimentos.garbanzo_cocido
-            almacen.atun_sardina -= alimentos.atun_sardina
-            almacen.sardina -= alimentos.sardina
-            almacen.pasta_espagueti -= alimentos.pasta_espagueti
-            almacen.tomate_frito -= alimentos.tomate_frito
-            almacen.galletas -= alimentos.galletas
-            almacen.macedonia_verdura_conserva -= alimentos.macedonia_verdura_conserva
-            almacen.fruta_conserva_pera -= alimentos.fruta_conserva_pera
-            almacen.fruta_conserva_coctel -= alimentos.fruta_conserva_coctel
-            almacen.tarito_fruta -= alimentos.tarito_fruta
-            almacen.tarito_pollo -= alimentos.tarito_pollo
-            almacen.leche -= alimentos.leche
-            almacen.batido_chocolate -= alimentos.batido_chocolate
-            almacen.aceite_de_oliva -= alimentos.aceite_de_oliva
+            almacen.alimento_1 -= alimentos.alimento_1
+            almacen.alimento_2 -= alimentos.alimento_2
+            almacen.alimento_3 -= alimentos.alimento_3
+            almacen.alimento_4 -= alimentos.alimento_4
+            # almacen.alimento_5 -= alimentos.alimento_5
+            almacen.alimento_6 -= alimentos.alimento_6
+            almacen.alimento_7 -= alimentos.alimento_7
+            almacen.alimento_8 -= alimentos.alimento_8
+            almacen.alimento_9 -= alimentos.alimento_9
+            almacen.alimento_10 -= alimentos.alimento_10
+            almacen.alimento_11 -= alimentos.alimento_11
+            almacen.alimento_12 -= alimentos.alimento_12
+            almacen.alimento_13 -= alimentos.alimento_13
+            almacen.alimento_14 -= alimentos.alimento_14
+            almacen.alimento_15 -= alimentos.alimento_15
 
             alimentos.persona = persona
             alimentos.modificado_por = request.user
@@ -219,189 +220,164 @@ def adauga_alimentos_persona(request, pk):
 class PersonaAlimentosUpdateView(LoginRequiredMixin, UpdateView):
     model = Alimentos
     fields = [
-        'arroz_blanco',
-        'garbanzo_cocido',
-        'atun_sardina',
-        'sardina',
-        'pasta_espagueti',
-        'tomate_frito',
-        'galletas',
-        'macedonia_verdura_conserva',
-        'fruta_conserva_pera',
-        'fruta_conserva_coctel',
-        'tarito_pollo',
-        'tarito_fruta',
-        'leche',
-        'batido_chocolate',
-        'aceite_de_oliva',
+        'alimento_1',
+        'alimento_2',
+        'alimento_3',
+        'alimento_4',
+        'alimento_6',
+        'alimento_7',
+        'alimento_8',
+        'alimento_9',
+        'alimento_10',
+        'alimento_11',
+        'alimento_12',
+        'alimento_13',
+        'alimento_14',
+        'alimento_15',
         'fecha_recogida'
 
     ]
 
     def form_valid(self, form):
         clean = form.changed_data
-        almacen = AlmacenAlimentos.objects.get(pk=2)
+        almacen = AlmacenAlimentos.objects.get(pk=1)
 
-        if "arroz_blanco" in clean:
-            valor_anterior_arroz = form.initial["arroz_blanco"]
-            if form.instance.arroz_blanco > valor_anterior_arroz:
-                restante = abs(form.instance.arroz_blanco -
-                               valor_anterior_arroz)
-                almacen.arroz_blanco -= restante
+        if "alimento_1" in clean:
+            valor_anterior_alimento_1 = form.initial["alimento_1"]
+            if form.instance.alimento_1 > valor_anterior_alimento_1:
+                restante = abs(form.instance.alimento_1 - valor_anterior_alimento_1)
+                almacen.alimento_1 -= restante
             else:
-                restante = abs(form.instance.arroz_blanco -
-                               valor_anterior_arroz)
-                almacen.arroz_blanco += restante
+                restante = abs(form.instance.alimento_1 - valor_anterior_alimento_1)
+                almacen.alimento_1 += restante
 
-        if "garbanzo_cocido" in clean:
-            valor_anterior_garbanzo_cocido = form.initial["garbanzo_cocido"]
-            if form.instance.garbanzo_cocido > valor_anterior_garbanzo_cocido:
-                restante = abs(form.instance.garbanzo_cocido -
-                               valor_anterior_garbanzo_cocido)
-                almacen.garbanzo_cocido -= restante
+        if "alimento_2" in clean:
+            valor_anterior_alimento_2 = form.initial["alimento_2"]
+            if form.instance.alimento_2 > valor_anterior_alimento_2:
+                restante = abs(form.instance.alimento_2 - valor_anterior_alimento_2)
+                almacen.alimento_2 -= restante
             else:
-                restante = abs(form.instance.garbanzo_cocido -
-                               valor_anterior_garbanzo_cocido)
-                almacen.garbanzo_cocido += restante
+                restante = abs(form.instance.alimento_2 - valor_anterior_alimento_2)
+                almacen.alimento_2 += restante
 
-        if "atun_sardina" in clean:
-            valor_anterior_atun_sardina = form.initial["atun_sardina"]
-            if form.instance.atun_sardina > valor_anterior_atun_sardina:
-                restante = abs(form.instance.atun_sardina -
-                               valor_anterior_atun_sardina)
-                almacen.atun_sardina -= restante
+        if "alimento_3" in clean:
+            valor_anterior_alimento_3 = form.initial["alimento_3"]
+            if form.instance.alimento_3 > valor_anterior_alimento_3:
+                restante = abs(form.instance.alimento_3 - valor_anterior_alimento_3)
+                almacen.alimento_3 -= restante
             else:
-                restante = abs(form.instance.atun_sardina -
-                               valor_anterior_atun_sardina)
-                almacen.atun_sardina += restante
+                restante = abs(form.instance.alimento_3 - valor_anterior_alimento_3)
+                almacen.alimento_3 += restante
 
-        if "sardina" in clean:
-            valor_anterior_sardina = form.initial["sardina"]
-            if form.instance.sardina > valor_anterior_sardina:
-                restante = abs(form.instance.sardina - valor_anterior_sardina)
-                almacen.sardina -= restante
+        if "alimento_4" in clean:
+            valor_anterior_alimento_4 = form.initial["alimento_4"]
+            if form.instance.alimento_4 > valor_anterior_alimento_4:
+                restante = abs(form.instance.alimento_4 - valor_anterior_alimento_4)
+                almacen.alimento_4 -= restante
             else:
-                restante = abs(form.instance.sardina - valor_anterior_sardina)
-                almacen.sardina += restante
+                restante = abs(form.instance.alimento_4 - valor_anterior_alimento_4)
+                almacen.alimento_4 += restante
 
-        if "pasta_espagueti" in clean:
-            valor_anterior_pasta_espagueti = form.initial["pasta_espagueti"]
-            if form.instance.pasta_espagueti > valor_anterior_pasta_espagueti:
-                restante = abs(form.instance.pasta_espagueti -
-                               valor_anterior_pasta_espagueti)
-                almacen.pasta_espagueti -= restante
+        if "alimento_6" in clean:
+            valor_anterior_alimento_6 = form.initial["alimento_6"]
+            if form.instance.alimento_6 > valor_anterior_alimento_6:
+                restante = abs(form.instance.alimento_6 - valor_anterior_alimento_6)
+                almacen.alimento_6 -= restante
             else:
-                restante = abs(form.instance.pasta_espagueti -
-                               valor_anterior_pasta_espagueti)
-                almacen.pasta_espagueti += restante
+                restante = abs(form.instance.alimento_6 - valor_anterior_alimento_6)
+                almacen.alimento_6 += restante
 
-        if "tomate_frito" in clean:
-            valor_anterior_tomate_frito = form.initial["tomate_frito"]
-            if form.instance.tomate_frito > valor_anterior_tomate_frito:
-                restante = abs(form.instance.tomate_frito -
-                               valor_anterior_tomate_frito)
-                almacen.tomate_frito -= restante
+        if "alimento_7" in clean:
+            valor_anterior_alimento_7 = form.initial["alimento_7"]
+            if form.instance.alimento_7 > valor_anterior_alimento_7:
+                restante = abs(form.instance.alimento_7 - valor_anterior_alimento_7)
+                almacen.alimento_7 -= restante
             else:
-                restante = abs(form.instance.tomate_frito -
-                               valor_anterior_tomate_frito)
-                almacen.tomate_frito += restante
+                restante = abs(form.instance.alimento_7 - valor_anterior_alimento_7)
+                almacen.alimento_7 += restante
 
-        if "galletas" in clean:
-            valor_anterior_galletas = form.initial["galletas"]
-            if form.instance.galletas > valor_anterior_galletas:
-                restante = abs(form.instance.galletas -
-                               valor_anterior_galletas)
-                almacen.galletas -= restante
+        if "alimento_8" in clean:
+            valor_anterior_alimento_8= form.initial["alimento_8"]
+            if form.instance.alimento_8 > valor_anterior_alimento_8:
+                restante = abs(form.instance.alimento_8 - valor_anterior_alimento_8)
+                almacen.alimento_8 -= restante
             else:
-                restante = abs(form.instance.galletas -
-                               valor_anterior_galletas)
-                almacen.galletas += restante
+                restante = abs(form.instance.alimento_8 - valor_anterior_alimento_8)
+                almacen.alimento_8 += restante
 
-        if "macedonia_verdura_conserva" in clean:
-            valor_anterior_macedonia_verdura_conserva = form.initial["macedonia_verdura_conserva"]
-            if form.instance.macedonia_verdura_conserva > valor_anterior_macedonia_verdura_conserva:
-                restante = abs(form.instance.macedonia_verdura_conserva -
-                               valor_anterior_macedonia_verdura_conserva)
-                almacen.macedonia_verdura_conserva -= restante
+        if "alimento_9" in clean:
+            valor_anterior_alimento_9 = form.initial["alimento_9"]
+            if form.instance.alimento_9 > valor_anterior_alimento_9:
+                restante = abs(form.instance.alimento_9 - valor_anterior_alimento_9)
+                almacen.alimento_9 -= restante
             else:
-                restante = abs(form.instance.macedonia_verdura_conserva -
-                               valor_anterior_macedonia_verdura_conserva)
-                almacen.macedonia_verdura_conserva += restante
+                restante = abs(form.instance.alimento_9 - valor_anterior_alimento_9)
+                almacen.alimento_9 += restante
 
-        if "fruta_conserva_pera" in clean:
-            valor_anterior_fruta_conserva_pera = form.initial["fruta_conserva_pera"]
-            if form.instance.fruta_conserva_pera > valor_anterior_fruta_conserva_pera:
-                restante = abs(form.instance.fruta_conserva_pera -
-                               valor_anterior_fruta_conserva_pera)
-                almacen.fruta_conserva_pera -= restante
+        if "alimento_10" in clean:
+            valor_anterior_alimento_10 = form.initial["alimento_10"]
+            if form.instance.alimento_10 > valor_anterior_alimento_10:
+                restante = abs(form.instance.alimento_10 - valor_anterior_alimento_10)
+                almacen.alimento_10 -= restante
             else:
-                restante = abs(form.instance.fruta_conserva_pera -
-                               valor_anterior_fruta_conserva_pera)
-                almacen.fruta_conserva_pera += restante
+                restante = abs(form.instance.alimento_10 - valor_anterior_alimento_10)
+                almacen.alimento_10 += restante
 
-        if "fruta_conserva_coctel" in clean:
-            valor_anterior_fruta_conserva_coctel = form.initial["fruta_conserva_coctel"]
-            if form.instance.fruta_conserva_coctel > valor_anterior_fruta_conserva_coctel:
-                restante = abs(form.instance.fruta_conserva_coctel -
-                               valor_anterior_fruta_conserva_coctel)
-                almacen.fruta_conserva_coctel -= restante
+        if "alimento_11" in clean:
+            valor_anterior_alimento_11 = form.initial["alimento_11"]
+            if form.instance.alimento_11 > valor_anterior_alimento_11:
+                restante = abs(form.instance.alimento_11 - valor_anterior_alimento_11)
+                almacen.alimento_11 -= restante
             else:
-                restante = abs(form.instance.fruta_conserva_coctel -
-                               valor_anterior_fruta_conserva_coctel)
-                almacen.fruta_conserva_coctel += restante
+                restante = abs(form.instance.alimento_11 - valor_anterior_alimento_11)
+                almacen.alimento_11 += restante
 
-        if "tarito_fruta" in clean:
-            valor_anterior_tarito_fruta = form.initial["tarito_fruta"]
-            if form.instance.tarito_fruta > valor_anterior_tarito_fruta:
-                restante = abs(form.instance.tarito_fruta -
-                               valor_anterior_tarito_fruta)
+        if "alimento_12" in clean:
+            valor_anterior_alimento_12 = form.initial["alimento_12"]
+            if form.instance.tarito_fruta > valor_anterior_alimento_12:
+                restante = abs(form.instance.tarito_fruta - valor_anterior_alimento_12)
                 almacen.tarito_fruta -= restante
             else:
-                restante = abs(form.instance.tarito_fruta -
-                               valor_anterior_tarito_fruta)
+                restante = abs(form.instance.tarito_fruta - valor_anterior_alimento_12)
                 almacen.tarito_fruta += restante
 
-        if "tarito_pollo" in clean:
-            valor_anterior_tarito_pollo = form.initial["tarito_pollo"]
-            if form.instance.tarito_pollo > valor_anterior_tarito_pollo:
-                restante = abs(form.instance.tarito_pollo -
-                               valor_anterior_tarito_pollo)
-                almacen.tarito_pollo -= restante
+        if "alimento_13" in clean:
+            valor_anterior_alimento_13 = form.initial["alimento_13"]
+            if form.instance.alimento_13 > valor_anterior_alimento_13:
+                restante = abs(form.instance.alimento_13 - valor_anterior_alimento_13)
+                almacen.alimento_13 -= restante
             else:
-                restante = abs(form.instance.tarito_pollo -
-                               valor_anterior_tarito_pollo)
-                almacen.tarito_pollo += restante
+                restante = abs(form.instance.alimento_13 - valor_anterior_alimento_13)
+                almacen.alimento_13 += restante
 
-        if "leche" in clean:
-            valor_anterior_leche = form.initial["leche"]
-            if form.instance.leche > valor_anterior_leche:
-                restante = abs(form.instance.leche - valor_anterior_leche)
-                almacen.leche -= restante
+        if "alimento_14" in clean:
+            valor_anterior_alimento_14 = form.initial["alimento_14"]
+            if form.instance.alimento_14 > valor_anterior_alimento_14:
+                restante = abs(form.instance.alimento_14 - valor_anterior_alimento_14)
+                almacen.alimento_14 -= restante
             else:
-                restante = abs(form.instance.leche - valor_anterior_leche)
-                almacen.leche += restante
+                restante = abs(form.instance.alimento_14 - valor_anterior_alimento_14)
+                almacen.alimento_14 += restante
 
-        if "batido_chocolate" in clean:
-            valor_anterior_batido_chocolate = form.initial["batido_chocolate"]
-            if form.instance.batido_chocolate > valor_anterior_batido_chocolate:
-                restante = abs(form.instance.batido_chocolate -
-                               valor_anterior_batido_chocolate)
-                almacen.batido_chocolate -= restante
+        if "alimento_15" in clean:
+            valor_anterior_alimento_15 = form.initial["alimento_15"]
+            if form.instance.alimento_15 > valor_anterior_alimento_15:
+                restante = abs(form.instance.alimento_15 - valor_anterior_alimento_15)
+                almacen.alimento_15 -= restante
             else:
-                restante = abs(form.instance.batido_chocolate -
-                               valor_anterior_batido_chocolate)
-                almacen.batido_chocolate += restante
+                restante = abs(form.instance.alimento_15 - valor_anterior_alimento_15)
+                almacen.alimento_15 += restante
 
-        if "aceite_de_oliva" in clean:
-            valor_anterior_aceite_de_oliva = form.initial["aceite_de_oliva"]
-            if form.instance.aceite_de_oliva > valor_anterior_aceite_de_oliva:
-                restante = abs(form.instance.aceite_de_oliva -
-                               valor_anterior_aceite_de_oliva)
-                almacen.aceite_de_oliva -= restante
-            else:
-                restante = abs(form.instance.aceite_de_oliva -
-                               valor_anterior_aceite_de_oliva)
-                almacen.aceite_de_oliva += restante
+        # if "aceite_de_oliva" in clean:
+        #     valor_anterior_aceite_de_oliva = form.initial["aceite_de_oliva"]
+        #     if form.instance.aceite_de_oliva > valor_anterior_aceite_de_oliva:
+        #         restante = abs(form.instance.aceite_de_oliva -
+        #                        valor_anterior_aceite_de_oliva)
+        #         almacen.aceite_de_oliva -= restante
+        #     else:
+        #         restante = abs(form.instance.aceite_de_oliva -
+        #                        valor_anterior_aceite_de_oliva)
+        #         almacen.aceite_de_oliva += restante
 
         almacen.save()
         form.instance.modificado_por = self.request.user
@@ -665,7 +641,7 @@ def statistics_persona(request):
 
 
 def export_users_csv(request):
-    beneficiarios_queryset = Persona.objects.order_by('-numero_adra').all()
+    beneficiarios_queryset = Persona.objects.order_by('numero_adra').all()
 
     response = HttpResponse(
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -756,20 +732,20 @@ def buscar_fecha(request):
     #     worksheet.write(row, col, f'{u.persona}')
     #     worksheet.write(row, col + 1, f'{u.fecha_recogida}')
     #     worksheet.write_number(row, col + 2, u.arroz_blanco)
-    #     worksheet.write_number(row, col + 3, u.alubia_blanca)
-    #     worksheet.write_number(row, col + 4, u.leche)
-    #     worksheet.write_number(row, col + 5, u.aceite_de_oliva)
-    #     worksheet.write_number(row, col + 6, u.atun_sardina)
-    #     worksheet.write_number(row, col + 7, u.pasta_macaron)
-    #     worksheet.write_number(row, col + 8, u.tomate_frito)
-    #     worksheet.write_number(row, col + 9, u.galletas)
-    #     worksheet.write_number(row, col + 10, u.judia_verde)
-    #     worksheet.write_number(row, col + 11, u.fruta_conserva)
-    #     worksheet.write_number(row, col + 12, u.cacao)
-    #     worksheet.write_number(row, col + 13, u.tarito_pollo)
-    #     worksheet.write_number(row, col + 14, u.tarito_fruta)
-    #     worksheet.write_number(row, col + 15, u.cereales_inf)
-    #     worksheet.write_number(row, col + 16, u.leche_polvo)
+    #     worksheet.write_number(row, col + 3, u.garbanzo_cocido)
+    #     worksheet.write_number(row, col + 4, u.atun_sardina)
+    #     worksheet.write_number(row, col + 5, u.sardina)
+    #     worksheet.write_number(row, col + 6, u.pasta_espagueti)
+    #     worksheet.write_number(row, col + 7, u.tomate_frito)
+    #     worksheet.write_number(row, col + 8, u.galletas)
+    #     worksheet.write_number(row, col + 9, u.macedonia_verdura_conserva)
+    #     worksheet.write_number(row, col + 10, u.fruta_conserva_pera)
+    #     worksheet.write_number(row, col + 11, u.fruta_conserva_coctel)
+    #     worksheet.write_number(row, col + 12, u.tarito_pollo)
+    #     worksheet.write_number(row, col + 13, u.tarito_fruta)
+    #     worksheet.write_number(row, col + 14, u.leche)
+    #     worksheet.write_number(row, col + 15, u.batido_chocolate)
+    #     worksheet.write_number(row, col + 16, u.aceite_de_oliva)
     #     worksheet.write(row, col + 17, f'{u.modificado_por}')
     #     row += 1
     #
@@ -777,48 +753,50 @@ def buscar_fecha(request):
     # workbook.close()
     # print(arroz_sum)
     # alubia_sum = user_filter.qs.aggregate(Sum('alubia_blanca'))
-    arroz_sum = user_filter.qs.aggregate(Sum('arroz_blanco'))
-    garbanzo_cocido = user_filter.qs.aggregate(Sum('garbanzo_cocido'))
-    atun_sardina_sum = user_filter.qs.aggregate(Sum('atun_sardina'))
-    sardina = user_filter.qs.aggregate(Sum('sardina'))
-    pasta_espagueti = user_filter.qs.aggregate(Sum('pasta_espagueti'))
-    tomate_frito_sum = user_filter.qs.aggregate(Sum('tomate_frito'))
-    galletas_sum = user_filter.qs.aggregate(Sum('galletas'))
-    macedonia_verdura_conserva = user_filter.qs.aggregate(
-        Sum('macedonia_verdura_conserva'))
-    fruta_conserva_pera = user_filter.qs.aggregate(Sum('fruta_conserva_pera'))
-    fruta_conserva_coctel = user_filter.qs.aggregate(
-        Sum('fruta_conserva_coctel'))
-    tarito_de_pollo_sum = user_filter.qs.aggregate(Sum('tarito_pollo'))
-    tarito_de_fruta_sum = user_filter.qs.aggregate(Sum('tarito_fruta'))
-    leche_sum = user_filter.qs.aggregate(Sum('leche'))
-    batido_chocolate = user_filter.qs.aggregate(Sum('batido_chocolate'))
-    aceite_de_oliva_sum = user_filter.qs.aggregate(Sum('aceite_de_oliva'))
+    alimento_1 = user_filter.qs.aggregate(Sum('alimento_1'))
+    alimento_2 = user_filter.qs.aggregate(Sum('alimento_2'))
+    alimento_3 = user_filter.qs.aggregate(Sum('alimento_3'))
+    alimento_4 = user_filter.qs.aggregate(Sum('alimento_4'))
+    alimento_6 = user_filter.qs.aggregate(Sum('alimento_6'))
+    alimento_7 = user_filter.qs.aggregate(Sum('alimento_7'))
+    alimento_8 = user_filter.qs.aggregate(Sum('alimento_8'))
+    alimento_9 = user_filter.qs.aggregate(Sum('alimento_9'))
+    alimento_10 = user_filter.qs.aggregate(Sum('alimento_10'))
+    alimento_11 = user_filter.qs.aggregate(Sum('alimento_11'))
+    alimento_12 = user_filter.qs.aggregate(Sum('alimento_12'))
+    alimento_13 = user_filter.qs.aggregate(Sum('alimento_13'))
+    alimento_14 = user_filter.qs.aggregate(Sum('alimento_14'))
+    alimento_15 = user_filter.qs.aggregate(Sum('alimento_15'))
+    # aceite_de_oliva_sum = user_filter.qs.aggregate(Sum('aceite_de_oliva'))
 
     return render(request, 'busqueda_a/view.html',
                   {
                       'filter': user_filter,
-                      'arroz': arroz_sum,
-                      'garbanzo_cocido': garbanzo_cocido,
-                      'atun': atun_sardina_sum,
-                      'sardina': sardina,
-                      'pasta_espagueti': pasta_espagueti,
-                      'tomate': tomate_frito_sum,
-                      'galletas': galletas_sum,
-                      'macedonia_verdura_conserva': macedonia_verdura_conserva,
-                      'fruta_conserva_pera': fruta_conserva_pera,
-                      'fruta_conserva_coctel': fruta_conserva_coctel,
-                      'tarito_pollo': tarito_de_pollo_sum,
-                      'tarito_fruta': tarito_de_fruta_sum,
-                      'leche': leche_sum,
-                      'batido_chocolate': batido_chocolate,
-                      'aceite': aceite_de_oliva_sum,
+                      'alimento_1': alimento_1,
+                      'alimento_2': alimento_2,
+                      'alimento_3': alimento_3,
+                      'alimento_4': alimento_4,
+                      'alimento_6': alimento_6,
+                      'alimento_7': alimento_7,
+                      'alimento_8': alimento_8,
+                      'alimento_9': alimento_9,
+                      'alimento_10': alimento_10,
+                      'alimento_11': alimento_11,
+                      'alimento_12': alimento_12,
+                      'alimento_13': alimento_13,
+                      'alimento_14': alimento_14,
+                      'alimento_15': alimento_15,
                       'nbar': "buscar_av"
 
                   })
 
 
 def set_need_appearances_writer(writer):
+    """
+    Helper para escribir el pdf
+    :param writer: el pdf
+    :return:
+    """
     # See 12.7.2 and 7.7.2 for more information:
     # http://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/PDF32000_2008.pdf
     try:
@@ -838,8 +816,14 @@ def set_need_appearances_writer(writer):
         return writer
 
 
-def ticket_print(request, pk):
-    infile = file_path = os.path.join(settings.PROJECT_ROOT, 'entrega.pdf')
+def generar_hoja_entrega(request, pk):
+    """
+    Generador de hoja de entrega para cada beneficiario en parte
+    :param request:
+    :param pk: id persona
+    :return: pdf generado
+    """
+    infile = file_path = os.path.join(settings.PROJECT_ROOT, 'entrega2020.pdf')
     inputStream = open(infile, "rb")
     pdf_reader = PdfFileReader(inputStream, strict=False)
     if "/AcroForm" in pdf_reader.trailer["/Root"]:
@@ -855,7 +839,7 @@ def ticket_print(request, pk):
     persona = Persona.objects.get(id=pk)
     familiares = persona.hijo.all()
     familiares_gr = persona.hijo.filter(edad__gt=3)
-    # print(familiares_pq.count())
+
     mayores = 0
     menores = 0
     for f in familiares:
@@ -864,11 +848,9 @@ def ticket_print(request, pk):
         else:
             menores += 1
 
-    print(mayores)
-    print(menores)
     field_dictionary = {
         "NombreOAR": "ADRA TORREJON",
-        "DireccioOAR": "C/ DE LA CRUZ 21",
+        "DireccioOAR": "C/ Primavera 15",
         "Nombre y apellidos del representante de la unidad familiar": f"{persona.nombre_apellido}",
         "DNINIEPasaporte 1": f"{persona.dni}",
         "Teléfono": f"{persona.telefono}",
@@ -896,15 +878,6 @@ def ticket_print(request, pk):
     inputStream.close()
     return response
 
-    # context = {
-    #     'NombreOAR': 'ADRA TORREJON',
-    #     # 'DireccioOAR': 'CALLE DE LA CRUZ 21',
-    # }
-
-    # response = HttpResponse(content_type='application/pdf')
-    # response['Content-Disposition'] = 'attachment; filename=entrega.pdf'
-
-    # template = get_template(template_name)
 
 
 # API ADRA
@@ -983,21 +956,8 @@ def get_data(request):
     list_ano.append(registro_2019.count())
     registro_2020 = Persona.objects.filter(created_at__year=2020)
     list_ano.append(registro_2020.count())
-    lista_paises = {}
-    ma = Persona.objects.filter(nacionalidad__icontains="Marruecos")
-    lista_paises.update({'ma': ma.count()})
-    es = Persona.objects.filter(nacionalidad__icontains="Española")
-    lista_paises.update({'es': es.count()})
-    ro = Persona.objects.filter(nacionalidad__icontains="Rumana")
-    lista_paises.update({'ro': ro.count()})
-    gh = Persona.objects.filter(nacionalidad__icontains="Ghana")
-    lista_paises.update({'gh': gh.count()})
-    pr = Persona.objects.filter(nacionalidad__icontains="Peru")
-    lista_paises.update({'pr': pr.count()})
-    gq = Persona.objects.filter(nacionalidad__icontains="GUINEA ECUATORIAL")
-    lista_paises.update({'gq': gq.count()})
 
-    return JsonResponse({"reg": list_ano, "paises": lista_paises})
+    return JsonResponse({"reg": list_ano})
 
 
 class CustomAllauthAdapter(DefaultAccountAdapter):

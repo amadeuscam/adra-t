@@ -32,23 +32,23 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = str(env('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
-# ENVIRONMENT = os.environ.get('ENVIRONMENT', default='production')
+ENVIRONMENT = env('ENVIRONMENT')
 
-# if ENVIRONMENT == 'development':
-#     SECURE_SSL_REDIRECT = False
-#     SECURE_BROWSER_XSS_FILTER = False
+if ENVIRONMENT == 'development':
+    SECURE_SSL_REDIRECT = False
+    SECURE_BROWSER_XSS_FILTER = False
 
-# if ENVIRONMENT == 'production':
-#     SECURE_BROWSER_XSS_FILTER = True
-#     X_FRAME_OPTIONS = 'DENY'
-#     SECURE_SSL_REDIRECT = True
-#     SECURE_HSTS_SECONDS = 3600
-#     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-#     SECURE_HSTS_PRELOAD = True
-#     SECURE_CONTENT_TYPE_NOSNIFF = True
-#     SESSION_COOKIE_SECURE = True
-#     CSRF_COOKIE_SECURE = True
-#     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+if ENVIRONMENT == 'production':
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = 'DENY'
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 3600
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 ALLOWED_HOSTS = ['*']
 
@@ -232,3 +232,5 @@ sentry_sdk.init(
 )
 
 CELERY_BROKER_URL = 'amqp://localhost'
+# CELERY_BROKER_URL = 'amqp://guest@localhost//'
+

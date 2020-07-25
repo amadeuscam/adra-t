@@ -1,5 +1,5 @@
 {% extends "_base.html" %}
-
+{% load verbose_names %}
 
 {% block title %}
 Almacen
@@ -27,91 +27,89 @@ Almacen
 
                     {% for alimento in almacen_adra %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Aroz Blanco
-                        <span class="badge badge-primary">{{ alimento.arroz_blanco }}</span>
+                        {% get_verbose_field_name alimento "alimento_1" %}
+                        <span class="badge badge-primary">{{ alimento.alimento_1 }}</span>
                     </li>
 
                     <li class="list-group-item  d-flex justify-content-between align-items-center">
-                        Garbanzo cocido
-                        <span class="badge badge-primary ">{{ alimento.garbanzo_cocido }}</span>
+                        {% get_verbose_field_name alimento "alimento_2" %}
+                        <span class="badge badge-primary ">{{ alimento.alimento_2 }}</span>
 
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Atun
-                        <span class="badge badge-primary ">{{ alimento.atun_sardina }}</span>
+                        {% get_verbose_field_name alimento "alimento_3" %}
+                        <span class="badge badge-primary ">{{ alimento.alimento_3 }}</span>
 
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Sardina
-                        <span class="badge badge-primary ">{{ alimento.sardina }}</span>
-
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-
-                        Pasta Espagueti
-                        <span class="badge badge-primary ">{{ alimento.pasta_espagueti }}</span>
+                        {% get_verbose_field_name alimento "alimento_4" %}
+                        <span class="badge badge-primary ">{{ alimento.alimento_4 }}</span>
 
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                        Tomate Frito
-                        <span class="badge badge-primary ">{{ alimento.tomate_frito}}</span>
+                        {% get_verbose_field_name alimento "alimento_6" %}
+                        <span class="badge badge-primary ">{{ alimento.alimento_6 }}</span>
 
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                        Galletas
-                        <span class="badge badge-primary ">{{ alimento.galletas}}</span>
+                       {% get_verbose_field_name alimento "alimento_7" %}
+                        <span class="badge badge-primary ">{{ alimento.alimento_7}}</span>
 
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                        Macedonia verdura
-                        <span class="badge badge-primary ">{{ alimento.macedonia_verdura_conserva}}</span>
+                        {% get_verbose_field_name alimento "alimento_8" %}
+                        <span class="badge badge-primary ">{{ alimento.alimento_8}}</span>
 
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                        Conserva Pera
-                        <span class="badge badge-primary ">{{ alimento.fruta_conserva_pera}}</span>
+                       {% get_verbose_field_name alimento "alimento_9" %}
+                        <span class="badge badge-primary ">{{ alimento.alimento_9}}</span>
 
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                        Conserva Coctel
-                        <span class="badge badge-primary ">{{ alimento.fruta_conserva_coctel}}</span>
+                        {% get_verbose_field_name alimento "alimento_10" %}
+                        <span class="badge badge-primary ">{{ alimento.alimento_10}}</span>
 
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                        Tarito pollo
-                        <span class="badge badge-primary ">{{ alimento.tarito_pollo}}</span>
+                       {% get_verbose_field_name alimento "alimento_11" %}
+                        <span class="badge badge-primary ">{{ alimento.alimento_11}}</span>
 
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                        Tarito fruta
-                        <span class="badge badge-primary ">{{ alimento.tarito_fruta}}</span>
+                        {% get_verbose_field_name alimento "alimento_12" %}
+                        <span class="badge badge-primary ">{{ alimento.alimento_12}}</span>
 
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                        Leche
-                        <span class="badge badge-primary ">{{ alimento.leche}}</span>
+                       {% get_verbose_field_name alimento "alimento_13" %}
+                        <span class="badge badge-primary ">{{ alimento.alimento_13}}</span>
 
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                        Batido de chocolate
-                        <span class="badge badge-primary ">{{ alimento.batido_chocolate}}</span>
+                        {% get_verbose_field_name alimento "alimento_14" %}
+                        <span class="badge badge-primary ">{{ alimento.alimento_14}}</span>
 
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                        Aceite de oliva
-                        <span class="badge badge-primary ">{{ alimento.aceite_de_oliva}}</span>
+                        {% get_verbose_field_name alimento "alimento_15" %}
+                        <span class="badge badge-primary ">{{ alimento.alimento_15}}</span>
 
                     </li>
+{#                    <li class="list-group-item d-flex justify-content-between align-items-center">#}
+{#                        {% get_verbose_field_name alimento "alimento_2" %}#}
+{#                        <span class="badge badge-primary ">{{ alimento.alimento_14}}</span>#}
+{#                    </li>#}
                     {% empty %}
                     <p>Almacen vacio</p>
                     {% endfor %}

@@ -25,21 +25,20 @@ class AlimentosFrom(forms.ModelForm):
     class Meta:
         model = Alimentos
         fields = (
-            'arroz_blanco',
-            'garbanzo_cocido',
-            'atun_sardina',
-            'sardina',
-            'pasta_espagueti',
-            'tomate_frito',
-            'galletas',
-            'macedonia_verdura_conserva',
-            'fruta_conserva_pera',
-            'fruta_conserva_coctel',
-            'tarito_pollo',
-            'tarito_fruta',
-            'leche',
-            'batido_chocolate',
-            'aceite_de_oliva',
+            'alimento_1',
+            'alimento_2',
+            'alimento_3',
+            'alimento_4',
+            'alimento_6',
+            'alimento_7',
+            'alimento_8',
+            'alimento_9',
+            'alimento_10',
+            'alimento_11',
+            'alimento_12',
+            'alimento_13',
+            'alimento_14',
+            'alimento_15',
             'fecha_recogida'
         )
         widgets = {
