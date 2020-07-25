@@ -5,9 +5,9 @@ from celery.task.schedules import crontab
 from django.contrib.auth.models import User
 from .models import AlmacenAlimentos
 from django.conf import settings
-
+# crontab(minute=0, hour='6,18')
 @periodic_task(
-    run_every=crontab(minute=0, hour='6,18'),
+    run_every=crontab(),
     name="caducidad_alimentos",
     ignore_result=True
 )
