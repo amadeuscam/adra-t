@@ -120,6 +120,4 @@ class SignupForm(forms.Form):
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
         user.save()
-        # Create the user profile
-        Profile.objects.create(user=user)
 

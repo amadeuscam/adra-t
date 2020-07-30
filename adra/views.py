@@ -516,7 +516,7 @@ def statistics_persona(request):
     count_15_64_hombre_f = 0
     count_65_hombre_f = 0
 
-    pers = Persona.objects.all()
+    pers = Persona.objects.filter(active=True)
     for p in pers:
 
         if calculate_age(p.fecha_nacimiento) >= 0 and calculate_age(p.fecha_nacimiento) <= 3 and p.sexo == "mujer":
@@ -590,9 +590,9 @@ def statistics_persona(request):
         elif calculate_age(p.fecha_nacimiento) > 64 and p.parentesco == "esposo":
             count_65_hombre += 1
 
-    discapacidad = Persona.objects.filter(discapacidad=True).count()
-    total_beneficiarios = Persona.objects.all().count()
-    total_familiares = Hijo.objects.all().count()
+    discapacidad = Persona.objects.filter(discapacidad=True,active=True).count()
+    total_beneficiarios = Persona.objects.filter(active=True).count()
+    total_familiares = Hijo.objects.filter(active=True).count()
 
     total_mujer_02 = count_0_3_mujer + count_0_3_mujer_f + count_0_3_hija
     total_mujer_3_15 = count_3_15_mujer + count_3_15_mujer_f + count_3_15_hija
@@ -641,7 +641,7 @@ def statistics_persona(request):
 
 
 def export_users_csv(request):
-    beneficiarios_queryset = Persona.objects.order_by('numero_adra').all()
+    beneficiarios_queryset = Persona.objects.order_by('numero_adra').filter(active=True)
 
     response = HttpResponse(
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

@@ -86,7 +86,7 @@ class Hijo(models.Model):
     dni = models.CharField(max_length=100, blank=True)
     fecha_nacimiento = models.DateField(auto_now=False)
     edad = models.IntegerField(default=0, blank=False, null=False)
-
+    active = models.BooleanField(default=True, verbose_name="Activo?")
     persona = models.ForeignKey(
         Persona, on_delete=models.CASCADE, related_name="hijo")
     modificado_por = models.ForeignKey(User, on_delete=models.CASCADE,
@@ -176,7 +176,7 @@ class AlmacenAlimentos(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     date_of_birth = models.DateField(blank=True, null=True)
-    photo = models.ImageField(upload_to='users/%Y/%m/%d/', blank=True)
+    photo = models.ImageField(upload_to='profile_pics',default='default.jpg', blank=True)
 
     def __str__(self):
         return f'Profile for user {self.user.username}'

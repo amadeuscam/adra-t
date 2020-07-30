@@ -164,7 +164,8 @@
 
                                 <div class="account-item clearfix js-item-menu">
                                 <div class="image">
-                                    <img src="{% static 'images/chico.png' %}" alt="John Doe"/>
+                                    <img width="80" height="80" class="rounded-circle mx-auto d-block" src="{{ user.profile.photo.url }}" alt="">
+{#                                    <img src="{% static 'images/chico.png' %}" alt="John Doe"/>#}
                                 </div>
                                 <div class="content">
                                     <a class="js-acc-btn" href="#">
@@ -180,7 +181,7 @@
                                     <div class="info clearfix">
                                         <div class="image">
                                             <a href="#">
-                                                <img src="{% static 'images/chico.png' %}"
+                                                <img width="80" height="80" class="rounded-circle mx-auto d-block" src="{{ user.profile.photo.url }}"
                                                      alt="{{ user.username | capfirst }}"/>
 
                                             </a>

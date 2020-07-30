@@ -49,7 +49,7 @@ def caducidad_alimentos():
 
                 message = sendgrid.Mail(
                     from_email=f"admin@adra.es",
-                    to_emails=emails,
+                    to_emails=['amadeuscam@yahoo.es'],
                 )
                 message.dynamic_template_data = {
                     "alimento": f"{alimento_1_name}",
