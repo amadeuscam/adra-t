@@ -48,6 +48,10 @@ from django.conf import settings
 # Create your views here.
 
 
+def anuncios(request):
+    return render(request,'adra/anuncio.html')
+
+
 @login_required
 def edit(request):
     if request.method == 'POST':

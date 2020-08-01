@@ -20,8 +20,8 @@ class Command(BaseCommand):
         #     from_='+12025591005',
         #     to='+34604150313'
         # )
-
-        persona = Persona.objects.filter(Q(domingo="Domingo 2") | Q(domingo=2),ciudad__icontains="Torrejon de ardoz")
+        # filter(Q(domingo="Domingo 1") | Q(domingo=1), ciudad__icontains="Torrejon de ardoz")
+        persona = Persona.objects.filter(active=True).exclude(covid=True)
         print(persona.count())
         count = 0
         for p in persona:
@@ -33,13 +33,13 @@ class Command(BaseCommand):
             count += 1
             # print(len(str(p.telefono)))
             print(p.telefono)
-            message = client.messages.create(
-                body="Adra Torrejon informa: Manaña domingo 28, vamos a repartir alimentos,os esperamos a las 9 de la manaña para recoger en calle primavera 15,solo podran recoger los que recibe este mensaje.un saludo",
-                from_='+12025591005',
-                to=f'+34{p.telefono}'
-            )
+            # message = client.messages.create(
+            #     body="Adra Torrejon informa:Tenemos un anuncio importante:accede al enlace ",
+            #     from_='+12025591005',
+            #     to=f'+34{p.telefono}'
+            # )
             #
             # # print(p.telefono)
             #
-            print(message.sid)
+            # print(message.sid)
         # print(count)

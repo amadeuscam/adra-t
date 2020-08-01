@@ -79,6 +79,7 @@ urlpatterns = [
     # end hijos url
     path('edit/', views.edit, name='edit-profile'),
     path('get-data/', views.get_data, name='get_data'),
+    path('adra-anuncios/', views.anuncios, name='anuncio'),
 
 ]
 urlpatterns += [
