@@ -666,8 +666,8 @@ def export_users_csv(request):
     columns = [
         'Numar adra',
         'Nombre',
+        'Representante familiar',
         'Dni',
-        'Representante familiar'
         'Pasaporte',
         'Fecha de nacimiento',
     ]
@@ -686,8 +686,9 @@ def export_users_csv(request):
         row = [
             ben.numero_adra,
             ben.nombre_apellido,
-            ben.dni,
             'x',
+            ben.dni,
+            '',
             ben.fecha_nacimiento.strftime("%d/%m/%Y"),
         ]
         # Assign the data for each cell of the row
@@ -697,10 +698,11 @@ def export_users_csv(request):
             cell.fill = fill
             cell.alignment = Alignment(horizontal='center')
 
-        for d in ben.hijo.all():
+        for d in ben.hijo.filter(active=True):
             row_hijos = [
                 '-',
                 d.nombre_apellido,
+                '',
                 d.dni,
                 '',
                 d.fecha_nacimiento.strftime("%d/%m/%Y"),
