@@ -43,6 +43,8 @@ SESSION_COOKIE_AGE = 86400
 
 INSTALLED_APPS = [
     'adra.apps.AdraConfig',
+    'jet.dashboard',
+    'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -112,7 +114,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': "adra_torrejon_new",
         'USER': str(str(env('mysql_user'))),
-        'PASSWORD':  str(str(env('mysql_password'))),
+        'PASSWORD': str(str(env('mysql_password'))),
         'HOST': "localhost",
         'PORT': 3306,
     }
@@ -206,9 +208,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 CORS_ORIGIN_ALLOW_ALL = True
 
-
-
-
 sentry_sdk.init(
     dsn="https://c65bac75837247648592312de561bab2@sentry.io/1515282",
     integrations=[DjangoIntegration()]
@@ -216,4 +215,3 @@ sentry_sdk.init(
 
 CELERY_BROKER_URL = 'amqp://localhost'
 # CELERY_BROKER_URL = 'amqp://guest@localhost//'
-

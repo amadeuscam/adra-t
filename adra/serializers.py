@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 class AlimentosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Alimentos
-        fields = ['fecha_recogida', 'persona', 'arroz_blanco']
+        fields = ['fecha_recogida', 'persona', 'alimento_1']
 
 
 class HijosSerializer(serializers.ModelSerializer):
@@ -17,8 +17,7 @@ class HijosSerializer(serializers.ModelSerializer):
 
 
 class PersonaSerializer(serializers.HyperlinkedModelSerializer):
-    modificado_por = serializers.ReadOnlyField(
-        source='modificado_por.username')
+    modificado_por = serializers.ReadOnlyField(source='modificado_por.username')
     # alimentos = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     alimentos = AlimentosSerializer(many=True, read_only=True)
     hijo = HijosSerializer(many=True, read_only=True)
