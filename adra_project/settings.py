@@ -43,8 +43,6 @@ SESSION_COOKIE_AGE = 86400
 
 INSTALLED_APPS = [
     'adra.apps.AdraConfig',
-    'jet.dashboard',
-    'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

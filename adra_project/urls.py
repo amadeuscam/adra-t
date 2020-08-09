@@ -6,8 +6,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     # Django admin
-    path('jet/', include('jet.urls', 'jet')),
-    path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
     path('toate-dar-admin/', admin.site.urls),
     path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
 
