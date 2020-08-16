@@ -213,3 +213,5 @@ sentry_sdk.init(
 
 CELERY_BROKER_URL = 'amqp://localhost'
 # CELERY_BROKER_URL = 'amqp://guest@localhost//'
+
+TELEGRAM_TOKEN_KEY = str(env('telegram_token'))
