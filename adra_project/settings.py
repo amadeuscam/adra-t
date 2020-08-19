@@ -110,6 +110,7 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+        'CONN_MAX_AGE': 3600,
         'NAME': "adra_torrejon_new",
         'USER': str(str(env('mysql_user'))),
         'PASSWORD': str(str(env('mysql_password'))),
