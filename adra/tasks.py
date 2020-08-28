@@ -286,7 +286,7 @@ def caducidad_alimentos():
 
 
 @periodic_task(
-    run_every=crontab(),
+    run_every=crontab(minute=0, hour='6,18'),
     name="restart_telefram_bot",
     ignore_result=True
 )
