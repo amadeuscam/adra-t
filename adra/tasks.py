@@ -290,7 +290,7 @@ def caducidad_alimentos():
     name="restart_telefram_bot",
     ignore_result=True
 )
-def restart_telefram_bot:
+def restart_telefram_bot():
     subprocess.call(["supervisorctl", "restart", "telegram"])
 
 
