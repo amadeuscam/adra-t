@@ -5,9 +5,10 @@ from celery.task.schedules import crontab
 from django.contrib.auth.models import User
 from .models import AlmacenAlimentos
 from django.conf import settings
+import  subprocess
 # crontab(minute=0, hour='6,18')
 @periodic_task(
-    run_every=crontab(),
+    run_every=crontab(minute=0, hour='5,20'),
     name="caducidad_alimentos",
     ignore_result=True
 )
@@ -44,12 +45,12 @@ def caducidad_alimentos():
             alimento_15 = al.alimento_15_caducidad
             print(caduca(alimento_1))
 
-            if caduca(alimento_1) == 2:
+            if caduca(alimento_1) == 37:
                 alimento_1_name = AlmacenAlimentos._meta.get_field('alimento_1').verbose_name
 
                 message = sendgrid.Mail(
                     from_email=f"admin@adra.es",
-                    to_emails=['amadeuscam@yahoo.es'],
+                    to_emails=emails,
                 )
                 message.dynamic_template_data = {
                     "alimento": f"{alimento_1_name}",
@@ -282,3 +283,14 @@ def caducidad_alimentos():
                 }
                 message.template_id = 'd-b3a251b22c7442b39b79ddc901020457'
                 sg.send(message)
+
+
+@periodic_task(
+    run_every=crontab(minute=2),
+    name="restart_telefram_bot",
+    ignore_result=True
+)
+def restart_telefram_bot:
+    subprocess.call(["supervisorctl", "restart", "telegram"])
+
+
