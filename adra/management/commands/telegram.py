@@ -39,16 +39,10 @@ class Command(BaseCommand):
 
         def status_servers(update, context):
             """Send a message when the command /help is issued."""
-        
-            try:
-                result = subprocess.run("sudo supervisorctl", check=True, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            except subprocess.CalledProcessError as err:
-                raise Exception(str(err.stderr.decode("utf-8")))
-            except Exception as err:
-                raise Exception(err)
-            else:
-                print(result.stdout.decode("utf-8"))
-                update.message.reply_text(f'{result.stdout.decode("utf-8")}')
+            p = subprocess.Popen(['supervisorctl', 'status telegram'], stdout=subprocess.PIPE)
+            status = p.communicate()[0].split()[1]
+            print(status)
+            update.message.reply_text(f'{status}')
 
 
         def echo(update, context):
