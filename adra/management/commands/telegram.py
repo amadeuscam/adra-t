@@ -43,7 +43,7 @@ class Command(BaseCommand):
             p = subprocess.Popen(['supervisorctl', 'status'], stdout=subprocess.PIPE)
             # status = p.stdout.read()
             # print(status)
-            for line in io.TextIOWrapper(status.stdout, encoding="utf-8"):
+            for line in io.TextIOWrapper(p.stdout, encoding="utf-8"):
                 update.message.reply_text(f'{ str(line)}')
 
 
