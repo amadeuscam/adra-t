@@ -39,9 +39,16 @@ class Command(BaseCommand):
 
         def status_servers(update, context):
             """Send a message when the command /help is issued."""
-            ps = subprocess.call(["sudo supervisorctl", "status"])
-            print(ps)
-            update.message.reply_text(f'{ps}')
+        
+            try:
+                result = subprocess.run("sudo supervisorctl", check=True, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            except subprocess.CalledProcessError as err:
+                raise Exception(str(err.stderr.decode("utf-8")))
+            except Exception as err:
+                raise Exception(err)
+            else:
+                print(result.stdout.decode("utf-8"))
+                update.message.reply_text(f'{result.stdout.decode("utf-8")}')
 
 
         def echo(update, context):
