@@ -40,8 +40,11 @@ class Command(BaseCommand):
         def status_servers(update, context):
             """Send a message when the command /help is issued."""
             p = subprocess.Popen(['supervisorctl', 'status'], stdout=subprocess.PIPE)
-            status = p.communicate()
+            status,_ = p.communicate()
             update.message.reply_text(f'{ str(status)}')
+            for line in status:
+                update.message.reply_text(f'{line}')
+
 
 
         def echo(update, context):
