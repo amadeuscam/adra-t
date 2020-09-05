@@ -7,7 +7,7 @@ import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import telegram
 from django.conf import settings
-
+import subprocess
 
 class Command(BaseCommand):
 
@@ -37,6 +37,12 @@ class Command(BaseCommand):
             except Persona.DoesNotExist:
                 update.message.reply_text("El beneficario no existe!")
 
+        def status_servers(update, context):
+            """Send a message when the command /help is issued."""
+            ps = subprocess.call(["sudo supervisorctl", "status"])
+            print(ps)
+            update.message.reply_text(f'{ps}')
+
 
         def echo(update, context):
             """Echo the user message."""
@@ -55,6 +61,7 @@ class Command(BaseCommand):
         dp.add_handler(CommandHandler("start", start))
         dp.add_handler(CommandHandler("help", help_command))
         dp.add_handler(CommandHandler("buscar", numero_adra_command))
+        dp.add_handler(CommandHandler("status", status_servers))
 
         # on noncommand i.e message - echo the message on Telegram
         dp.add_handler(MessageHandler(Filters.text, echo))
