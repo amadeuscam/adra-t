@@ -8,6 +8,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import telegram
 from django.conf import settings
 import subprocess
+import io
 
 class Command(BaseCommand):
 
@@ -40,9 +41,10 @@ class Command(BaseCommand):
         def status_servers(update, context):
             """Send a message when the command /help is issued."""
             p = subprocess.Popen(['supervisorctl', 'status'], stdout=subprocess.PIPE)
-            status = p.stdout.read()
-            print(status)
-            update.message.reply_text(f'{ str(status)}')
+            # status = p.stdout.read()
+            # print(status)
+            for line in io.TextIOWrapper(status.stdout, encoding="utf-8"):
+                update.message.reply_text(f'{ str(line)}')
 
 
         def echo(update, context):
