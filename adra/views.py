@@ -470,13 +470,16 @@ def buscar(request):
 
         if (q.isdigit()):
             ultima_persona = Persona.objects.filter(
-                Q(numero_adra=q) | Q(telefono=q))
+                Q(numero_adra=q) | Q(telefono=q)).filter(active=True)
         else:
             ultima_persona = Persona.objects.filter(
-                nombre_apellido__icontains=q)
-
-        return render(request, 'adra/index.html',
-                      {'ultima_persona': ultima_persona, 'query': q})
+                nombre_apellido__icontains=q).filter(active=True)
+        if ultima_persona:
+            return render(request, 'adra/index.html',
+                          {'ultima_persona': ultima_persona, 'query': q})
+        else:
+            beneficiarios_no_activos = Persona.objects.filter(active=False).order_by("-numero_adra")
+            return render(request, 'adra/no_beneficiarios.html', {'ben': beneficiarios_no_activos})
     else:
         return HttpResponse('<h1>Por favor buscar con otro criterio</h1>')
 

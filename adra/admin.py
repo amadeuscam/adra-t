@@ -5,7 +5,7 @@ from .models import Persona, Alimentos, AlmacenAlimentos, Hijo,Profile
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'date_of_birth', 'photo']
+    list_display = ['user', 'date_of_birth']
 
 
 class HijoInline(admin.TabularInline):

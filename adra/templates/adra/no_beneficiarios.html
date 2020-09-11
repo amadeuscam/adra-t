@@ -1,0 +1,30 @@
+{% extends "_base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="col-md-12">
+        <h3 class="lead"><span class="text-danger  ">El beneficiario no existe </span>, quizas esta en esta lista de usuarios que ya no estan activos en nuestra plataforma </h3>
+        <table class="table mt-4 table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Numero adra</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Dni</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for b in ben %}
+                <tr>
+                    <th scope="row">{{ b.numero_adra }}</th>
+                    <td>{{ b.nombre_apellido }}</td>
+                    <td>{{ b.dni }}</td>
+                </tr>
+            {% endfor %}
+
+
+            </tbody>
+        </table>
+
+    </div>
+{% endblock %}
