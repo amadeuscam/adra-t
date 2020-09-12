@@ -77,7 +77,6 @@ class HijoForm(forms.ModelForm):
         model = Hijo
         fields = [
             'parentesco',
-            'sexo',
             'nombre_apellido',
             'dni',
             'fecha_nacimiento',

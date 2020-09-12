@@ -92,6 +92,18 @@ class Hijo(models.Model):
     modificado_por = models.ForeignKey(User, on_delete=models.CASCADE,
                                        null=True)
 
+    def save(self, *args, **kwargs):
+        if self.parentesco =="esposa":
+            self.sexo="m"
+        if self.parentesco =="esposo":
+            self.sexo="h"
+        if self.parentesco =="hijo":
+            self.sexo="h"
+        if self.parentesco =="hija":
+            self.sexo="m"
+
+        super(Hijo, self).save(*args, **kwargs)
+
     def get_absolute_url(self):
         return reverse('adra:personas_detail', kwargs={'pk': self.persona.pk})
 

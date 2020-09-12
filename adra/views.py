@@ -443,7 +443,6 @@ class HijoUpdateView(LoginRequiredMixin, UpdateView):
         'dni',
         'fecha_nacimiento',
         'edad',
-        'sexo'
     ]
 
     def form_valid(self, form):
@@ -681,15 +680,16 @@ def export_users_csv(request):
     for col_num, column_title in enumerate(columns, 1):
         cell = worksheet.cell(row=row_num, column=col_num)
         cell.value = column_title
-
+    count =0
     for ben in beneficiarios_queryset:
         row_num += 1
+        count += 1
 
         # Define the data for each cell in the row
         row = [
-            ben.numero_adra,
+            f"{count}-{ben.numero_adra}",
             ben.nombre_apellido,
-            'x',
+            1,
             ben.dni,
             '',
             ben.fecha_nacimiento.strftime("%d/%m/%Y"),
@@ -702,8 +702,9 @@ def export_users_csv(request):
             cell.alignment = Alignment(horizontal='center')
 
         for d in ben.hijo.filter(active=True):
+            count +=1
             row_hijos = [
-                '-',
+                f'{count}',
                 d.nombre_apellido,
                 '',
                 d.dni,
