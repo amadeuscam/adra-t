@@ -490,136 +490,179 @@ def calculate_age(age):
 
 @login_required
 def statistics_persona(request):
-    # personas
-    count_0_3_mujer = 0
-    count_3_15_mujer = 0
-    count_15_64_mujer = 0
-    count_65_mujer = 0
+    # # personas
+    # count_0_3_mujer = 0
+    # count_3_15_mujer = 0
+    # count_15_64_mujer = 0
+    # count_65_mujer = 0
+    #
+    # count_0_3_hombre = 0
+    # count_3_15_hombre = 0
+    # count_15_64_hombre = 0
+    # count_65_hombre = 0
+    #
+    # # familiares
+    # count_0_3_mujer_f = 0
+    # count_3_15_mujer_f = 0
+    # count_15_64_mujer_f = 0
+    # count_65_mujer_f = 0
+    #
+    # count_0_3_hijo = 0
+    # count_3_15_hijo = 0
+    # count_15_64_hijo = 0
+    # count_65_hijo = 0
+    #
+    # count_0_3_hija = 0
+    # count_3_15_hija = 0
+    # count_15_64_hija = 0
+    # count_65_hija = 0
+    #
+    # count_0_3_hombre_f = 0
+    # count_3_15_hombre_f = 0
+    # count_15_64_hombre_f = 0
+    # count_65_hombre_f = 0
+    #
+    # pers = Persona.objects.filter(active=True)
+    # for p in pers:
+    #
+    #     if calculate_age(p.fecha_nacimiento) >= 0 and calculate_age(p.fecha_nacimiento) <= 3 and p.sexo == "mujer":
+    #         count_0_3_mujer += 1
+    #     elif calculate_age(p.fecha_nacimiento) > 3 and calculate_age(p.fecha_nacimiento) <= 15 and p.sexo == "mujer":
+    #         count_3_15_mujer += 1
+    #     elif calculate_age(p.fecha_nacimiento) > 15 and calculate_age(p.fecha_nacimiento) <= 64 and p.sexo == "mujer":
+    #         count_15_64_mujer += 1
+    #     elif calculate_age(p.fecha_nacimiento) > 64 and p.sexo == "mujer":
+    #         count_65_mujer += 1
+    #
+    #     elif calculate_age(p.fecha_nacimiento) >= 0 and calculate_age(p.fecha_nacimiento) <= 3 and p.sexo == "hombre":
+    #         count_0_3_hombre += 1
+    #     elif calculate_age(p.fecha_nacimiento) > 3 and calculate_age(p.fecha_nacimiento) <= 15 and p.sexo == "hombre":
+    #         count_3_15_hombre += 1
+    #     elif calculate_age(p.fecha_nacimiento) > 15 and calculate_age(p.fecha_nacimiento) <= 64 and p.sexo == "hombre":
+    #         count_15_64_hombre += 1
+    #     elif calculate_age(p.fecha_nacimiento) > 64 and p.sexo == "hombre":
+    #         count_65_hombre += 1
+    #
+    # per = Hijo.objects.all()
+    # for p in per:
+    #     # esposa
+    #     if calculate_age(p.fecha_nacimiento) >= 0 and calculate_age(
+    #             p.fecha_nacimiento) <= 3 and p.parentesco == "esposa":
+    #         count_0_3_mujer_f += 1
+    #     elif calculate_age(p.fecha_nacimiento) > 3 and calculate_age(
+    #             p.fecha_nacimiento) <= 15 and p.parentesco == "esposa":
+    #         count_3_15_mujer_f += 1
+    #     elif calculate_age(p.fecha_nacimiento) > 15 and calculate_age(
+    #             p.fecha_nacimiento) <= 64 and p.parentesco == "esposa":
+    #         count_15_64_mujer_f += 1
+    #     elif calculate_age(p.fecha_nacimiento) > 64 and p.parentesco == "esposa":
+    #         count_65_mujer_f += 1
+    #
+    #     # hija
+    #     elif calculate_age(p.fecha_nacimiento) >= 0 and calculate_age(
+    #             p.fecha_nacimiento) <= 3 and p.parentesco == "hija":
+    #         count_0_3_hija += 1
+    #     elif calculate_age(p.fecha_nacimiento) > 3 and calculate_age(
+    #             p.fecha_nacimiento) <= 15 and p.parentesco == "hija":
+    #         count_3_15_hija += 1
+    #     elif calculate_age(p.fecha_nacimiento) > 15 and calculate_age(
+    #             p.fecha_nacimiento) <= 64 and p.parentesco == "hija":
+    #         count_15_64_hija += 1
+    #     elif calculate_age(p.fecha_nacimiento) > 64 and p.parentesco == "hija":
+    #         count_65_hija += 1
+    #
+    #         # hijo
+    #     elif calculate_age(p.fecha_nacimiento) >= 0 and calculate_age(
+    #             p.fecha_nacimiento) <= 3 and p.parentesco == "hijo":
+    #         count_0_3_hijo += 1
+    #     elif calculate_age(p.fecha_nacimiento) > 3 and calculate_age(
+    #             p.fecha_nacimiento) <= 15 and p.parentesco == "hijo":
+    #         count_3_15_hijo += 1
+    #     elif calculate_age(p.fecha_nacimiento) > 15 and calculate_age(
+    #             p.fecha_nacimiento) <= 64 and p.parentesco == "hijo":
+    #         count_15_64_hijo += 1
+    #     elif calculate_age(p.fecha_nacimiento) > 64 and p.parentesco == "hijo":
+    #         count_65_hijo += 1
+    #     # esposo
+    #     elif calculate_age(p.fecha_nacimiento) >= 0 and calculate_age(
+    #             p.fecha_nacimiento) <= 3 and p.parentesco == "esposo":
+    #         count_0_3_hombre += 1
+    #     elif calculate_age(p.fecha_nacimiento) > 3 and calculate_age(
+    #             p.fecha_nacimiento) <= 15 and p.parentesco == "esposo":
+    #         count_3_15_hombre += 1
+    #     elif calculate_age(p.fecha_nacimiento) > 15 and calculate_age(
+    #             p.fecha_nacimiento) <= 64 and p.parentesco == "esposo":
+    #         count_15_64_hombre += 1
+    #     elif calculate_age(p.fecha_nacimiento) > 64 and p.parentesco == "esposo":
+    #         count_65_hombre += 1
+    #
 
-    count_0_3_hombre = 0
-    count_3_15_hombre = 0
-    count_15_64_hombre = 0
-    count_65_hombre = 0
+    #
+    # total_mujer_02 = count_0_3_mujer + count_0_3_mujer_f + count_0_3_hija
+    # total_mujer_3_15 = count_3_15_mujer + count_3_15_mujer_f + count_3_15_hija
+    # total_mujer_15_64 = count_15_64_mujer + count_15_64_mujer_f + count_15_64_hija
+    # total_mujer_65 = count_65_mujer + count_65_mujer_f + count_65_hija
+    # total_mujeres = total_mujer_02 + total_mujer_3_15 + \
+    #                 total_mujer_15_64 + total_mujer_65
+    #
+    # total_hombre_02 = count_0_3_hombre + count_0_3_hombre_f + count_0_3_hijo
+    # total_hombre_3_15 = count_3_15_hombre + count_3_15_hombre_f + count_3_15_hijo
+    # total_hombre_15_64 = count_15_64_hombre + \
+    #                      count_15_64_hombre_f + count_15_64_hijo
+    # total_hombre_65 = count_65_hombre + count_65_hombre_f + count_65_hijo
+    # total_hombres = total_hombre_02 + total_hombre_3_15 + \
+    #                 total_hombre_15_64 + total_hombre_65
+    #
+    # total_02 = total_hombre_02 + total_mujer_02
+    # total_3_15 = total_hombre_3_15 + total_mujer_3_15
+    # total_15_64 = total_hombre_15_64 + total_mujer_15_64
+    # total_65 = total_hombre_65 + total_mujer_65
+    # total = total_02 + total_3_15 + total_15_64 + total_65
+    beneficiar_mujer = Persona.objects.filter(active=True, sexo__icontains="mujer")
+    iter_mujer_02 = len([b.age for b in beneficiar_mujer if b.age >= 0 and b.age <= 2])
+    iter_mujer_3_15 = len([b.age for b in beneficiar_mujer if b.age >= 3 and b.age <= 15])
+    iter_mujer_16_64 = len([b.age for b in beneficiar_mujer if b.age >= 16 and b.age <= 64])
+    iter_mujer_65 = len([b.age for b in beneficiar_mujer if b.age >= 65])
 
-    # familiares
-    count_0_3_mujer_f = 0
-    count_3_15_mujer_f = 0
-    count_15_64_mujer_f = 0
-    count_65_mujer_f = 0
+    beneficiar_hombre = Persona.objects.filter(active=True, sexo__icontains="hombre")
+    iter_hombre_02 = len([b.age for b in beneficiar_hombre if b.age >= 0 and b.age <= 2])
+    iter_hombre_3_15 = len([b.age for b in beneficiar_hombre if b.age >= 3 and b.age <= 15])
+    iter_hombre_16_64 = len([b.age for b in beneficiar_hombre if b.age >= 16 and b.age <= 64])
+    iter_hombre_65 = len([b.age for b in beneficiar_hombre if b.age >= 65])
 
-    count_0_3_hijo = 0
-    count_3_15_hijo = 0
-    count_15_64_hijo = 0
-    count_65_hijo = 0
+    familiares_mujer = Hijo.objects.filter(active=True, sexo="m")
+    iter_familiares_mujer_02 = len([b.age for b in familiares_mujer if b.age >= 0 and b.age <= 2])
+    iter_familiares_mujer_3_15 = len([b.age for b in familiares_mujer if b.age >= 3 and b.age <= 15])
+    iter_familiares_mujer_16_64 = len([b.age for b in familiares_mujer if b.age >= 16 and b.age <= 64])
+    iter_familiares_mujer_65 = len([b.age for b in familiares_mujer if b.age >= 65])
 
-    count_0_3_hija = 0
-    count_3_15_hija = 0
-    count_15_64_hija = 0
-    count_65_hija = 0
+    familiares_hombre = Hijo.objects.filter(active=True, sexo="h")
+    iter_familiares_hombre_02 = len([b.age for b in familiares_hombre if b.age >= 0 and b.age <= 2])
+    iter_familiares_hombre_3_15 = len([b.age for b in familiares_hombre if b.age >= 3 and b.age <= 15])
+    iter_familiares_hombre_16_64 = len([b.age for b in familiares_hombre if b.age >= 16 and b.age <= 64])
+    iter_familiares_hombre_65 = len([b.age for b in familiares_hombre if b.age >= 65])
 
-    count_0_3_hombre_f = 0
-    count_3_15_hombre_f = 0
-    count_15_64_hombre_f = 0
-    count_65_hombre_f = 0
+    total_mujer_02 = iter_mujer_02 + iter_familiares_mujer_02
+    total_mujer_3_15 = iter_mujer_3_15 + iter_familiares_mujer_3_15
+    total_mujer_15_64 = iter_mujer_16_64 + iter_familiares_mujer_16_64
+    total_mujer_65 = iter_mujer_65 + iter_familiares_mujer_65
+    total_mujeres = total_mujer_02 + total_mujer_3_15 + total_mujer_15_64 + total_mujer_65
 
-    pers = Persona.objects.filter(active=True)
-    for p in pers:
-
-        if calculate_age(p.fecha_nacimiento) >= 0 and calculate_age(p.fecha_nacimiento) <= 3 and p.sexo == "mujer":
-            count_0_3_mujer += 1
-        elif calculate_age(p.fecha_nacimiento) > 3 and calculate_age(p.fecha_nacimiento) <= 15 and p.sexo == "mujer":
-            count_3_15_mujer += 1
-        elif calculate_age(p.fecha_nacimiento) > 15 and calculate_age(p.fecha_nacimiento) <= 64 and p.sexo == "mujer":
-            count_15_64_mujer += 1
-        elif calculate_age(p.fecha_nacimiento) > 64 and p.sexo == "mujer":
-            count_65_mujer += 1
-
-        elif calculate_age(p.fecha_nacimiento) >= 0 and calculate_age(p.fecha_nacimiento) <= 3 and p.sexo == "hombre":
-            count_0_3_hombre += 1
-        elif calculate_age(p.fecha_nacimiento) > 3 and calculate_age(p.fecha_nacimiento) <= 15 and p.sexo == "hombre":
-            count_3_15_hombre += 1
-        elif calculate_age(p.fecha_nacimiento) > 15 and calculate_age(p.fecha_nacimiento) <= 64 and p.sexo == "hombre":
-            count_15_64_hombre += 1
-        elif calculate_age(p.fecha_nacimiento) > 64 and p.sexo == "hombre":
-            count_65_hombre += 1
-
-    per = Hijo.objects.all()
-    for p in per:
-        # esposa
-        if calculate_age(p.fecha_nacimiento) >= 0 and calculate_age(
-                p.fecha_nacimiento) <= 3 and p.parentesco == "esposa":
-            count_0_3_mujer_f += 1
-        elif calculate_age(p.fecha_nacimiento) > 3 and calculate_age(
-                p.fecha_nacimiento) <= 15 and p.parentesco == "esposa":
-            count_3_15_mujer_f += 1
-        elif calculate_age(p.fecha_nacimiento) > 15 and calculate_age(
-                p.fecha_nacimiento) <= 64 and p.parentesco == "esposa":
-            count_15_64_mujer_f += 1
-        elif calculate_age(p.fecha_nacimiento) > 64 and p.parentesco == "esposa":
-            count_65_mujer_f += 1
-
-        # hija
-        elif calculate_age(p.fecha_nacimiento) >= 0 and calculate_age(
-                p.fecha_nacimiento) <= 3 and p.parentesco == "hija":
-            count_0_3_hija += 1
-        elif calculate_age(p.fecha_nacimiento) > 3 and calculate_age(
-                p.fecha_nacimiento) <= 15 and p.parentesco == "hija":
-            count_3_15_hija += 1
-        elif calculate_age(p.fecha_nacimiento) > 15 and calculate_age(
-                p.fecha_nacimiento) <= 64 and p.parentesco == "hija":
-            count_15_64_hija += 1
-        elif calculate_age(p.fecha_nacimiento) > 64 and p.parentesco == "hija":
-            count_65_hija += 1
-
-            # hijo
-        elif calculate_age(p.fecha_nacimiento) >= 0 and calculate_age(
-                p.fecha_nacimiento) <= 3 and p.parentesco == "hijo":
-            count_0_3_hijo += 1
-        elif calculate_age(p.fecha_nacimiento) > 3 and calculate_age(
-                p.fecha_nacimiento) <= 15 and p.parentesco == "hijo":
-            count_3_15_hijo += 1
-        elif calculate_age(p.fecha_nacimiento) > 15 and calculate_age(
-                p.fecha_nacimiento) <= 64 and p.parentesco == "hijo":
-            count_15_64_hijo += 1
-        elif calculate_age(p.fecha_nacimiento) > 64 and p.parentesco == "hijo":
-            count_65_hijo += 1
-        # esposo
-        elif calculate_age(p.fecha_nacimiento) >= 0 and calculate_age(
-                p.fecha_nacimiento) <= 3 and p.parentesco == "esposo":
-            count_0_3_hombre += 1
-        elif calculate_age(p.fecha_nacimiento) > 3 and calculate_age(
-                p.fecha_nacimiento) <= 15 and p.parentesco == "esposo":
-            count_3_15_hombre += 1
-        elif calculate_age(p.fecha_nacimiento) > 15 and calculate_age(
-                p.fecha_nacimiento) <= 64 and p.parentesco == "esposo":
-            count_15_64_hombre += 1
-        elif calculate_age(p.fecha_nacimiento) > 64 and p.parentesco == "esposo":
-            count_65_hombre += 1
-
-    discapacidad = Persona.objects.filter(discapacidad=True,active=True).count()
-    total_beneficiarios = Persona.objects.filter(active=True).count()
-    total_familiares = Hijo.objects.filter(active=True).count()
-
-    total_mujer_02 = count_0_3_mujer + count_0_3_mujer_f + count_0_3_hija
-    total_mujer_3_15 = count_3_15_mujer + count_3_15_mujer_f + count_3_15_hija
-    total_mujer_15_64 = count_15_64_mujer + count_15_64_mujer_f + count_15_64_hija
-    total_mujer_65 = count_65_mujer + count_65_mujer_f + count_65_hija
-    total_mujeres = total_mujer_02 + total_mujer_3_15 + \
-                    total_mujer_15_64 + total_mujer_65
-
-    total_hombre_02 = count_0_3_hombre + count_0_3_hombre_f + count_0_3_hijo
-    total_hombre_3_15 = count_3_15_hombre + count_3_15_hombre_f + count_3_15_hijo
-    total_hombre_15_64 = count_15_64_hombre + \
-                         count_15_64_hombre_f + count_15_64_hijo
-    total_hombre_65 = count_65_hombre + count_65_hombre_f + count_65_hijo
-    total_hombres = total_hombre_02 + total_hombre_3_15 + \
-                    total_hombre_15_64 + total_hombre_65
+    total_hombre_02 = iter_hombre_02 + iter_familiares_hombre_02
+    total_hombre_3_15 = iter_hombre_3_15 + iter_familiares_hombre_3_15
+    total_hombre_15_64 = iter_hombre_16_64 + iter_familiares_hombre_16_64
+    total_hombre_65 = iter_hombre_65 + iter_familiares_hombre_65
+    total_hombres = total_hombre_02 + total_hombre_3_15 + total_hombre_15_64 + total_hombre_65
 
     total_02 = total_hombre_02 + total_mujer_02
     total_3_15 = total_hombre_3_15 + total_mujer_3_15
     total_15_64 = total_hombre_15_64 + total_mujer_15_64
     total_65 = total_hombre_65 + total_mujer_65
     total = total_02 + total_3_15 + total_15_64 + total_65
+
+    discapacidad = Persona.objects.filter(discapacidad=True,active=True).count()
+    total_beneficiarios = Persona.objects.filter(active=True).count()
+    total_familiares = Hijo.objects.filter(active=True).count()
 
     return render(request, 'statistics/index.html', {
         "total_per_mujer_02": total_mujer_02,
