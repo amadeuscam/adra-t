@@ -28,13 +28,25 @@ class Command(BaseCommand):
         def help_command(update, context):
             """Send a message when the command /help is issued."""
             update.message.reply_text('Help brother!')
-            
+
         def numero_adra_command(update, context):
             """Send a message when the command /help is issued."""
             try:
                 beneficiario = int(context.args[0])
                 persona = Persona.objects.get(telefono=beneficiario)
-                update.message.reply_text(f" Hola {persona.nombre_apellido}!,\n Tu numero adra es {persona.numero_adra} y perteneces al domingo  {persona.domingo}")
+                update.message.reply_text(f"Hola {persona.nombre_apellido}!,\n "
+                                          f"Tu numero adra es {persona.numero_adra} y "
+                                          f"perteneces al domingo  {persona.domingo}"
+                                          )
+                update.message.reply_text(f"Papeles\n\nEmpadronamiento->{'Tienes' if persona.empadronamiento else 'No tienes'}!,"
+                                          f"\n Libro familia->{ 'Tienes' if persona.libro_familia else 'No tienes'}"
+                                          f"\n Fotocopia dni->{ 'Tienes' if persona.fotocopia_dni else 'No tienes'}"
+                                          f"\n Prestaciones->{ 'Tienes' if persona.prestaciones else 'No tienes'}"
+                                          f"\n Nomnia->{ 'Tienes' if persona.nomnia else 'No tienes'}"
+                                          f"\n Certificado negativo->{ 'Tienes' if persona.cert_negativo else 'No tienes'}"
+                                          f"\n Aquiler O Hipoteca ->{ 'Tienes' if persona.aquiler_hipoteca else 'No tienes'}"
+                                          f"\n Recibos -> { 'Tienes' if persona.recibos else 'No tienes'}"
+                                          )
             except Persona.DoesNotExist:
                 update.message.reply_text("El beneficario no existe!")
 
