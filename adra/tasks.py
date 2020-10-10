@@ -25,7 +25,8 @@ def caducidad_alimentos():
 
         ali = AlmacenAlimentos.objects.all()
         emails = User.objects.filter(is_active=True).values_list('email', flat=True)
-        print(emails)
+        list_email = [e for e in emails]
+        print(list_email)
 
         for al in ali:
 
@@ -50,7 +51,7 @@ def caducidad_alimentos():
 
                 message = sendgrid.Mail(
                     from_email=f"admin@adra.es",
-                    to_emails=emails,
+                    to_emails=list_email,
                 )
                 message.dynamic_template_data = {
                     "alimento": f"{alimento_1_name}",
@@ -61,13 +62,14 @@ def caducidad_alimentos():
                     "Sender_Zip": f"28850"
                 }
                 message.template_id = 'd-b3a251b22c7442b39b79ddc901020457'
+                res = sg.send(message)
+                print(res.status_code)
 
-                sg.send(message)
             if caduca(alimento_2) == 37:
                 alimento_2_name = AlmacenAlimentos._meta.get_field('alimento_2').verbose_name
                 message = sendgrid.Mail(
                     from_email=f"admin@adra.es",
-                    to_emails=emails,
+                    to_emails=list_email,
                 )
                 message.dynamic_template_data = {
                     "alimento": f"{alimento_2_name}",
@@ -78,13 +80,14 @@ def caducidad_alimentos():
                     "Sender_Zip": f"28850"
                 }
                 message.template_id = 'd-b3a251b22c7442b39b79ddc901020457'
-                sg.send(message)
+                res = sg.send(message)
+                print(res.status_code)
 
             if caduca(alimento_3) == 37:
                 alimento_3_name = AlmacenAlimentos._meta.get_field('alimento_3').verbose_name
                 message = sendgrid.Mail(
                     from_email=f"admin@adra.es",
-                    to_emails=emails,
+                    to_emails=list_email,
                 )
                 message.dynamic_template_data = {
                     "alimento": f"{alimento_3_name}",
@@ -95,13 +98,14 @@ def caducidad_alimentos():
                     "Sender_Zip": f"28850"
                 }
                 message.template_id = 'd-b3a251b22c7442b39b79ddc901020457'
-                sg.send(message)
+                res = sg.send(message)
+                print(res.status_code)
 
             if caduca(alimento_4) == 37:
                 alimento_4_name = AlmacenAlimentos._meta.get_field('alimento_4').verbose_name
                 message = sendgrid.Mail(
                     from_email=f"admin@adra.es",
-                    to_emails=emails,
+                    to_emails=list_email,
                 )
                 message.dynamic_template_data = {
                     "alimento": f"{alimento_4_name}",
@@ -112,13 +116,14 @@ def caducidad_alimentos():
                     "Sender_Zip": f"28850"
                 }
                 message.template_id = 'd-b3a251b22c7442b39b79ddc901020457'
-                sg.send(message)
+                res = sg.send(message)
+                print(res.status_code)
 
             if caduca(alimento_6) == 37:
                 alimento_6_name = AlmacenAlimentos._meta.get_field('alimento_6').verbose_name
                 message = sendgrid.Mail(
                     from_email=f"admin@adra.es",
-                    to_emails=emails,
+                    to_emails=list_email,
                 )
                 message.dynamic_template_data = {
                     "alimento": f"{alimento_6_name}",
@@ -129,13 +134,14 @@ def caducidad_alimentos():
                     "Sender_Zip": f"28850"
                 }
                 message.template_id = 'd-b3a251b22c7442b39b79ddc901020457'
-                sg.send(message)
+                res = sg.send(message)
+                print(res.status_code)
 
             if caduca(alimento_7) == 37:
                 alimento_7_name = AlmacenAlimentos._meta.get_field('alimento_7').verbose_name
                 message = sendgrid.Mail(
                     from_email=f"admin@adra.es",
-                    to_emails=emails,
+                    to_emails=list_email,
                 )
                 message.dynamic_template_data = {
                     "alimento": f"{alimento_7_name}",
@@ -146,13 +152,14 @@ def caducidad_alimentos():
                     "Sender_Zip": f"28850"
                 }
                 message.template_id = 'd-b3a251b22c7442b39b79ddc901020457'
-                sg.send(message)
+                res = sg.send(message)
+                print(res.status_code)
 
             if caduca(alimento_8) == 37:
                 alimento_8_name = AlmacenAlimentos._meta.get_field('alimento_8').verbose_name
                 message = sendgrid.Mail(
                     from_email=f"admin@adra.es",
-                    to_emails=emails,
+                    to_emails=list_email,
                 )
                 message.dynamic_template_data = {
                     "alimento": f"{alimento_8_name}",
@@ -163,13 +170,14 @@ def caducidad_alimentos():
                     "Sender_Zip": f"28850"
                 }
                 message.template_id = 'd-b3a251b22c7442b39b79ddc901020457'
-                sg.send(message)
+                res = sg.send(message)
+                print(res.status_code)
 
             if caduca(alimento_9) == 37:
                 alimento_9_name = AlmacenAlimentos._meta.get_field('alimento_9').verbose_name
                 message = sendgrid.Mail(
                     from_email=f"admin@adra.es",
-                    to_emails=emails,
+                    to_emails=list_email,
                 )
                 message.dynamic_template_data = {
                     "alimento": f"{alimento_9_name}",
@@ -180,13 +188,14 @@ def caducidad_alimentos():
                     "Sender_Zip": f"28850"
                 }
                 message.template_id = 'd-b3a251b22c7442b39b79ddc901020457'
-                sg.send(message)
+                res = sg.send(message)
+                print(res.status_code)
 
             if caduca(alimento_10) == 37:
                 alimento_10_name = AlmacenAlimentos._meta.get_field('alimento_10').verbose_name
                 message = sendgrid.Mail(
                     from_email=f"admin@adra.es",
-                    to_emails=emails,
+                    to_emails=list_email,
                 )
                 message.dynamic_template_data = {
                     "alimento": f"{alimento_10_name}",
@@ -197,13 +206,14 @@ def caducidad_alimentos():
                     "Sender_Zip": f"28850"
                 }
                 message.template_id = 'd-b3a251b22c7442b39b79ddc901020457'
-                sg.send(message)
+                res = sg.send(message)
+                print(res.status_code)
 
             if caduca(alimento_11) == 37:
                 alimento_11_name = AlmacenAlimentos._meta.get_field('alimento_11').verbose_name
                 message = sendgrid.Mail(
                     from_email=f"admin@adra.es",
-                    to_emails=emails,
+                    to_emails=list_email,
                 )
                 message.dynamic_template_data = {
                     "alimento": f"{alimento_11_name}",
@@ -214,13 +224,14 @@ def caducidad_alimentos():
                     "Sender_Zip": f"28850"
                 }
                 message.template_id = 'd-b3a251b22c7442b39b79ddc901020457'
-                sg.send(message)
+                res = sg.send(message)
+                print(res.status_code)
 
             if caduca(alimento_12) == 37:
                 alimento_12_name = AlmacenAlimentos._meta.get_field('alimento_12').verbose_name
                 message = sendgrid.Mail(
                     from_email=f"admin@adra.es",
-                    to_emails=emails,
+                    to_emails=list_email,
                 )
                 message.dynamic_template_data = {
                     "alimento": f"{alimento_12_name}",
@@ -231,13 +242,14 @@ def caducidad_alimentos():
                     "Sender_Zip": f"28850"
                 }
                 message.template_id = 'd-b3a251b22c7442b39b79ddc901020457'
-                sg.send(message)
+                res = sg.send(message)
+                print(res.status_code)
 
             if caduca(alimento_13) == 37:
                 alimento_13_name = AlmacenAlimentos._meta.get_field('alimento_13').verbose_name
                 message = sendgrid.Mail(
                     from_email=f"admin@adra.es",
-                    to_emails=emails,
+                    to_emails=list_email,
                 )
                 message.dynamic_template_data = {
                     "alimento": f"{alimento_13_name}",
@@ -248,13 +260,14 @@ def caducidad_alimentos():
                     "Sender_Zip": f"28850"
                 }
                 message.template_id = 'd-b3a251b22c7442b39b79ddc901020457'
-                sg.send(message)
+                res = sg.send(message)
+                print(res.status_code)
 
             if caduca(alimento_14) == 37:
                 alimento_14_name = AlmacenAlimentos._meta.get_field('alimento_14').verbose_name
                 message = sendgrid.Mail(
                     from_email=f"admin@adra.es",
-                    to_emails=emails,
+                    to_emails=list_email,
                 )
                 message.dynamic_template_data = {
                     "alimento": f"{alimento_14_name}",
@@ -265,13 +278,14 @@ def caducidad_alimentos():
                     "Sender_Zip": f"28850"
                 }
                 message.template_id = 'd-b3a251b22c7442b39b79ddc901020457'
-                sg.send(message)
+                res = sg.send(message)
+                print(res.status_code)
 
             if caduca(alimento_15) == 37:
                 alimento_15_name = AlmacenAlimentos._meta.get_field('alimento_15').verbose_name
                 message = sendgrid.Mail(
                     from_email=f"admin@adra.es",
-                    to_emails=emails,
+                    to_emails=list_email,
                 )
                 message.dynamic_template_data = {
                     "alimento": f"{alimento_15_name}",
@@ -282,7 +296,8 @@ def caducidad_alimentos():
                     "Sender_Zip": f"28850"
                 }
                 message.template_id = 'd-b3a251b22c7442b39b79ddc901020457'
-                sg.send(message)
+                res = sg.send(message)
+                print(res.status_code)
 
 
 @periodic_task(

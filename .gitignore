@@ -8,3 +8,4 @@ celerybeat-schedule.dat
 celerybeat-schedule.dir
 media/
 /celerybeat.pid
+/staticfiles
