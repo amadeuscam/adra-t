@@ -136,6 +136,13 @@
                         </a>
                     </li>
 
+                    <li class="{% if nbar == 'stat' %}active{% endif %}">
+                        <a href="{% url 'adra:telegram_message_view' %}" class="d-flex justify-content-start align-items-center ">
+                            <i class="large material-icons" style="font-size: 36px;color: darkslategrey">send</i>
+                            <p>Telegram</p>
+                        </a>
+                    </li>
+
                 </ul>
             </nav>
         </div>

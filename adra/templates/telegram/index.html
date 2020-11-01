@@ -1,0 +1,27 @@
+{% extends "_base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+Adra-Statistics
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 col-sm-12  ">
+        <form action="{% url 'adra:telegram_message_view' %}" method="post" >
+            {% csrf_token %}
+            <label for="dom_se" style="font-size: 25px;">Seleciona grupo para mandar mensage: </label>
+            <select name="dom_select" id="dom_se" class="form-control">
+                <option value="1">Domingo 2</option>
+                <option value="2">Domingo 4</option>
+            </select>
+            <label for="mensaje_propio" style="font-size: 25px;">Mensaje por defecto por nuestra parte: </label>
+            <textarea name="mensaje_propio" id="mensaje_propio"  style="border: 1px solid lightgray; width: 100%;" >Mañana van recoger alimentos las personas de arriba</textarea>
+            <input type="submit" value="Enviar mensaje" class="btn btn-outline btn-success mt-4">
+        </form>
+    </div>
+</div>
+
+
+{% endblock content %}

@@ -50,6 +50,7 @@ urlpatterns = [
 
     # statistics
     path('statistics/', views.statistics_persona, name="statistics-personas"),
+    path('telegram/', views.telegram_messages, name="telegram_message_view"),
     path('export/csv/', views.export_users_csv, name='exportar-users-csv'),
     path('export/pdf/<int:pk>', views.generar_hoja_entrega, name='pdf_form'),
     # end statistics

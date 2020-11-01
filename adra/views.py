@@ -43,6 +43,8 @@ from sendgrid.helpers.mail import (
 
 from allauth.account.adapter import DefaultAccountAdapter
 from django.conf import settings
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+import telegram
 
 
 # Create your views here.
@@ -687,6 +689,26 @@ def statistics_persona(request):
         "nbar": 'stat'
 
     })
+
+
+def telegram_messages(request):
+
+    print(request.POST.get('dom_select')) 
+    dom = request.POST.get('dom_select')
+    mensaje_propio = request.POST.get('mensaje_propio')
+
+    if dom and mensaje_propio:
+        bot = telegram.Bot(token='1103551052:AAEUecilMN5Eku3b46NA-_Q2Ba_K7QvV7dg')
+        # print(bot.getUpdates())
+        persona = Persona.objects.filter(active=True).filter(Q(domingo=f"Domingo {int(dom)}") | Q(domingo=int(dom)), ciudad__icontains="Torrejon de ardoz").exclude(covid=True)
+        per_list = [p.nombre_apellido for p in persona]
+        # print(len(per_list))
+        list_format = '\n'.join(per_list)
+        bot.send_message('-1001438819726', f"*{list_format}*",parse_mode=telegram.ParseMode.MARKDOWN_V2)
+        bot.send_message('-1001438819726', f"*{mensaje_propio}*",parse_mode=telegram.ParseMode.MARKDOWN_V2)
+
+
+    return render(request, 'telegram/index.html')
 
 
 def export_users_csv(request):
