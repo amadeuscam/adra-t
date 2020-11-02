@@ -708,7 +708,7 @@ def telegram_messages(request):
         bot.send_message('-1001438819726', f"*{mensaje_propio}*",parse_mode=telegram.ParseMode.MARKDOWN_V2)
 
 
-    return render(request, 'telegram/index.html')
+    return render(request, 'telegram/index.html',{'nbar': "tel"})
 
 
 def export_users_csv(request):

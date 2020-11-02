@@ -81,7 +81,12 @@
                             <i class="large material-icons" style="font-size: 14px;color: darkslategrey">trending_up</i>
                             Estadísticas</a>
                     </li>
-
+                    <li>
+                        <a href="{% url 'adra:telegram_message_view' %}"
+                           class="{% if nbar == 'tel' %}text-primary{% endif %}">
+                            <i class="large material-icons" style="font-size: 14px;color: darkslategrey">send</i>
+                            Telegram</a>
+                    </li>
 
                 </ul>
             </div>
@@ -136,7 +141,7 @@
                         </a>
                     </li>
 
-                    <li class="{% if nbar == 'stat' %}active{% endif %}">
+                    <li class="{% if nbar == 'tel' %}active{% endif %}">
                         <a href="{% url 'adra:telegram_message_view' %}" class="d-flex justify-content-start align-items-center ">
                             <i class="large material-icons" style="font-size: 36px;color: darkslategrey">send</i>
                             <p>Telegram</p>
