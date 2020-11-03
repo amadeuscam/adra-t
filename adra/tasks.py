@@ -402,6 +402,7 @@ def export_zip(fecha):
         os.remove(file)
         
 
+
     # subprocess.call(["supervisorctl", "restart", "gunicorn"])
     # Grab ZIP file from in-memory, make response with correct MIME-type
     resp = HttpResponse(s.getvalue(), content_type = "application/x-zip-compressed")
