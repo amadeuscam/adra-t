@@ -2,14 +2,18 @@ from django.core.management.base import BaseCommand, CommandError
 from datetime import date
 from adra.models import Persona
 from mailmerge import MailMerge
-
+from pathlib import Path
+import shutil
+import time
+import glob, os
 
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
         persona = Persona.objects.filter(active=True).order_by("numero_adra")
+        Path("./valoracion").mkdir(parents=True, exist_ok=True)
 
-        for p in persona:
+        for p in persona[10:50]:
 
             print(p.numero_adra)
             # print(p.nombre_apellido)
@@ -56,4 +60,12 @@ class Command(BaseCommand):
                 document.merge(h="x")
             document.merge_rows('parentesco', hijos)
 
-            document.write(f'{p.numero_adra}.docx')
+            document.write(f'./valoracion/{p.numero_adra}.docx')
+
+
+        os.chdir("./valoracion")
+        for file in glob.glob("*.docx"):
+            print(file)
+
+        time.sleep(10)
+        shutil.rmtree('./valoracion', ignore_errors=True)

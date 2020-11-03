@@ -23,6 +23,7 @@ import xlwt
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Side, PatternFill
 from datetime import date
+import datetime
 from mailmerge import MailMerge
 from .serializers import PersonaSerializer, UserSerializer
 from rest_framework.parsers import JSONParser
@@ -45,6 +46,13 @@ from allauth.account.adapter import DefaultAccountAdapter
 from django.conf import settings
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import telegram
+from pathlib import Path
+import shutil
+import time
+import glob, os
+import zipfile
+from io import BytesIO;
+from .tasks import export_zip
 
 
 # Create your views here.
@@ -492,134 +500,14 @@ def calculate_age(age):
 
 @login_required
 def statistics_persona(request):
-    # # personas
-    # count_0_3_mujer = 0
-    # count_3_15_mujer = 0
-    # count_15_64_mujer = 0
-    # count_65_mujer = 0
-    #
-    # count_0_3_hombre = 0
-    # count_3_15_hombre = 0
-    # count_15_64_hombre = 0
-    # count_65_hombre = 0
-    #
-    # # familiares
-    # count_0_3_mujer_f = 0
-    # count_3_15_mujer_f = 0
-    # count_15_64_mujer_f = 0
-    # count_65_mujer_f = 0
-    #
-    # count_0_3_hijo = 0
-    # count_3_15_hijo = 0
-    # count_15_64_hijo = 0
-    # count_65_hijo = 0
-    #
-    # count_0_3_hija = 0
-    # count_3_15_hija = 0
-    # count_15_64_hija = 0
-    # count_65_hija = 0
-    #
-    # count_0_3_hombre_f = 0
-    # count_3_15_hombre_f = 0
-    # count_15_64_hombre_f = 0
-    # count_65_hombre_f = 0
-    #
-    # pers = Persona.objects.filter(active=True)
-    # for p in pers:
-    #
-    #     if calculate_age(p.fecha_nacimiento) >= 0 and calculate_age(p.fecha_nacimiento) <= 3 and p.sexo == "mujer":
-    #         count_0_3_mujer += 1
-    #     elif calculate_age(p.fecha_nacimiento) > 3 and calculate_age(p.fecha_nacimiento) <= 15 and p.sexo == "mujer":
-    #         count_3_15_mujer += 1
-    #     elif calculate_age(p.fecha_nacimiento) > 15 and calculate_age(p.fecha_nacimiento) <= 64 and p.sexo == "mujer":
-    #         count_15_64_mujer += 1
-    #     elif calculate_age(p.fecha_nacimiento) > 64 and p.sexo == "mujer":
-    #         count_65_mujer += 1
-    #
-    #     elif calculate_age(p.fecha_nacimiento) >= 0 and calculate_age(p.fecha_nacimiento) <= 3 and p.sexo == "hombre":
-    #         count_0_3_hombre += 1
-    #     elif calculate_age(p.fecha_nacimiento) > 3 and calculate_age(p.fecha_nacimiento) <= 15 and p.sexo == "hombre":
-    #         count_3_15_hombre += 1
-    #     elif calculate_age(p.fecha_nacimiento) > 15 and calculate_age(p.fecha_nacimiento) <= 64 and p.sexo == "hombre":
-    #         count_15_64_hombre += 1
-    #     elif calculate_age(p.fecha_nacimiento) > 64 and p.sexo == "hombre":
-    #         count_65_hombre += 1
-    #
-    # per = Hijo.objects.all()
-    # for p in per:
-    #     # esposa
-    #     if calculate_age(p.fecha_nacimiento) >= 0 and calculate_age(
-    #             p.fecha_nacimiento) <= 3 and p.parentesco == "esposa":
-    #         count_0_3_mujer_f += 1
-    #     elif calculate_age(p.fecha_nacimiento) > 3 and calculate_age(
-    #             p.fecha_nacimiento) <= 15 and p.parentesco == "esposa":
-    #         count_3_15_mujer_f += 1
-    #     elif calculate_age(p.fecha_nacimiento) > 15 and calculate_age(
-    #             p.fecha_nacimiento) <= 64 and p.parentesco == "esposa":
-    #         count_15_64_mujer_f += 1
-    #     elif calculate_age(p.fecha_nacimiento) > 64 and p.parentesco == "esposa":
-    #         count_65_mujer_f += 1
-    #
-    #     # hija
-    #     elif calculate_age(p.fecha_nacimiento) >= 0 and calculate_age(
-    #             p.fecha_nacimiento) <= 3 and p.parentesco == "hija":
-    #         count_0_3_hija += 1
-    #     elif calculate_age(p.fecha_nacimiento) > 3 and calculate_age(
-    #             p.fecha_nacimiento) <= 15 and p.parentesco == "hija":
-    #         count_3_15_hija += 1
-    #     elif calculate_age(p.fecha_nacimiento) > 15 and calculate_age(
-    #             p.fecha_nacimiento) <= 64 and p.parentesco == "hija":
-    #         count_15_64_hija += 1
-    #     elif calculate_age(p.fecha_nacimiento) > 64 and p.parentesco == "hija":
-    #         count_65_hija += 1
-    #
-    #         # hijo
-    #     elif calculate_age(p.fecha_nacimiento) >= 0 and calculate_age(
-    #             p.fecha_nacimiento) <= 3 and p.parentesco == "hijo":
-    #         count_0_3_hijo += 1
-    #     elif calculate_age(p.fecha_nacimiento) > 3 and calculate_age(
-    #             p.fecha_nacimiento) <= 15 and p.parentesco == "hijo":
-    #         count_3_15_hijo += 1
-    #     elif calculate_age(p.fecha_nacimiento) > 15 and calculate_age(
-    #             p.fecha_nacimiento) <= 64 and p.parentesco == "hijo":
-    #         count_15_64_hijo += 1
-    #     elif calculate_age(p.fecha_nacimiento) > 64 and p.parentesco == "hijo":
-    #         count_65_hijo += 1
-    #     # esposo
-    #     elif calculate_age(p.fecha_nacimiento) >= 0 and calculate_age(
-    #             p.fecha_nacimiento) <= 3 and p.parentesco == "esposo":
-    #         count_0_3_hombre += 1
-    #     elif calculate_age(p.fecha_nacimiento) > 3 and calculate_age(
-    #             p.fecha_nacimiento) <= 15 and p.parentesco == "esposo":
-    #         count_3_15_hombre += 1
-    #     elif calculate_age(p.fecha_nacimiento) > 15 and calculate_age(
-    #             p.fecha_nacimiento) <= 64 and p.parentesco == "esposo":
-    #         count_15_64_hombre += 1
-    #     elif calculate_age(p.fecha_nacimiento) > 64 and p.parentesco == "esposo":
-    #         count_65_hombre += 1
-    #
 
-    #
-    # total_mujer_02 = count_0_3_mujer + count_0_3_mujer_f + count_0_3_hija
-    # total_mujer_3_15 = count_3_15_mujer + count_3_15_mujer_f + count_3_15_hija
-    # total_mujer_15_64 = count_15_64_mujer + count_15_64_mujer_f + count_15_64_hija
-    # total_mujer_65 = count_65_mujer + count_65_mujer_f + count_65_hija
-    # total_mujeres = total_mujer_02 + total_mujer_3_15 + \
-    #                 total_mujer_15_64 + total_mujer_65
-    #
-    # total_hombre_02 = count_0_3_hombre + count_0_3_hombre_f + count_0_3_hijo
-    # total_hombre_3_15 = count_3_15_hombre + count_3_15_hombre_f + count_3_15_hijo
-    # total_hombre_15_64 = count_15_64_hombre + \
-    #                      count_15_64_hombre_f + count_15_64_hijo
-    # total_hombre_65 = count_65_hombre + count_65_hombre_f + count_65_hijo
-    # total_hombres = total_hombre_02 + total_hombre_3_15 + \
-    #                 total_hombre_15_64 + total_hombre_65
-    #
-    # total_02 = total_hombre_02 + total_mujer_02
-    # total_3_15 = total_hombre_3_15 + total_mujer_3_15
-    # total_15_64 = total_hombre_15_64 + total_mujer_15_64
-    # total_65 = total_hombre_65 + total_mujer_65
-    # total = total_02 + total_3_15 + total_15_64 + total_65
+    
+    if request.POST:
+        fecha_val = request.POST.get('fecha_val')
+        rep = export_zip(fecha_val)
+        return rep
+
+
     beneficiar_mujer = Persona.objects.filter(active=True, sexo__icontains="mujer")
     iter_mujer_02 = len([b.age for b in beneficiar_mujer if b.age >= 0 and b.age <= 2])
     iter_mujer_3_15 = len([b.age for b in beneficiar_mujer if b.age >= 3 and b.age <= 15])
@@ -666,6 +554,8 @@ def statistics_persona(request):
     total_beneficiarios = Persona.objects.filter(active=True).count()
     total_familiares = Hijo.objects.filter(active=True).count()
 
+
+
     return render(request, 'statistics/index.html', {
         "total_per_mujer_02": total_mujer_02,
         "total_per_mujer_03": total_mujer_3_15,
@@ -709,6 +599,7 @@ def telegram_messages(request):
 
 
     return render(request, 'telegram/index.html',{'nbar': "tel"})
+
 
 
 def export_users_csv(request):

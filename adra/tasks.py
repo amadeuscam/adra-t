@@ -3,9 +3,19 @@ import sendgrid
 from celery.decorators import periodic_task
 from celery.task.schedules import crontab
 from django.contrib.auth.models import User
-from .models import AlmacenAlimentos
+from .models import AlmacenAlimentos,Persona
 from django.conf import settings
 import  subprocess
+from pathlib import Path
+import shutil
+import time
+import glob, os
+import zipfile
+from io import BytesIO;
+from celery import shared_task
+import datetime
+from mailmerge import MailMerge
+from django.http import HttpResponse
 # crontab(minute=0, hour='6,18')
 @periodic_task(
     run_every=crontab(minute=0, hour='5,20'),
@@ -307,5 +317,97 @@ def caducidad_alimentos():
 )
 def restart_telefram_bot():
     subprocess.call(["supervisorctl", "restart", "telegram"])
+
+
+
+@shared_task
+def export_zip(fecha):
+
+    persona = Persona.objects.filter(active=True).order_by("numero_adra")
+    
+    dird = "./valoracion"
+
+    for p in persona:
+        template = "./vl.docx"
+        document = MailMerge(template)
+        # print(document.get_merge_fields())
+        hijos = []
+
+        for h in p.hijo.all():
+            hijo_dict = {}
+            hijo_dict['parentesco'] = f'{h.parentesco}'
+            hijo_dict['nombre_apellido_hijo'] = f'{h.nombre_apellido}'
+            hijo_dict['dni_hijo'] = f'{h.dni}'
+            hijo_dict['fecha_nacimiento_hijo'] = f"{'{:%d-%m-%Y}'.format(h.fecha_nacimiento)}"
+            hijos.append(hijo_dict)
+        document.merge(
+            numar_adra=f'{p.numero_adra}',
+            nombre_apellido=f'{p.nombre_apellido}',
+            dni=f'{p.dni}',
+            fecha_nacimiento=f"{'{:%d-%m-%Y}'.format(p.fecha_nacimiento)}",
+            nacionalidad=f'{p.nacionalidad}',
+            domicilio=f'{p.domicilio}',
+            ciudad=f'{p.ciudad}',
+            numar_telefon=f'{p.telefono}',
+            # fecha_hoy=f"{'{:%d-%m-%Y}'.format(date.today())}",
+            fecha_hoy=f"{fecha}",
+
+        )
+        if p.empadronamiento:
+            document.merge(a = "x")
+        if p.libro_familia:
+            document.merge(b = "x")
+        if p.fotocopia_dni:
+            document.merge(c = "x")
+        if p.prestaciones:
+            document.merge(d = "x")
+        if p.nomnia:
+            document.merge(e = "x")
+        if p.cert_negativo:
+            document.merge(f = "x")
+        if p.aquiler_hipoteca:
+            document.merge(g="x")
+        if p.recibos:
+            document.merge(h="x")
+        document.merge_rows('parentesco', hijos)
+        document.write(f'./valoracion/{p.numero_adra}.docx')
+
+
+    filenames = []
+    os.chdir("./valoracion")
+    for file in glob.glob("*.docx"):
+        filenames.append(str(file))
+    
+    x = datetime.datetime.now()
+    zip_subdir = f"valoracion_social_{x.year}"
+    zip_filename = "%s.zip" % zip_subdir
+
+    # Open StringIO to grab in-memory ZIP contents
+    s = BytesIO()
+
+    # The zip compressor
+    zf = zipfile.ZipFile(s, "w")
+
+    for fpath in filenames:
+        # Calculate path for file in zip
+        fdir, fname = os.path.split(fpath)
+        zip_path = os.path.join(zip_subdir, fname)
+
+        # Add file, at correct path
+        zf.write(fpath, zip_path)
+
+    # Must close zip for all contents to be written
+    zf.close()
+    for file in glob.glob("*.docx"):
+        os.remove(file)
+        
+
+    subprocess.call(["supervisorctl", "restart", "gunicorn"])
+    # Grab ZIP file from in-memory, make response with correct MIME-type
+    resp = HttpResponse(s.getvalue(), content_type = "application/x-zip-compressed")
+    # ..and correct content-disposition
+    resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+
+    return resp
 
 
