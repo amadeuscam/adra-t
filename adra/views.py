@@ -52,7 +52,7 @@ import time
 import glob, os
 import zipfile
 from io import BytesIO;
-from .tasks import export_zip,restart_gunicorn
+from .tasks import export_zip
 
 
 # Create your views here.
