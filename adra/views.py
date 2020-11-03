@@ -52,7 +52,7 @@ import time
 import glob, os
 import zipfile
 from io import BytesIO;
-from .tasks import export_zip
+from .tasks import export_zip,restart_gunicorn
 
 
 # Create your views here.
@@ -505,6 +505,7 @@ def statistics_persona(request):
     if request.POST:
         fecha_val = request.POST.get('fecha_val')
         rep = export_zip(fecha_val)
+        restar = restart_gunicorn()
         return rep
 
 
