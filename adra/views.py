@@ -505,7 +505,6 @@ def statistics_persona(request):
     if request.POST:
         fecha_val = request.POST.get('fecha_val')
         rep = export_zip(fecha_val)
-        restar = restart_gunicorn()
         return rep
 
 

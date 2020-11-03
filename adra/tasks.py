@@ -321,11 +321,6 @@ def restart_telefram_bot():
 
 
 @shared_task
-def restart_gunicorn():
-    subprocess.call(["supervisorctl", "restart", "gunicorn"])
-
-
-@shared_task
 def export_zip(fecha):
 
     persona = Persona.objects.filter(active=True).order_by("numero_adra")
