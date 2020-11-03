@@ -55,6 +55,7 @@ from io import BytesIO;
 from .tasks import export_zip
 
 
+
 def anuncios(request):
     return render(request,'adra/anuncio.html')
 
