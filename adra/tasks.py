@@ -413,7 +413,7 @@ def export_zip(fecha):
         os.remove(file)
         
 
-    restart_server()
+    restart_server.delay()
     # subprocess.call(["supervisorctl", "restart", "gunicorn"])
     # Grab ZIP file from in-memory, make response with correct MIME-type
 
