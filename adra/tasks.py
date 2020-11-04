@@ -326,7 +326,7 @@ def restart_telefram_bot():
 
 @shared_task
 def restart_server():
-    subprocess.call(["supervisorctl", "restart", "gunicorn"])
+    subprocess.call(["pkill", "-HUP", "gunicorn"])
 
 
 
