@@ -13,9 +13,14 @@ import glob, os
 import zipfile
 from io import BytesIO;
 from celery import shared_task
-import datetime
 from mailmerge import MailMerge
 from django.http import HttpResponse
+from django.http import StreamingHttpResponse
+from wsgiref.util import FileWrapper 
+
+
+
+
 # crontab(minute=0, hour='6,18')
 @periodic_task(
     run_every=crontab(minute=0, hour='5,20'),
@@ -319,6 +324,11 @@ def restart_telefram_bot():
     subprocess.call(["supervisorctl", "restart", "telegram"])
 
 
+@shared_task
+def restart_server():
+    subprocess.call(["supervisorctl", "restart", "gunicorn"])
+
+
 
 @shared_task
 def export_zip(fecha):
@@ -326,9 +336,11 @@ def export_zip(fecha):
     persona = Persona.objects.filter(active=True).order_by("numero_adra")
     
     dird = "./valoracion"
-
+    print("1")
     for p in persona:
+        print("2")
         template = "./vl.docx"
+        print(template)
         document = MailMerge(template)
         # print(document.get_merge_fields())
         hijos = []
@@ -378,8 +390,7 @@ def export_zip(fecha):
     for file in glob.glob("*.docx"):
         filenames.append(str(file))
     
-    x = datetime.datetime.now()
-    zip_subdir = f"valoracion_social_{x.year}"
+    zip_subdir = f"valoracion_social"
     zip_filename = "%s.zip" % zip_subdir
 
     # Open StringIO to grab in-memory ZIP contents
@@ -402,13 +413,14 @@ def export_zip(fecha):
         os.remove(file)
         
 
-
+    restart_server()
     # subprocess.call(["supervisorctl", "restart", "gunicorn"])
     # Grab ZIP file from in-memory, make response with correct MIME-type
-    resp = HttpResponse(s.getvalue(), content_type = "application/x-zip-compressed")
-    # ..and correct content-disposition
-    resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
 
-    return resp
+    response = HttpResponse(s.getvalue(), content_type = "application/x-zip-compressed")
+    # ..and correct content-disposition
+    response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+
+    return response
 
 
