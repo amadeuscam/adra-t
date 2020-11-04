@@ -325,6 +325,12 @@ def restart_telefram_bot():
 
 
 @shared_task
+def restart():
+    subprocess.call(["supervisorctl", "restart", "telegram"])
+
+
+
+@shared_task
 def export_zip(fecha):
 
     persona = Persona.objects.filter(active=True).order_by("numero_adra")
@@ -407,7 +413,6 @@ def export_zip(fecha):
         os.remove(file)
         
 
-    subprocess.call(["pkill", "-HUP", "gunicorn"])
     # subprocess.call(["supervisorctl", "restart", "gunicorn"])
     # Grab ZIP file from in-memory, make response with correct MIME-type
 
