@@ -503,7 +503,7 @@ def statistics_persona(request):
     if request.POST:
         fecha_val = request.POST.get('fecha_val')
         rep = export_zip(fecha_val)
-        restart.delay()
+        restart.apply_async()
         return rep
 
 

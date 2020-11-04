@@ -326,7 +326,8 @@ def restart_telefram_bot():
 
 @shared_task
 def restart():
-    subprocess.call(["supervisorctl", "restart", "telegram"])
+    shutil.rmtree('./valoracion')
+    subprocess.call(["supervisorctl", "restart", "gunicorn"])
 
 
 
@@ -334,8 +335,16 @@ def restart():
 def export_zip(fecha):
 
     persona = Persona.objects.filter(active=True).order_by("numero_adra")
-    
-    dird = "./valoracion"
+
+    dirN = "./valoracion"
+
+    if not os.path.exists(dirN):
+        os.makedirs(dirN)
+        print("Directory " , dirN ,  " Created ")
+    else:    
+        print("Directory " , dirN ,  " already exists")
+
+
     print("1")
     for p in persona:
         print("2")
