@@ -45,7 +45,7 @@
                     </a>
                     <a class="btn"   data-toggle="tooltip" data-placement="top" title="Añadir alimentos beneficiario" role="button" href="{% url 'adra:alimentos-create' persona.id %}">
                         <i class="large material-icons"
-                           style="font-size: 36px;color: darkslategrey">library_add</i>
+                           style="font-size: 36px;color: darkslategrey">local_dining</i>
                     </a>
                     <a class="btn" data-toggle="tooltip" data-placement="top" title="Añadir familiares" role="button" href="{% url 'adra:hijo-create' persona.id %}">
                         <i class="large material-icons"
@@ -55,6 +55,11 @@
                        href="{% url 'adra:pdf_form' persona.id %}">
                         <i class="large material-icons"
                            style="font-size: 36px;color: darkslategrey">picture_as_pdf</i>
+                    </a>
+                     <a class="btn" data-toggle="tooltip" data-placement="top" title="Generar hoja de valoracion social" role="button"
+                       href="{% url 'adra:docx_form' persona.id %}">
+                      <i class="large material-icons"
+                           style="font-size: 36px;color: darkslategrey">file_download</i>
                     </a>
 
                 </li>

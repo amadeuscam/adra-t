@@ -844,6 +844,65 @@ def generar_hoja_entrega(request, pk):
     return response
 
 
+def generar_hoja_valoracion_social (request, pk):
+  
+    persona = Persona.objects.get(pk=pk,active=True)
+    infile = file_path = os.path.join(settings.PROJECT_ROOT, 'vl.docx')
+    template = infile
+    document = MailMerge(template)
+
+    hijos = []
+
+    for h in persona.hijo.all():
+        hijo_dict = {}
+        hijo_dict['parentesco'] = f'{h.parentesco}'
+        hijo_dict['nombre_apellido_hijo'] = f'{h.nombre_apellido}'
+        hijo_dict['dni_hijo'] = f'{h.dni}'
+        hijo_dict['fecha_nacimiento_hijo'] = f"{'{:%d-%m-%Y}'.format(h.fecha_nacimiento)}"
+        hijos.append(hijo_dict)
+    document.merge(
+        numar_adra=f'{persona.numero_adra}',
+        nombre_apellido=f'{persona.nombre_apellido}',
+        dni=f'{persona.dni}',
+        fecha_nacimiento=f"{'{:%d-%m-%Y}'.format(persona.fecha_nacimiento)}",
+        nacionalidad=f'{persona.nacionalidad}',
+        domicilio=f'{persona.domicilio}',
+        ciudad=f'{persona.ciudad}',
+        numar_telefon=f'{persona.telefono}',
+        # fecha_hoy=f"{'{:%d-%m-%Y}'.format(persona.created_at) }",
+        fecha_hoy="",
+
+    )
+    if persona.empadronamiento:
+        document.merge(a = "x")
+    if persona.libro_familia:
+        document.merge(b = "x")
+    if persona.fotocopia_dni:
+        document.merge(c = "x")
+    if persona.prestaciones:
+        document.merge(d = "x")
+    if persona.nomnia:
+        document.merge(e = "x")
+    if persona.cert_negativo:
+        document.merge(f = "x")
+    if persona.aquiler_hipoteca:
+        document.merge(g="x")
+    if persona.recibos:
+        document.merge(h="x")
+    document.merge_rows('parentesco', hijos)
+
+    # document.write(f'./valoracion/{p.numero_adra}.docx')
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    response['Content-Disposition'] = f'attachment; filename={persona.numero_adra}.docx'
+    document.write(response)
+
+
+    return response
+
+
+
+
 
 # API ADRA
 # @api_view(['GET', 'POST'])
