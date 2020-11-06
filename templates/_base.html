@@ -22,6 +22,11 @@
     <link href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}" rel="stylesheet" media="all">
     <!-- Main CSS-->
     <link href="{% static 'css/theme.css' %}" rel="stylesheet" media="all"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'images/favicon/site.webmanifest' %}">
+
 
 </head>
 
@@ -123,26 +128,30 @@
                         </a>
                     </li>
                     <li class="{% if nbar == 'almacen_a' %}active{% endif %}">
-                        <a href="{% url 'adra:almacen-home' %}" class="d-flex justify-content-start align-items-center ">
+                        <a href="{% url 'adra:almacen-home' %}"
+                           class="d-flex justify-content-start align-items-center ">
                             <i class="large material-icons" style="font-size:36px;color: darkslategrey">storage</i>
                             <p>Stock</p>
                         </a>
                     </li>
                     <li class="{% if nbar == 'buscar_av' %}active{% endif %}">
-                        <a href="{% url 'adra:buscar-por-fecha' %}" class="d-flex justify-content-start align-items-center ">
+                        <a href="{% url 'adra:buscar-por-fecha' %}"
+                           class="d-flex justify-content-start align-items-center ">
                             <i class="large material-icons" style="font-size: 36px;color: darkslategrey">search</i>
                             <p>Busqueda avanzada</p>
                         </a>
                     </li>
                     <li class="{% if nbar == 'stat' %}active{% endif %}">
-                        <a href="{% url 'adra:statistics-personas' %}" class="d-flex justify-content-start align-items-center ">
+                        <a href="{% url 'adra:statistics-personas' %}"
+                           class="d-flex justify-content-start align-items-center ">
                             <i class="large material-icons" style="font-size: 36px;color: darkslategrey">trending_up</i>
                             <p>Estadísticas</p>
                         </a>
                     </li>
 
                     <li class="{% if nbar == 'tel' %}active{% endif %}">
-                        <a href="{% url 'adra:telegram_message_view' %}" class="d-flex justify-content-start align-items-center ">
+                        <a href="{% url 'adra:telegram_message_view' %}"
+                           class="d-flex justify-content-start align-items-center ">
                             <i class="large material-icons" style="font-size: 36px;color: darkslategrey">send</i>
                             <p>Telegram</p>
                         </a>
@@ -176,7 +185,8 @@
                                 <div class="account-item clearfix js-item-menu">
                                 <div class="image">
                                     {% if user.profile.photo.url %}
-                                        <img width="80" height="80" class="rounded-circle mx-auto d-block" src="{{ user.profile.photo.url }}" alt="">
+                                        <img width="80" height="80" class="rounded-circle mx-auto d-block"
+                                             src="{{ user.profile.photo.url }}" alt="">
                                     {% else %}
                                         <img src="{% static 'images/chico.png' %}" alt="John Doe"/>
                                     {% endif %}
@@ -219,7 +229,8 @@
                                         <div class="account-dropdown__footer">
                                             <a href="{% url 'adra:edit-profile' %}">Edita tu perfil</a>
                                             <a href="{% url 'account_logout' %}">
-                                                <i class="large material-icons" style="font-size: 26px;color: darkslategrey">power_settings_new</i>
+                                                <i class="large material-icons"
+                                                   style="font-size: 26px;color: darkslategrey">power_settings_new</i>
                                                 Salir</a>
                                         </div>
                                     </div>
@@ -400,10 +411,12 @@
                                 <span class="badge badge-primary badge-pill">{{ alimento.modificado_por }}</span>
                             </li>
 
-                            <li class="list-group-item d-flex justify-content-center  align-items-center" style="background: #e4e4e4;padding: 0">
+                            <li class="list-group-item d-flex justify-content-center  align-items-center"
+                                style="background: #e4e4e4;padding: 0">
                                 <a class="btn " role="button"
                                    href="{% url 'adra:persona-update-alimentos' alimento.id %}">
-                                    <i class="large material-icons" title="" style="font-size: 36px;color: darkslategrey">mode_edit</i>
+                                    <i class="large material-icons" title=""
+                                       style="font-size: 36px;color: darkslategrey">mode_edit</i>
                                 </a>
                                 <a class="btn " role="button"
                                    href="{% url 'adra:persona-alimentos-delete' alimento.id %}">
@@ -421,7 +434,9 @@
                     </ul>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn" style="background: darkslategrey;color: #fff" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn" style="background: darkslategrey;color: #fff"
+                            data-dismiss="modal">Cerrar
+                    </button>
                 </div>
             </div>
         </div>
@@ -463,7 +478,8 @@
                                         <hr>
                                         <a class="btn " role="button"
                                            href="{% url 'adra:hijo-update' hijo.id %}">
-                                            <i class="large material-icons" title="" style="font-size: 36px;color: darkslategrey">portrait</i>
+                                            <i class="large material-icons" title=""
+                                               style="font-size: 36px;color: darkslategrey">portrait</i>
                                         </a>
                                         {% if user.is_staff %}
                                             <a class="btn " role="button"
@@ -486,7 +502,9 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn " style="background: darkslategrey;color: #fff" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn " style="background: darkslategrey;color: #fff"
+                            data-dismiss="modal">Cerrar
+                    </button>
                 </div>
             </div>
         </div>
