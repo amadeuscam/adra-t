@@ -11,18 +11,23 @@ class ProfileAdmin(admin.ModelAdmin):
 class HijoInline(admin.TabularInline):
     model = Hijo
 
+@admin.register(Hijo)
+class HijoAdmin(admin.ModelAdmin):
+    search_fields = ("nombre_apellido",)
+    list_display = ("nombre_apellido", "persona", "modificado_por",)
+
 
 class PersonaAdmin(admin.ModelAdmin):
     inlines = [HijoInline, ]
-    list_filter = ('numero_adra', "fecha_nacimiento",)
-    search_fields = ("fecha_nacimiento", "numero_adra",)
-    list_display = ("nombre_apellido", "numero_adra", "mensaje",)
-    date_hierarchy = "fecha_nacimiento"
+    list_filter = ("fecha_nacimiento",'covid',)
+    search_fields = ("nombre_apellido", "numero_adra",)
+    list_display = ("nombre_apellido", "numero_adra", "mensaje",'covid',)
+    ordering = ('nombre_apellido', 'numero_adra')
 
 
 admin.site.register(Persona, PersonaAdmin)
 
-admin.site.register(Hijo)
+# admin.site.register(Hijo)
 admin.site.register(Alimentos)
 
 admin.site.register(AlmacenAlimentos)

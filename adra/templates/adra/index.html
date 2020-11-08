@@ -26,7 +26,7 @@
                                     <div class="location text-sm-center"> {{ persona.numero_adra }}</div>
                                     <div class="card-text text-sm-center">
                                         {% if persona.are_acte %}
-                                         <i class="large material-icons" style="color:green;font-size: 34px;">verified_user</i>
+                                            <i class="large material-icons" style="color:green;font-size: 34px;">verified_user</i>
 
                                         {% else %}
                                             <i class="large material-icons" style="color:red;font-size: 34px;">verified_user</i>
@@ -35,23 +35,37 @@
                                             <i class="large material-icons" style="font-size: 34px;">accessible</i>
                                         {% endif %}
                                         {% if persona.covid %}
-                                           <i class="large material-icons" title="covid " style="font-size: 34px;color: #370617">grain</i>
+                                            <i class="large material-icons" title="covid "
+                                               style="font-size: 34px;color: #370617">grain</i>
                                         {% endif %}
 
                                     </div>
                                 </div>
-                                <hr>
+{#                                <hr style="margin: 2px 0">#}
+                                {% with persona.hijo.count as total_comments %}
+                                    <p class="card-text text-center p-2" style="box-shadow: inset 1px 0px 6px 0px #00000014;
+    border-radius: 13px; margin: 10px;">
+                                        {% if total_comments|pluralize %}
+                                            {{ total_comments }} familiare{{ total_comments|pluralize }}
+                                        {% else %}
+                                            {{ total_comments }} familiar
+                                        {% endif %}
+
+                                    </p>
+                                {% endwith %}
+{#                                <hr style="margin: 2px 0 ;">#}
                                 <div class="card-text text-center">
                                     <a href="{{ persona.get_absolute_url }}" class="mr-2">
-                                          <i class="large material-icons" style="font-size: 34px;color: darkslategrey">remove_red_eye</i>
+                                        <i class="large material-icons" style="font-size: 34px;color: darkslategrey">remove_red_eye</i>
                                     </a>
                                     <a href="{% url 'adra:persona-update' persona.id %}" class="mr-2">
-                                       <i class="large material-icons" style="font-size: 34px;">settings</i>
+                                        <i class="large material-icons" style="font-size: 34px;">settings</i>
 
                                     </a>
                                     {% if user.is_staff %}
                                         <a href="{% url 'adra:persona-delete' persona.id %}">
-                                           <i class="large material-icons" style="font-size: 34px; color: red">delete</i>
+                                            <i class="large material-icons"
+                                               style="font-size: 34px; color: red">delete</i>
                                         </a>
 
                                     {% endif %}
@@ -164,7 +178,23 @@
             {% endfor %}
         </div>
         {% if is_paginated %}
-            <nav aria-label="Page navigation example">
+
+            <div class="pagination" style="display: flex;justify-content: center">
+              <span class="step-links " style="display:flex;">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}" style="margin-right: 20px;"><i
+                            class=" large material-icons ">chevron_left</i> </a>
+                {% endif %}
+                  <span class="current">
+                  Pagina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                </span>
+                  {% if page_obj.has_next %}
+                      <a href="?page={{ page_obj.next_page_number }}" style="margin-left: 20px;">  <i
+                              class=" large material-icons ">chevron_right</i></a>
+                  {% endif %}
+              </span>
+            </div>
+            {% comment %}  <nav aria-label="Page navigation example">
                 <ul class="pagination  pagination-sm  justify-content-center">
                     {% if page_obj.has_previous %}
                         <li class="page-item">
@@ -198,7 +228,7 @@
                         </li>
                     {% endif %}
                 </ul>
-            </nav>
+            </nav>{% endcomment %}
 
         {% endif %}
     {% else %}
