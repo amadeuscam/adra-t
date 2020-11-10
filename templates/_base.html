@@ -38,7 +38,7 @@
             <div class="container-fluid">
                 <div class="header-mobile-inner">
                     <a class="logo" href="{% url 'adra:persona-home' %}">
-                        <h1>Adra Torrejon</h1>
+                        <h1>{{ platform_name }}</h1>
                     </a>
                     <button class="hamburger hamburger--slider" type="button">
                             <span class="hamburger-box">
@@ -103,7 +103,7 @@
     <aside class="menu-sidebar d-none d-lg-block">
         <div class="logo">
             <a href="{% url 'adra:persona-home' %}">
-                <h4>Adra Torrejon</h4>
+                <h4>{{ platform_name }}</h4>
             </a>
         </div>
         <div class="menu-sidebar__content js-scrollbar1">

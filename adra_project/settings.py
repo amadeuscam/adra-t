@@ -32,7 +32,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = str(env('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
-print(DEBUG)
 
 ALLOWED_HOSTS = ['*']
 
@@ -232,3 +231,5 @@ CELERY_BROKER_URL = 'amqp://localhost'
 # CELERY_BROKER_URL = 'amqp://guest@localhost//'
 
 TELEGRAM_TOKEN_KEY = str(env('telegram_token'))
+
+PLATFORM_NAME="Adra Torrejon"

@@ -16,6 +16,11 @@ urlpatterns = [
     path('', include('adra.urls', namespace="adra")),
 
 ]
+admin.site.index_title=settings.PLATFORM_NAME
+admin.site.site_header=f"Administración {settings.PLATFORM_NAME} "
+admin.site.site_title="Adra"
+
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)

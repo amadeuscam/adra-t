@@ -98,6 +98,7 @@ class PersonaListView(LoginRequiredMixin, ListView):
         context['hijo'] = Hijo.objects
         context['hijomenor'] = Hijo
         context['nbar'] = "home"
+        context['platform_name'] = settings.PLATFORM_NAME
 
         return context
 
