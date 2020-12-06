@@ -326,8 +326,9 @@ def restart_telefram_bot():
 
 @shared_task
 def restart():
+    print("fdsf")
     shutil.rmtree('./valoracion')
-    subprocess.call(["supervisorctl", "restart", "gunicorn"])
+    # subprocess.call(["supervisorctl", "restart", "gunicorn"])
 
 
 
@@ -339,7 +340,8 @@ def export_zip(fecha):
     dirN = "./valoracion"
 
     if not os.path.exists(dirN):
-        os.makedirs(dirN)
+        # os.makedirs(dirN)
+        ssh = Path("./valoracion")
         print("Directory " , dirN ,  " Created ")
     else:    
         print("Directory " , dirN ,  " already exists")
@@ -428,7 +430,7 @@ def export_zip(fecha):
     response = HttpResponse(s.getvalue(), content_type = "application/x-zip-compressed")
     # ..and correct content-disposition
     response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
-
+    s.seek(0)
     return response
 
 

@@ -596,6 +596,7 @@ def telegram_messages(request):
         list_format = '\n'.join(per_list)
         bot.send_message('-1001438819726', f"*{list_format}*",parse_mode=telegram.ParseMode.MARKDOWN_V2)
         bot.send_message('-1001438819726', f"*{mensaje_propio}*",parse_mode=telegram.ParseMode.MARKDOWN_V2)
+        messages.success(request, 'El mensaje se ha mandado correctamente ')
 
 
     return render(request, 'telegram/index.html',{'nbar': "tel"})
