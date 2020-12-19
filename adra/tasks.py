@@ -328,7 +328,8 @@ def restart_telefram_bot():
 def restart():
     print("fdsf")
     shutil.rmtree('./valoracion')
-    # subprocess.call(["supervisorctl", "restart", "gunicorn"])
+    Path("./valoracion")
+
 
 
 
@@ -339,12 +340,10 @@ def export_zip(fecha):
 
     dirN = "./valoracion"
 
-    if not os.path.exists(dirN):
-        # os.makedirs(dirN)
-        ssh = Path("./valoracion")
-        print("Directory " , dirN ,  " Created ")
-    else:    
-        print("Directory " , dirN ,  " already exists")
+    if os.path.exists(dirN):
+        print("Directory ", dirN, " already exists")
+    else:
+        print("Directory ", dirN, " not  exists")
 
 
     template = "./vl.docx"
