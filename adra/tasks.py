@@ -328,7 +328,7 @@ def restart_telefram_bot():
 def restart():
     print("fdsf")
     shutil.rmtree('./valoracion')
-    Path("./valoracion")
+    # Path("./valoracion")
 
 
 
@@ -340,10 +340,11 @@ def export_zip(fecha):
 
     dirN = "./valoracion"
 
-    if os.path.exists(dirN):
-        print("Directory ", dirN, " already exists")
+    if not os.path.exists(dirN):
+        os.makedirs(dirN)
+        print("Directory ", dirN, " created")
     else:
-        print("Directory ", dirN, " not  exists")
+        print("Directory ", dirN, " exists")
 
 
     template = "./vl.docx"
@@ -429,7 +430,6 @@ def export_zip(fecha):
     response = HttpResponse(s.getvalue(), content_type = "application/x-zip-compressed")
     # ..and correct content-disposition
     response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
-    s.seek(0)
     return response
 
 
