@@ -10,7 +10,7 @@ import glob, os
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        persona = Persona.objects.filter(active=True).order_by("numero_adra")
+        persona = Persona.objects.filter(active=True,numero_adra__gt=203,numero_adra__lt=229).order_by("numero_adra")
         Path("./valoracion").mkdir(parents=True, exist_ok=True)
 
         for p in persona[10:50]:
@@ -38,7 +38,7 @@ class Command(BaseCommand):
                 domicilio=f'{p.domicilio}',
                 ciudad=f'{p.ciudad}',
                 numar_telefon=f'{p.telefono}',
-                # fecha_hoy=f"{'{:%d-%m-%Y}'.format(date.today())}",
+                # fecha_hoy=f"{'{:%d-%m-%Y}'.format(p.created_at)}",
                 fecha_hoy=f"03-02-2020",
 
             )
