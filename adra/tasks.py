@@ -346,6 +346,7 @@ def export_zip(fecha):
     else:    
         print("Directory " , dirN ,  " already exists")
 
+
     template = "./vl.docx"
     print(template)
     document = MailMerge(template)
@@ -354,6 +355,7 @@ def export_zip(fecha):
         print("2")
         # print(document.get_merge_fields())
         hijos = []
+
         for h in p.hijo.all():
             hijo_dict = {}
             hijo_dict['parentesco'] = f'{h.parentesco}'
@@ -403,30 +405,32 @@ def export_zip(fecha):
     zip_filename = "%s.zip" % zip_subdir
 
     # Open StringIO to grab in-memory ZIP contents
-    # s = BytesIO()
-    response = HttpResponse(content_type='application/zip')
+    s = BytesIO()
+
     # The zip compressor
-    zf = zipfile.ZipFile(response, 'w')
-    for filename  in filenames:
+    zf = zipfile.ZipFile(s, "w")
+
+    for fpath in filenames:
         # Calculate path for file in zip
-        fdir, fname = os.path.split(filename )
+        fdir, fname = os.path.split(fpath)
         zip_path = os.path.join(zip_subdir, fname)
 
         # Add file, at correct path
-        zf.write(filename,zip_path)
+        zf.write(fpath, zip_path)
 
     # Must close zip for all contents to be written
     zf.close()
-    # for file in glob.glob("*.docx"):
-    #     os.remove(file)
+    for file in glob.glob("*.docx"):
+        os.remove(file)
         
 
     # subprocess.call(["supervisorctl", "restart", "gunicorn"])
     # Grab ZIP file from in-memory, make response with correct MIME-type
 
-    # response = HttpResponse(s.getvalue(), content_type = "application/x-zip-compressed")
+    response = HttpResponse(s.getvalue(), content_type = "application/x-zip-compressed")
     # ..and correct content-disposition
-    response['Content-Disposition'] = 'attachment; filename={}'.format(zip_filename)
+    response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+    s.seek(0)
     return response
 
 
