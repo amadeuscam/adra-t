@@ -326,10 +326,8 @@ def restart_telefram_bot():
 
 @shared_task
 def restart():
-    print("fdsf")
+    print("borrar la carpeta de los zip")
     shutil.rmtree('./valoracion')
-    # Path("./valoracion")
-
 
 
 
@@ -339,7 +337,6 @@ def export_zip(fecha):
     persona = Persona.objects.filter(active=True).order_by("numero_adra")
 
     dirN = "./valoracion"
-
     if not os.path.exists(dirN):
         os.makedirs(dirN)
         print("Directory ", dirN, " created")
@@ -348,12 +345,8 @@ def export_zip(fecha):
 
 
     template = "./vl.docx"
-    print(template)
     document = MailMerge(template)
-    print("1")
     for p in persona:
-        print("2")
-        # print(document.get_merge_fields())
         hijos = []
 
         for h in p.hijo.all():
