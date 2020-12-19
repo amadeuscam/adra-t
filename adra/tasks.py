@@ -409,16 +409,16 @@ def export_zip(fecha):
     zf = zipfile.ZipFile(response, 'w')
     for filename  in filenames:
         # Calculate path for file in zip
-        # fdir, fname = os.path.split(filename )
-        # zip_path = os.path.join(zip_subdir, fname)
+        fdir, fname = os.path.split(filename )
+        zip_path = os.path.join(zip_subdir, fname)
 
         # Add file, at correct path
-        zf.write(filename)
+        zf.write(filename,zip_path)
 
     # Must close zip for all contents to be written
     zf.close()
-    for file in glob.glob("*.docx"):
-        os.remove(file)
+    # for file in glob.glob("*.docx"):
+    #     os.remove(file)
         
 
     # subprocess.call(["supervisorctl", "restart", "gunicorn"])
