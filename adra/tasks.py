@@ -400,18 +400,17 @@ def export_zip(fecha):
         # Calculate path for file in zip
         fdir, fname = os.path.split(fpath)
         zip_path = os.path.join(zip_subdir, fname)
-
         # Add file, at correct path
         zf.write(fpath, zip_path)
 
-    for file in glob.glob("*.docx"):
-        os.remove(file)
-
+    # for file in glob.glob("*.docx"):
+    #     os.remove(file)
+    zf.close()
     # subprocess.call(["supervisorctl", "restart", "gunicorn"])
     # Grab ZIP file from in-memory, make response with correct MIME-type
 
     response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
     # Must close zip for all contents to be written
-    zf.close()
+
     response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
     return response
