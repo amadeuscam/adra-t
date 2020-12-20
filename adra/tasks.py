@@ -329,7 +329,7 @@ def restart():
 
 @shared_task
 def export_zip(fecha):
-    persona = Persona.objects.filter(active=True).order_by("numero_adra")
+    persona = Persona.objects.filter(active=True).exclude(covid=True).order_by("numero_adra")
 
     dirN = "./valoracion"
     if not os.path.exists(dirN):
@@ -339,11 +339,10 @@ def export_zip(fecha):
         print("Directory ", dirN, " exists")
 
     template = "./vl.docx"
-    document = MailMerge(template)
     for p in persona:
         print(p.nombre_apellido)
         hijos = []
-
+        document = MailMerge(template)
         for h in p.hijo.all():
             hijo_dict = {}
             hijo_dict['parentesco'] = f'{h.parentesco}'
