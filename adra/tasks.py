@@ -391,28 +391,25 @@ def export_zip(fecha):
     zip_filename = "%s.zip" % zip_subdir
 
     # Open StringIO to grab in-memory ZIP contents
-    s = BytesIO()
-    response = HttpResponse(content_type='application/zip')
+    zip_io = BytesIO()
+    # response = HttpResponse(content_type='application/zip')
     # The zip compressor
-    zf = zipfile.ZipFile(response, "w")
-
-    for fpath in filenames:
-        # Calculate path for file in zip
-        # fdir, fname = os.path.split(fpath)
-        # zip_path = os.path.join(zip_subdir, fname)
-        # Add file, at correct path
-        zf.write(fpath)
+    with zipfile.ZipFile(zip_io, mode='w', compression=zipfile.ZIP_DEFLATED) as backup_zip:
+        # zf = zipfile.ZipFile(s, "w")
+        for fpath in filenames:
+            # Calculate path for file in zip
+            fdir, fname = os.path.split(fpath)
+            zip_path = os.path.join(zip_subdir, fname)
+            # Add file, at correct path
+            backup_zip.write(fpath,zip_path)
 
     # for file in glob.glob("*.docx"):
     #     os.remove(file)
-    zf.close()
+    # zf.close()
     # subprocess.call(["supervisorctl", "restart", "gunicorn"])
     # Grab ZIP file from in-memory, make response with correct MIME-type
 
-    # response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
-    # Must close zip for all contents to be written
-    #
-    # response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
-    response['Content-Disposition'] = 'attachment; filename={}'.format(zip_filename)
-
+    response = HttpResponse(zip_io.getvalue(), content_type="application/x-zip-compressed")
+    response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+    response['Content-Length'] = zip_io.tell()
     return response
