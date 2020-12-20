@@ -392,16 +392,16 @@ def export_zip(fecha):
 
     # Open StringIO to grab in-memory ZIP contents
     s = BytesIO()
-
+    response = HttpResponse(content_type='application/zip')
     # The zip compressor
-    zf = zipfile.ZipFile(s, "w")
+    zf = zipfile.ZipFile(response, "w")
 
     for fpath in filenames:
         # Calculate path for file in zip
-        fdir, fname = os.path.split(fpath)
-        zip_path = os.path.join(zip_subdir, fname)
+        # fdir, fname = os.path.split(fpath)
+        # zip_path = os.path.join(zip_subdir, fname)
         # Add file, at correct path
-        zf.write(fpath, zip_path)
+        zf.write(fpath)
 
     # for file in glob.glob("*.docx"):
     #     os.remove(file)
@@ -409,8 +409,10 @@ def export_zip(fecha):
     # subprocess.call(["supervisorctl", "restart", "gunicorn"])
     # Grab ZIP file from in-memory, make response with correct MIME-type
 
-    response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
+    # response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
     # Must close zip for all contents to be written
+    #
+    # response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+    response['Content-Disposition'] = 'attachment; filename={}'.format(zip_filename)
 
-    response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
     return response
