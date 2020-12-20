@@ -341,6 +341,7 @@ def export_zip(fecha):
     template = "./vl.docx"
     document = MailMerge(template)
     for p in persona:
+        print(p.nombre_apellido)
         hijos = []
 
         for h in p.hijo.all():
@@ -394,7 +395,8 @@ def export_zip(fecha):
     zip_io = BytesIO()
     # response = HttpResponse(content_type='application/zip')
     # The zip compressor
-    with zipfile.ZipFile(zip_io, mode='w', compression=zipfile.ZIP_DEFLATED) as backup_zip:
+    print(filenames)
+    with zipfile.ZipFile(zip_io, mode='w', compression=zipfile.ZIP_BZIP2) as backup_zip:
         # zf = zipfile.ZipFile(s, "w")
         for fpath in filenames:
             # Calculate path for file in zip
