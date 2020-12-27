@@ -347,12 +347,12 @@ class PersonaAlimentosUpdateView(LoginRequiredMixin, UpdateView):
 
         if "alimento_12" in clean:
             valor_anterior_alimento_12 = form.initial["alimento_12"]
-            if form.instance.tarito_fruta > valor_anterior_alimento_12:
+            if form.instance.alimento_12 > valor_anterior_alimento_12:
                 restante = abs(form.instance.tarito_fruta - valor_anterior_alimento_12)
-                almacen.tarito_fruta -= restante
+                almacen.alimento_12 -= restante
             else:
                 restante = abs(form.instance.tarito_fruta - valor_anterior_alimento_12)
-                almacen.tarito_fruta += restante
+                almacen.alimento_12 += restante
 
         if "alimento_13" in clean:
             valor_anterior_alimento_13 = form.initial["alimento_13"]
