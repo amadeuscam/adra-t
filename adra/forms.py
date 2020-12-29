@@ -1,18 +1,10 @@
 from django import forms
-from .models import Persona, Alimentos, Hijo,Profile
+from .models import Persona, Alimentos, Hijo, Profile
 from django.contrib.auth.models import User
+from django.forms import ModelForm, DateInput, EmailInput, Form
 
 
-class DateInput(forms.DateTimeInput):
-    input_type = 'date'
-
-class EmailInput(forms.EmailInput):
-    input_type = 'email'
-
-
-
-
-class AlimentosFrom(forms.ModelForm):
+class AlimentosFrom(ModelForm):
     class Meta:
         model = Alimentos
         fields = (
@@ -33,11 +25,11 @@ class AlimentosFrom(forms.ModelForm):
             'fecha_recogida'
         )
         widgets = {
-            'fecha_recogida': DateInput(),
+            'fecha_recogida': DateInput(attrs={"type": "date"}),
         }
 
 
-class PersonaForm(forms.ModelForm):
+class PersonaForm(ModelForm):
     class Meta:
         model = Persona
         fields = [
@@ -67,12 +59,12 @@ class PersonaForm(forms.ModelForm):
 
         ]
         widgets = {
-            'fecha_nacimiento': DateInput(),
-            'email':EmailInput()
+            'fecha_nacimiento': DateInput(attrs={"type": "date"}),
+            'email': EmailInput(attrs={"type": "email"})
         }
 
 
-class HijoForm(forms.ModelForm):
+class HijoForm(ModelForm):
     class Meta:
         model = Hijo
         fields = [
@@ -83,26 +75,26 @@ class HijoForm(forms.ModelForm):
 
         ]
         widgets = {
-            'fecha_nacimiento': DateInput(),
+            'fecha_nacimiento': DateInput(attrs={"type": "date"}),
         }
 
-class UserEditForm(forms.ModelForm):
+
+class UserEditForm(ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email')
 
 
-class ProfileEditForm(forms.ModelForm):
+class ProfileEditForm(ModelForm):
     class Meta:
         model = Profile
         fields = ('date_of_birth',)
         widgets = {
-            'date_of_birth': forms.DateInput(),
+            'date_of_birth': DateInput(attrs={"type": "text"}),
         }
 
 
-
-class SignupForm(forms.Form):
+class SignupForm(Form):
     first_name = forms.CharField(max_length=30, label='Nume')
     last_name = forms.CharField(max_length=30, label='Prenume')
 
@@ -110,4 +102,3 @@ class SignupForm(forms.Form):
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
         user.save()
-
