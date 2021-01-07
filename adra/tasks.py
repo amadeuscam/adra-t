@@ -320,6 +320,20 @@ def caducidad_alimentos():
 def restart_telefram_bot():
     subprocess.call(["supervisorctl", "restart", "telegram"])
 
+@periodic_task(
+    run_every=crontab(hour=15, minute=15, day_of_week='sun'),
+    name="make_backup_mysql",
+    ignore_result=True
+)
+def make_backup_mysql():
+    username = settings.USER_DB
+    password = settings.PASSWORD_DB
+    database = settings.NAME_DB
+
+    with open(f'{datetime.now().day}-{datetime.now().month}.sql', 'w') as output:
+        c = subprocess.Popen(['mysqldump', '-u', username, '-p%s' % password, database],
+                             stdout=output, shell=True)
+
 
 @shared_task
 def restart():

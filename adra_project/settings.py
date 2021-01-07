@@ -106,6 +106,10 @@ REST_FRAMEWORK = {
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+NAME_DB = "adra_torrejon_new"
+USER_DB = str(str(env('mysql_user')))
+PASSWORD_DB = str(str(env('mysql_password')))
+
 
 if DEBUG:
 
@@ -113,9 +117,9 @@ if DEBUG:
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'CONN_MAX_AGE': 3600,
-            'NAME': "adra_torrejon_new",
-            'USER': str(str(env('mysql_user'))),
-            'PASSWORD': str(str(env('mysql_password'))),
+            'NAME': NAME_DB,
+            'USER': USER_DB,
+            'PASSWORD': PASSWORD_DB,
             'HOST': "127.0.0.1",
             'PORT': 3306,
         }
@@ -125,9 +129,9 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'CONN_MAX_AGE': 3600,
-            'NAME': "adra_torrejon_new",
-            'USER': str(str(env('mysql_user'))),
-            'PASSWORD': str(str(env('mysql_password'))),
+            'NAME': NAME_DB,
+            'USER': USER_DB,
+            'PASSWORD': PASSWORD_DB,
             'HOST': "localhost",
             'PORT': 3306,
         }
