@@ -9,3 +9,4 @@ celerybeat-schedule.dir
 media/
 /celerybeat.pid
 /staticfiles
+/venv/

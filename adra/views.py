@@ -580,7 +580,6 @@ def statistics_persona(request):
 
     })
 
-
 def telegram_messages(request):
 
     print(request.POST.get('dom_select')) 

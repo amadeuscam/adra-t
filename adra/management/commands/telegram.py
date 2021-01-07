@@ -89,7 +89,7 @@ class Command(BaseCommand):
         # start_polling() is non-blocking and will stop the bot gracefully.
         updater.idle()
 
-        # bot = telegram.Bot(token='1103551052:AAEUecilMN5Eku3b46NA-_Q2Ba_K7QvV7dg')
+        # bot = telegram.Bot(token=settings.TELEGRAM_TOKEN_KEY)
         # # print(bot.getUpdates())
         # persona = Persona.objects.filter(active=True).filter(Q(domingo="Domingo 1") | Q(domingo=1), ciudad__icontains="Torrejon de ardoz").exclude(covid=True)
         # per_list = [p.nombre_apellido for p in persona]
