@@ -4,5 +4,10 @@ import  subprocess
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        subprocess.Popen('mysqldump  -u -root masina | mysql  -u root masina',
-                         shell=True)
+        username = 'root'
+        password = 'masina'
+        database = 'adra_torrejon_new'
+
+        with open('file.sql', 'w') as output:
+            c = subprocess.Popen(['mysqldump', '-u', username, '-p%s' % password, database],
+                                 stdout=output, shell=True)
