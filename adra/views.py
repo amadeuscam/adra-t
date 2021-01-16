@@ -52,12 +52,11 @@ import time
 import glob, os
 import zipfile
 from io import BytesIO;
-from .tasks import export_zip,restart
-
+from .tasks import export_zip, restart
 
 
 def anuncios(request):
-    return render(request,'adra/anuncio.html')
+    return render(request, 'adra/anuncio.html')
 
 
 @login_required
@@ -310,7 +309,7 @@ class PersonaAlimentosUpdateView(LoginRequiredMixin, UpdateView):
                 almacen.alimento_7 += restante
 
         if "alimento_8" in clean:
-            valor_anterior_alimento_8= form.initial["alimento_8"]
+            valor_anterior_alimento_8 = form.initial["alimento_8"]
             if form.instance.alimento_8 > valor_anterior_alimento_8:
                 restante = abs(form.instance.alimento_8 - valor_anterior_alimento_8)
                 almacen.alimento_8 -= restante
@@ -499,14 +498,11 @@ def calculate_age(age):
 
 @login_required
 def statistics_persona(request):
-
-    
     if request.POST:
         fecha_val = request.POST.get('fecha_val')
         rep = export_zip(fecha_val)
         restart.apply_async()
         return rep
-
 
     beneficiar_mujer = Persona.objects.filter(active=True, sexo__icontains="mujer")
     iter_mujer_02 = len([b.age for b in beneficiar_mujer if b.age >= 0 and b.age <= 2])
@@ -550,11 +546,9 @@ def statistics_persona(request):
     total_65 = total_hombre_65 + total_mujer_65
     total = total_02 + total_3_15 + total_15_64 + total_65
 
-    discapacidad = Persona.objects.filter(discapacidad=True,active=True).count()
+    discapacidad = Persona.objects.filter(discapacidad=True, active=True).count()
     total_beneficiarios = Persona.objects.filter(active=True).count()
     total_familiares = Hijo.objects.filter(active=True).count()
-
-
 
     return render(request, 'statistics/index.html', {
         "total_per_mujer_02": total_mujer_02,
@@ -580,26 +574,25 @@ def statistics_persona(request):
 
     })
 
-def telegram_messages(request):
 
-    print(request.POST.get('dom_select')) 
+def telegram_messages(request):
+    print(request.POST.get('dom_select'))
     dom = request.POST.get('dom_select')
     mensaje_propio = request.POST.get('mensaje_propio')
 
     if dom and mensaje_propio:
         bot = telegram.Bot(token='1103551052:AAEUecilMN5Eku3b46NA-_Q2Ba_K7QvV7dg')
         # print(bot.getUpdates())
-        persona = Persona.objects.filter(active=True).filter(Q(domingo=f"Domingo {int(dom)}") | Q(domingo=int(dom)), ciudad__icontains="Torrejon de ardoz").exclude(covid=True)
+        persona = Persona.objects.filter(active=True).filter(Q(domingo=f"Domingo {int(dom)}") | Q(domingo=int(dom)),
+                                                             ciudad__icontains="Torrejon de ardoz").exclude(covid=True)
         per_list = [p.nombre_apellido for p in persona]
         # print(len(per_list))
         list_format = '\n'.join(per_list)
-        bot.send_message('-1001438819726', f"*{list_format}*",parse_mode=telegram.ParseMode.MARKDOWN_V2)
-        bot.send_message('-1001438819726', f"*{mensaje_propio}*",parse_mode=telegram.ParseMode.MARKDOWN_V2)
+        bot.send_message('-1001438819726', f"*{list_format}*", parse_mode=telegram.ParseMode.MARKDOWN_V2)
+        bot.send_message('-1001438819726', f"*{mensaje_propio}*", parse_mode=telegram.ParseMode.MARKDOWN_V2)
         messages.success(request, 'El mensaje se ha mandado correctamente ')
 
-
-    return render(request, 'telegram/index.html',{'nbar': "tel"})
-
+    return render(request, 'telegram/index.html', {'nbar': "tel"})
 
 
 def export_users_csv(request):
@@ -636,7 +629,7 @@ def export_users_csv(request):
     for col_num, column_title in enumerate(columns, 1):
         cell = worksheet.cell(row=row_num, column=col_num)
         cell.value = column_title
-    count =0
+    count = 0
     for ben in beneficiarios_queryset:
         row_num += 1
         count += 1
@@ -658,7 +651,7 @@ def export_users_csv(request):
             cell.alignment = Alignment(horizontal='center')
 
         for d in ben.hijo.filter(active=True):
-            count +=1
+            count += 1
             row_hijos = [
                 f'{count}',
                 d.nombre_apellido,
@@ -845,9 +838,8 @@ def generar_hoja_entrega(request, pk):
     return response
 
 
-def generar_hoja_valoracion_social (request, pk):
-  
-    persona = Persona.objects.get(pk=pk,active=True)
+def generar_hoja_valoracion_social(request, pk):
+    persona = Persona.objects.get(pk=pk, active=True)
     infile = file_path = os.path.join(settings.PROJECT_ROOT, 'vl.docx')
     template = infile
     document = MailMerge(template)
@@ -875,17 +867,17 @@ def generar_hoja_valoracion_social (request, pk):
 
     )
     if persona.empadronamiento:
-        document.merge(a = "x")
+        document.merge(a="x")
     if persona.libro_familia:
-        document.merge(b = "x")
+        document.merge(b="x")
     if persona.fotocopia_dni:
-        document.merge(c = "x")
+        document.merge(c="x")
     if persona.prestaciones:
-        document.merge(d = "x")
+        document.merge(d="x")
     if persona.nomnia:
-        document.merge(e = "x")
+        document.merge(e="x")
     if persona.cert_negativo:
-        document.merge(f = "x")
+        document.merge(f="x")
     if persona.aquiler_hipoteca:
         document.merge(g="x")
     if persona.recibos:
@@ -898,11 +890,7 @@ def generar_hoja_valoracion_social (request, pk):
     response['Content-Disposition'] = f'attachment; filename={persona.numero_adra}.docx'
     document.write(response)
 
-
     return response
-
-
-
 
 
 # API ADRA

@@ -110,7 +110,6 @@ NAME_DB = "adra_torrejon_new"
 USER_DB = str(str(env('mysql_user')))
 PASSWORD_DB = str(str(env('mysql_password')))
 
-
 if DEBUG:
 
     DATABASES = {
@@ -136,7 +135,6 @@ else:
             'PORT': 3306,
         }
     }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -236,4 +234,4 @@ CELERY_BROKER_URL = 'amqp://localhost'
 
 TELEGRAM_TOKEN_KEY = str(env('telegram_token'))
 
-PLATFORM_NAME="Adra Torrejon"
+PLATFORM_NAME = "Adra Torrejon"
