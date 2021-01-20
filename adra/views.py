@@ -1,59 +1,38 @@
-import json
-import os
-import xlsxwriter
-from django.conf import settings
-from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Sum
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import (ListView, DetailView,
-                                  DeleteView,
-                                  UpdateView,
-                                  CreateView)
-
-from .filters import AlimentosFilters
-from .forms import AlimentosFrom, HijoForm, PersonaForm, ProfileEditForm, UserEditForm
-from .models import Persona, Alimentos, AlmacenAlimentos, Hijo, Profile
-from django.http import HttpResponse, JsonResponse, request, HttpRequest
-import io
-from django.db.models import Q
-import xlwt
-from openpyxl import Workbook
-from openpyxl.styles import Alignment, Side, PatternFill
+import logging
+import os
 from datetime import date
-import datetime
-from mailmerge import MailMerge
-from .serializers import PersonaSerializer, UserSerializer
-from rest_framework.parsers import JSONParser
-from rest_framework.decorators import api_view
-from django.contrib.auth.models import User
-from rest_framework import permissions
-from rest_framework import viewsets
-from django.utils.translation import ugettext as _
-from django.contrib.auth import get_user_model
-from django.urls import reverse_lazy
+import telegram
 from PyPDF2 import PdfFileReader, PdfFileWriter
 from PyPDF2.generic import BooleanObject, NameObject, IndirectObject
-from django.http import FileResponse
-from django.contrib import messages
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import (
-    Mail, Subject, To, ReplyTo, SendAt, Content, From, CustomArg, Header)
-
 from allauth.account.adapter import DefaultAccountAdapter
 from django.conf import settings
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-import telegram
-from pathlib import Path
-import shutil
-import time
-import glob, os
-import zipfile
-from io import BytesIO;
+from django.contrib import messages
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Q
+from django.db.models import Sum
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views.generic import (ListView, DetailView,DeleteView,UpdateView,CreateView)
+from mailmerge import MailMerge
+from openpyxl import Workbook
+from openpyxl.styles import Alignment, PatternFill
+from rest_framework import permissions
+from rest_framework import viewsets
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import (Mail)
+from .filters import AlimentosFilters
+from .forms import AlimentosFrom, HijoForm, PersonaForm, ProfileEditForm, UserEditForm
+from .models import Persona, Alimentos, AlmacenAlimentos, Hijo
+from .serializers import PersonaSerializer, UserSerializer
 from .tasks import export_zip, restart
-import logging
+from django.views.decorators.cache import cache_page
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -678,6 +657,7 @@ def export_users_csv(request):
 
 
 @login_required
+@cache_page(60 * 15)
 def buscar_fecha(request):
     alimentos_list = Alimentos.objects.all()
     user_filter = AlimentosFilters(request.GET, queryset=alimentos_list)
