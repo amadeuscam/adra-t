@@ -53,6 +53,8 @@ import glob, os
 import zipfile
 from io import BytesIO;
 from .tasks import export_zip, restart
+import logging
+logger = logging.getLogger(__name__)
 
 
 def anuncios(request):
@@ -222,6 +224,8 @@ def adauga_alimentos_persona(request, pk):
             alimentos.modificado_por = request.user
             almacen.save()
             alimentos.save()
+            logger.warning("aliemnte sau dat beneficiarului")
+            messages.success(request, 'Los alimentos se han entregado correctamente!')
             return redirect(persona)
 
     else:

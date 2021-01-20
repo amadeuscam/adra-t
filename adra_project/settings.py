@@ -105,7 +105,7 @@ REST_FRAMEWORK = {
 }
 
 # Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+
 NAME_DB = "adra_torrejon_new"
 USER_DB = str(str(env('mysql_user')))
 PASSWORD_DB = str(str(env('mysql_password')))
@@ -216,6 +216,12 @@ ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_SIGNUP_FORM_CLASS = 'adra.forms.SignupForm'
 ACCOUNT_ADAPTER = 'adra.views.CustomAllauthAdapter'
 # chache page
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': 'cache_table',
+    }
+}
 CACHE_MIDDLEWARE_ALIAS = 'default'
 CACHE_MIDDLEWARE_SECONDS = 0  # una semana
 CACHE_MIDDLEWARE_KEY_PREFIX = ''
@@ -235,3 +241,17 @@ CELERY_BROKER_URL = 'amqp://localhost'
 TELEGRAM_TOKEN_KEY = str(env('telegram_token'))
 
 PLATFORM_NAME = "Adra Torrejon"
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        }
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING'
+    }
+
+}
