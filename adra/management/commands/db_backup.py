@@ -5,6 +5,7 @@ from pathlib import Path
 import shutil
 import time
 import shlex
+import os
 from django.conf import settings
 
 
@@ -16,5 +17,4 @@ class Command(BaseCommand):
         database = settings.NAME_DB
 
         command_line = f"mysqldump -u {username} -p{password}  {database} > {datetime.now().day}-{datetime.now().month}.sql"
-        args = shlex.split(command_line)
-        subprocess.Popen(args)
+        os.popen(command_line)
