@@ -1,13 +1,21 @@
 from django.core.management.base import BaseCommand, CommandError
 from datetime import date
-from adra.models import Persona, Alimentos,Hijo
+
+from django.db.models import Count
+
+from adra.models import Persona, Alimentos, Hijo
 
 
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        persona = Persona.objects.exclude(covid=True).filter(active=True)
-        hijos = Hijo.objects.filter(active=True)
+        persona = Persona.objects.filter(active=True, domingo=2).exclude(covid=True)
+        # persona = Persona.objects.filter(active=True).exclude(covid=True)
+        # dom1 = Persona.objects.filter(active=True, domingo=1).exclude(covid=True)
+        # dom2 = Persona.objects.filter(active=True, domingo=2).exclude(covid=True)
+        # print([ p.numero_adra for p in dom1])
+        # print(dom1.count())
         print(persona.count())
-        print(hijos.count())
-
+        fam = Hijo.objects.filter(persona__in=persona)
+        # # fam = Hijo.objects.get(nombre_apellido="MOHAMED EL MORABIT")
+        print(fam.count())
