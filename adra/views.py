@@ -1,3 +1,5 @@
+import time
+
 from django.contrib.messages.views import SuccessMessageMixin
 import logging
 import os
@@ -17,7 +19,7 @@ from django.db.models import Sum
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import (ListView, DetailView,DeleteView,UpdateView,CreateView)
+from django.views.generic import (ListView, DetailView, DeleteView, UpdateView, CreateView)
 from mailmerge import MailMerge
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, PatternFill
@@ -31,7 +33,6 @@ from .models import Persona, Alimentos, AlmacenAlimentos, Hijo
 from .serializers import PersonaSerializer, UserSerializer
 from .tasks import export_zip, restart
 from django.views.decorators.cache import cache_page
-
 
 logger = logging.getLogger(__name__)
 
@@ -481,81 +482,144 @@ def calculate_age(age):
 
 @login_required
 def statistics_persona(request):
+    mod = 2
     if request.POST:
-        fecha_val = request.POST.get('fecha_val')
-        rep = export_zip(fecha_val)
-        restart.apply_async()
-        return rep
+        if request.POST.get('fecha_val', None):
+            fecha_val = request.POST.get('fecha_val', None)
+            rep = export_zip(fecha_val)
+            restart.apply_async()
+            return rep
 
-    beneficiar_mujer = Persona.objects.filter(active=True, sexo__icontains="mujer")
-    iter_mujer_02 = len([b.age for b in beneficiar_mujer if b.age >= 0 and b.age <= 2])
-    iter_mujer_3_15 = len([b.age for b in beneficiar_mujer if b.age >= 3 and b.age <= 15])
-    iter_mujer_16_64 = len([b.age for b in beneficiar_mujer if b.age >= 16 and b.age <= 64])
-    iter_mujer_65 = len([b.age for b in beneficiar_mujer if b.age >= 65])
+        if request.POST.get('mod', None):
+            mod = request.POST.get('mod', None)
 
-    beneficiar_hombre = Persona.objects.filter(active=True, sexo__icontains="hombre")
-    iter_hombre_02 = len([b.age for b in beneficiar_hombre if b.age >= 0 and b.age <= 2])
-    iter_hombre_3_15 = len([b.age for b in beneficiar_hombre if b.age >= 3 and b.age <= 15])
-    iter_hombre_16_64 = len([b.age for b in beneficiar_hombre if b.age >= 16 and b.age <= 64])
-    iter_hombre_65 = len([b.age for b in beneficiar_hombre if b.age >= 65])
+    if int(mod) == 1:
+        beneficiar = Persona.objects.prefetch_related('hijo').filter(active=True).exclude(covid=True)
+    else:
+        beneficiar = Persona.objects.prefetch_related('hijo').filter(active=True)
 
-    familiares_mujer = Hijo.objects.filter(active=True, sexo="m")
-    iter_familiares_mujer_02 = len([b.age for b in familiares_mujer if b.age >= 0 and b.age <= 2])
-    iter_familiares_mujer_3_15 = len([b.age for b in familiares_mujer if b.age >= 3 and b.age <= 15])
-    iter_familiares_mujer_16_64 = len([b.age for b in familiares_mujer if b.age >= 16 and b.age <= 64])
-    iter_familiares_mujer_65 = len([b.age for b in familiares_mujer if b.age >= 65])
+    tic = time.perf_counter()
 
-    familiares_hombre = Hijo.objects.filter(active=True, sexo="h")
-    iter_familiares_hombre_02 = len([b.age for b in familiares_hombre if b.age >= 0 and b.age <= 2])
-    iter_familiares_hombre_3_15 = len([b.age for b in familiares_hombre if b.age >= 3 and b.age <= 15])
-    iter_familiares_hombre_16_64 = len([b.age for b in familiares_hombre if b.age >= 16 and b.age <= 64])
-    iter_familiares_hombre_65 = len([b.age for b in familiares_hombre if b.age >= 65])
+    lst_02_mujer = []
+    lst_02_hombre = []
 
-    total_mujer_02 = iter_mujer_02 + iter_familiares_mujer_02
-    total_mujer_3_15 = iter_mujer_3_15 + iter_familiares_mujer_3_15
-    total_mujer_15_64 = iter_mujer_16_64 + iter_familiares_mujer_16_64
-    total_mujer_65 = iter_mujer_65 + iter_familiares_mujer_65
-    total_mujeres = total_mujer_02 + total_mujer_3_15 + total_mujer_15_64 + total_mujer_65
+    lst_3_15_mujer = []
+    lst_3_15_hombre = []
 
-    total_hombre_02 = iter_hombre_02 + iter_familiares_hombre_02
-    total_hombre_3_15 = iter_hombre_3_15 + iter_familiares_hombre_3_15
-    total_hombre_15_64 = iter_hombre_16_64 + iter_familiares_hombre_16_64
-    total_hombre_65 = iter_hombre_65 + iter_familiares_hombre_65
-    total_hombres = total_hombre_02 + total_hombre_3_15 + total_hombre_15_64 + total_hombre_65
+    lst_16_64_mujer = []
+    lst_16_64_hombre = []
 
-    total_02 = total_hombre_02 + total_mujer_02
-    total_3_15 = total_hombre_3_15 + total_mujer_3_15
-    total_15_64 = total_hombre_15_64 + total_mujer_15_64
-    total_65 = total_hombre_65 + total_mujer_65
-    total = total_02 + total_3_15 + total_15_64 + total_65
+    lst_64_mujer = []
+    lst_64_hombre = []
 
-    discapacidad = Persona.objects.filter(discapacidad=True, active=True).count()
-    total_beneficiarios = Persona.objects.filter(active=True).count()
-    total_familiares = Hijo.objects.filter(active=True).count()
+    [lst_02_mujer.append(b.age) for b in beneficiar if 0 <= b.age <= 2 and b.sexo == "mujer"]
+    [lst_02_hombre.append(b.age) for b in beneficiar if 0 <= b.age <= 2 and b.sexo == "hombre"]
 
-    return render(request, 'statistics/index.html', {
-        "total_per_mujer_02": total_mujer_02,
-        "total_per_mujer_03": total_mujer_3_15,
-        "total_per_mujer_16": total_mujer_15_64,
-        "total_per_mujer_65": total_mujer_65,
-        "total_mujeres": total_mujeres,
+    [lst_3_15_mujer.append(b.age) for b in beneficiar if 3 <= b.age <= 15 and b.sexo == "mujer"]
+    [lst_3_15_hombre.append(b.age) for b in beneficiar if 3 <= b.age <= 15 and b.sexo == "hombre"]
 
-        "total_per_hombre_02": total_hombre_02,
-        "total_per_hombre_03": total_hombre_3_15,
-        "total_per_hombre_16": total_hombre_15_64,
-        "total_per_hombre_65": total_hombre_65,
-        "total_hombres": total_hombres,
-        "total_02": total_02,
-        "total_03": total_3_15,
-        "total_16": total_15_64,
-        "total_65": total_65,
-        "total_personas": total,
-        "discapacidad": discapacidad,
-        "total_beneficiarios": total_beneficiarios,
-        "total_familiares": total_familiares,
-        "nbar": 'stat'
+    [lst_16_64_mujer.append(b.age) for b in beneficiar if 16 <= b.age <= 64 and b.sexo == "mujer"]
+    [lst_16_64_hombre.append(b.age) for b in beneficiar if 16 <= b.age <= 64 and b.sexo == "hombre"]
 
-    })
+    [lst_64_mujer.append(b.age) for b in beneficiar if b.age >= 65 and b.sexo == "mujer"]
+    [lst_64_hombre.append(b.age) for b in beneficiar if b.age >= 65 and b.sexo == "hombre"]
+
+    lst_familiares = []
+    for hijo in beneficiar:
+        [(lst_02_mujer.append(b.age), lst_familiares.append(b.age)) for b in hijo.hijo.all() if
+         0 <= b.age <= 2 and b.sexo == "m"]
+        [(lst_02_hombre.append(b.age), lst_familiares.append(b.age)) for b in hijo.hijo.all() if
+         0 <= b.age <= 2 and b.sexo == "h"]
+
+        [(lst_3_15_mujer.append(b.age), lst_familiares.append(b.age)) for b in hijo.hijo.all() if
+         3 <= b.age <= 15 and b.sexo == "m"]
+        [(lst_3_15_hombre.append(b.age), lst_familiares.append(b.age)) for b in hijo.hijo.all() if
+         3 <= b.age <= 15 and b.sexo == "h"]
+
+        [(lst_16_64_mujer.append(b.age), lst_familiares.append(b.age)) for b in hijo.hijo.all() if
+         16 <= b.age <= 64 and b.sexo == "m"]
+        [(lst_16_64_hombre.append(b.age), lst_familiares.append(b.age)) for b in hijo.hijo.all() if
+         16 <= b.age <= 64 and b.sexo == "h"]
+
+        [(lst_64_mujer.append(b.age), lst_familiares.append(b.age)) for b in hijo.hijo.all() if
+         b.age >= 65 and b.sexo == "m"]
+        [(lst_64_hombre.append(b.age), lst_familiares.append(b.age)) for b in hijo.hijo.all() if
+         b.age >= 65 and b.sexo == "h"]
+
+    data_statistics = {
+        "total_per_mujer_02": len(lst_02_mujer),
+        "total_per_mujer_03": len(lst_3_15_mujer),
+        "total_per_mujer_16": len(lst_16_64_mujer),
+        "total_per_mujer_65": len(lst_64_mujer),
+        "total_mujeres": len(lst_02_mujer) + len(lst_3_15_mujer) + len(lst_16_64_mujer) + len(lst_64_mujer),
+
+        "total_per_hombre_02": len(lst_02_hombre),
+        "total_per_hombre_03": len(lst_3_15_hombre),
+        "total_per_hombre_16": len(lst_16_64_hombre),
+        "total_per_hombre_65": len(lst_64_hombre),
+        "total_hombres": len(lst_02_hombre) + len(lst_3_15_hombre) + len(lst_16_64_hombre) + len(lst_64_hombre),
+        "total_02": len(lst_02_mujer) + len(lst_02_hombre),
+        "total_03": len(lst_3_15_mujer) + len(lst_3_15_hombre),
+        "total_16": len(lst_16_64_mujer) + len(lst_16_64_hombre),
+        "total_65": len(lst_64_mujer) + len(lst_64_hombre),
+        "total_personas": len(lst_02_mujer) + len(lst_02_hombre) + len(lst_3_15_mujer) + len(lst_3_15_hombre) + len(
+            lst_16_64_mujer) + len(lst_16_64_hombre) + len(lst_64_mujer) + len(lst_64_hombre),
+        "discapacidad": Persona.objects.filter(discapacidad=True, active=True).count(),
+        "total_beneficiarios": beneficiar.count(),
+        "total_familiares": len(lst_familiares),
+        "nbar": 'stat',
+        "mod": mod
+
+    }
+    toc = time.perf_counter()
+    print(f"Load page in {toc - tic:0.4f} seconds")
+    # beneficiar_mujer = Persona.objects.filter(active=True, sexo__icontains="mujer")
+    # iter_mujer_02 = len([b.age for b in beneficiar_mujer if b.age >= 0 and b.age <= 2])
+    # iter_mujer_3_15 = len([b.age for b in beneficiar_mujer if b.age >= 3 and b.age <= 15])
+    # iter_mujer_16_64 = len([b.age for b in beneficiar_mujer if b.age >= 16 and b.age <= 64])
+    # iter_mujer_65 = len([b.age for b in beneficiar_mujer if b.age >= 65])
+    #
+    # beneficiar_hombre = Persona.objects.filter(active=True, sexo__icontains="hombre")
+    # iter_hombre_02 = len([b.age for b in beneficiar_hombre if b.age >= 0 and b.age <= 2])
+    # iter_hombre_3_15 = len([b.age for b in beneficiar_hombre if b.age >= 3 and b.age <= 15])
+    # iter_hombre_16_64 = len([b.age for b in beneficiar_hombre if b.age >= 16 and b.age <= 64])
+    # iter_hombre_65 = len([b.age for b in beneficiar_hombre if b.age >= 65])
+    #
+    # familiares_mujer = Hijo.objects.filter(active=True, sexo="m")
+    # iter_familiares_mujer_02 = len([b.age for b in familiares_mujer if b.age >= 0 and b.age <= 2])
+    # iter_familiares_mujer_3_15 = len([b.age for b in familiares_mujer if b.age >= 3 and b.age <= 15])
+    # iter_familiares_mujer_16_64 = len([b.age for b in familiares_mujer if b.age >= 16 and b.age <= 64])
+    # iter_familiares_mujer_65 = len([b.age for b in familiares_mujer if b.age >= 65])
+    #
+    # familiares_hombre = Hijo.objects.filter(active=True, sexo="h")
+    # iter_familiares_hombre_02 = len([b.age for b in familiares_hombre if b.age >= 0 and b.age <= 2])
+    # iter_familiares_hombre_3_15 = len([b.age for b in familiares_hombre if b.age >= 3 and b.age <= 15])
+    # iter_familiares_hombre_16_64 = len([b.age for b in familiares_hombre if b.age >= 16 and b.age <= 64])
+    # iter_familiares_hombre_65 = len([b.age for b in familiares_hombre if b.age >= 65])
+    #
+    # total_mujer_02 = iter_mujer_02 + iter_familiares_mujer_02
+    # total_mujer_3_15 = iter_mujer_3_15 + iter_familiares_mujer_3_15
+    # total_mujer_15_64 = iter_mujer_16_64 + iter_familiares_mujer_16_64
+    # total_mujer_65 = iter_mujer_65 + iter_familiares_mujer_65
+    # total_mujeres = total_mujer_02 + total_mujer_3_15 + total_mujer_15_64 + total_mujer_65
+    #
+    # total_hombre_02 = iter_hombre_02 + iter_familiares_hombre_02
+    # total_hombre_3_15 = iter_hombre_3_15 + iter_familiares_hombre_3_15
+    # total_hombre_15_64 = iter_hombre_16_64 + iter_familiares_hombre_16_64
+    # total_hombre_65 = iter_hombre_65 + iter_familiares_hombre_65
+    # total_hombres = total_hombre_02 + total_hombre_3_15 + total_hombre_15_64 + total_hombre_65
+    #
+    # total_02 = total_hombre_02 + total_mujer_02
+    # total_3_15 = total_hombre_3_15 + total_mujer_3_15
+    # total_15_64 = total_hombre_15_64 + total_mujer_15_64
+    # total_65 = total_hombre_65 + total_mujer_65
+    # total = total_02 + total_3_15 + total_15_64 + total_65
+    #
+    # discapacidad = Persona.objects.filter(discapacidad=True, active=True).count()
+    # total_beneficiarios = Persona.objects.filter(active=True).count()
+    # total_familiares = Hijo.objects.filter(active=True).count()
+
+    return render(request, 'statistics/index.html', data_statistics)
 
 
 def telegram_messages(request):

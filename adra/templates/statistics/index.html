@@ -3,34 +3,37 @@
 
 
 {% block title %}
-Adra-Statistics
+    Adra-Statistics
 {% endblock %}
 
 {% block content %}
-<a class="btn btn-info mb-3" href="{% url 'adra:exportar-users-csv' %}">Exportar beneficiarios</a>
-<a class="btn btn-info mb-3" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
-    aria-controls="collapseExample">Exportar valoracion social</a>
-<div class="collapse" id="collapseExample">
-    <div class="card card-body">
-        
-        <div class="row">
-            <div class="col-md-6 col-sm-12  ">
-                <form action="{% url 'adra:statistics-personas' %}" method="post">
-                    {% csrf_token %}
-                    <label for="dom_se" style="font-size: 25px;">Seleciona fecha para generar las valoraciones sociales:
-                    </label>
-                    <input required type="date" name="fecha_val" id=""><br>
-                    <input type="submit" value="Generar" class="btn btn-outline btn-success mt-4">
-                </form>
+    <a class="btn btn-info mb-3" href="{% url 'adra:exportar-users-csv' %}">Exportar beneficiarios</a>
+    <a class="btn btn-info mb-3" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+       aria-controls="collapseExample">Exportar valoracion social</a>
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+
+            <div class="row">
+                <div class="col-md-6 col-sm-12  ">
+                    <form action="{% url 'adra:statistics-personas' %}" method="post">
+                        {% csrf_token %}
+                        <label for="dom_se" style="font-size: 25px;">Seleciona fecha para generar las valoraciones
+                            sociales:
+                        </label>
+                        <input required type="date" name="fecha_val" id=""><br>
+                        <input type="submit" value="Generar" class="btn btn-outline btn-success mt-4">
+                    </form>
+                </div>
             </div>
+
         </div>
-
     </div>
-</div>
 
 
-<table class="table">
-    <thead class="thead-dark">
+
+
+    <table class="table">
+        <thead class="thead-dark">
         <tr>
             <th scope="col"></th>
             <th scope="col">0 a 2</th>
@@ -39,8 +42,8 @@ Adra-Statistics
             <th scope="col">+ de 65</th>
             <th scope="col">Total</th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         <tr>
             <th scope="row">Mujeres</th>
             <td>{{ total_per_mujer_02 }}</td>
@@ -65,99 +68,117 @@ Adra-Statistics
             <td>{{ total_65 }}</td>
             <td>{{ total_personas }}</td>
         </tr>
-    </tbody>
-</table>
-<br>
-<div class="row">
-    <div class="col-md-4">
-        <h5>Personas con Discapacidad</h5>
-        <table class="table table-dark">
-            <thead>
+        </tbody>
+    </table>
+    <br>
+    <div class="row">
+        <div class="col-md-4">
+            <h5>Personas con Discapacidad</h5>
+            <table class="table table-dark">
+                <thead>
                 <tr>
                     <th scope="col">Discapacidad</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <tr>
                     <th scope="row">{{ discapacidad }}</th>
 
                 </tr>
 
-            </tbody>
-        </table>
-    </div>
-    <div class="col-md-4">
-        <h5>Beneficiarios</h5>
-        <table class="table table-dark">
-            <thead>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <h5>Beneficiarios</h5>
+            <table class="table table-dark">
+                <thead>
                 <tr>
                     <th scope="col">Total Beneficiarios</th>
                     <th scope="col">Total Familiares</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <tr>
                     <th scope="row">{{ total_beneficiarios }}</th>
                     <th scope="row">{{ total_familiares }}</th>
 
                 </tr>
 
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <h5>Conteo con</h5>
+            <form action="{% url 'adra:statistics-personas' %}" method="post">
+             {% csrf_token %}
+                <div class="form-row align-items-center">
+                    <div class="col-auto my-1">
+                        <label class="mr-sm-4 sr-only" for="inlineFormCustomSelect">Preference</label>
+                        <select class="custom-select mr-sm-4" name="mod" id="inlineFormCustomSelect">
+
+                            <option  {% if mod == 1 %} selected   {% endif %} value="1">Sin covid</option>
+                            <option  {% if mod == 2 %} selected   {% endif %} value="2">Con covid</option>
+
+
+                        </select>
+                    </div>
+                    <div class="col-auto my-1">
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col">
-        <h1 class="text-center pt-5">Registros por años</h1>
-        <div id="main" style="width:100%; height:400px;"></div>
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center pt-5">Registros por años</h1>
+            <div id="main" style="width:100%; height:400px;"></div>
+        </div>
     </div>
-</div>
 
 {% endblock content %}
 {% block script %}
-<script>
-    // based on prepared DOM, initialize echarts instance
-    var myChart = echarts.init(document.getElementById('main'));
+    <script>
+        // based on prepared DOM, initialize echarts instance
+        var myChart = echarts.init(document.getElementById('main'));
 
 
-    option = {
-        tooltip: {
-            trigger: 'item',
-            formatter: '{c} registros'
-        },
-        xAxis: {
-            type: 'category',
-            data: ['2018', '2019', '2020', ]
-        },
-        yAxis: {
-            type: 'value'
-        },
-    };
+        option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: '{c} registros'
+            },
+            xAxis: {
+                type: 'category',
+                data: ['2018', '2019', '2020',]
+            },
+            yAxis: {
+                type: 'value'
+            },
+        };
 
 
-    axios.get("{% url 'adra:get_data' %}")
-        .then(function (response) {
-            console.log(response);
-            myChart.setOption({
-                series: [{
-                    data: response.data.reg,
-                    type: 'line'
-                }]
-            });
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
+        axios.get("{% url 'adra:get_data' %}")
+            .then(function (response) {
+                console.log(response);
+                myChart.setOption({
+                    series: [{
+                        data: response.data.reg,
+                        type: 'line'
+                    }]
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
 
 
-
-
-
-    // use configuration item and data specified to show chart
-    myChart.setOption(option);
-    window.onresize = function () {
-        myChart.resize();
-    };
-</script>
+        // use configuration item and data specified to show chart
+        myChart.setOption(option);
+        window.onresize = function () {
+            myChart.resize();
+        };
+    </script>
 
 {% endblock %}
