@@ -17,4 +17,7 @@ class Command(BaseCommand):
         database = settings.NAME_DB
 
         command_line = f"mysqldump -u {username} -p{password}  {database} > {datetime.now().day}-{datetime.now().month}.sql"
-        os.popen(command_line)
+        # os.popen(command_line)
+
+        dc = subprocess.Popen(command_line, shell=True)
+        dc.wait()
