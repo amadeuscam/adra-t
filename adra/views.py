@@ -991,12 +991,25 @@ class PersonaViewSet(viewsets.ModelViewSet):
         This viewset automatically provides `list`, `create`, `retrieve`,
         `update` and `destroy` actions.
         """
-    queryset = Persona.objects.all().order_by("-numero_adra")
+    # queryset = Persona.objects.all().order_by("-numero_adra")
     serializer_class = PersonaSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def get_queryset(self):
+        """
+        Optionally restricts the returned purchases to a given user,
+        by filtering against a `username` query parameter in the URL.
+        """
+        queryset = Persona.objects.all().order_by("-numero_adra")
+        telefono = self.request.query_params.get('telefono', None)
+        if telefono is not None:
+            queryset = queryset.filter(telefono=telefono)
+        return queryset
+
+
     def perform_create(self, serializer):
         serializer.save(modificado_por=self.request.user)
+
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
