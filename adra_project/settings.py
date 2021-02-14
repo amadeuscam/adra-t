@@ -41,7 +41,7 @@ ALLOWED_HOSTS = ['*']
 SITE_ID = 1
 SESSION_COOKIE_AGE = 86400
 
-Token_KEY_USER = str(env('Token_KEY_USER'))
+TOKEN_KEY_USER = str(env('Token_KEY_USER'))
 # Application definition
 
 INSTALLED_APPS = [
