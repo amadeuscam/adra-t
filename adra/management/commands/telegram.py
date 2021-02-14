@@ -4,7 +4,7 @@ import logging
 import subprocess
 import requests
 from django.conf import settings
-from django.contrib.sites import requests
+# from django.contrib.sites import requests
 from django.core.management.base import BaseCommand
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
