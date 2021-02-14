@@ -1,7 +1,8 @@
 from django.contrib.sites import requests
+import requests
 from django.core.management.base import BaseCommand, CommandError
 from django.db.models import Q
-
+import json
 from adra.models import Persona
 import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
@@ -9,6 +10,8 @@ import telegram
 from django.conf import settings
 import subprocess
 import io
+from django.contrib.sites.shortcuts import get_current_site
+
 
 class Command(BaseCommand):
 
@@ -31,23 +34,30 @@ class Command(BaseCommand):
 
         def numero_adra_command(update, context):
             """Send a message when the command /help is issued."""
-            try:
-                beneficiario = int(context.args[0])
-                persona = Persona.objects.get(telefono=beneficiario)
-                update.message.reply_text(f"Hola {persona.nombre_apellido}!,\n "
-                                          f"Tu numero adra es {persona.numero_adra} y "
-                                          f"perteneces al domingo  {persona.domingo}"
+
+            beneficiario = int(context.args[0])
+
+            # hace una llamada a la api por los datos del beneficiario
+            url = f'{settings.SITE_DOAMIN}api/personas/{beneficiario}/'
+            headers = {'Authorization': f'Token {settings.Token_KEY_USER}', 'Content-Type': 'application/json'}
+            r = requests.get(url, headers=headers)
+            data = json.loads(r.content.decode('utf-8'))
+            if data:
+                update.message.reply_text(f"Hola {data['nombre_apellido']}!,\n "
+                                          f"Tu numero adra es {data['numero_adra']} y "
+                                          f"perteneces al domingo  {data['domingo']}"
                                           )
-                update.message.reply_text(f"Papeles\n\nEmpadronamiento->{'Tienes' if persona.empadronamiento else 'No tienes'}!,"
-                                          f"\n Libro familia->{ 'Tienes' if persona.libro_familia else 'No tienes'}"
-                                          f"\n Fotocopia dni->{ 'Tienes' if persona.fotocopia_dni else 'No tienes'}"
-                                          f"\n Prestaciones->{ 'Tienes' if persona.prestaciones else 'No tienes'}"
-                                          f"\n Nomnia->{ 'Tienes' if persona.nomnia else 'No tienes'}"
-                                          f"\n Certificado negativo->{ 'Tienes' if persona.cert_negativo else 'No tienes'}"
-                                          f"\n Aquiler O Hipoteca ->{ 'Tienes' if persona.aquiler_hipoteca else 'No tienes'}"
-                                          f"\n Recibos -> { 'Tienes' if persona.recibos else 'No tienes'}"
-                                          )
-            except Persona.DoesNotExist:
+                update.message.reply_text(
+                    f"Papeles\n\nEmpadronamiento->{'Tienes' if data['empadronamiento'] else 'No tienes'}!,"
+                    f"\n Libro familia->{'Tienes' if data['libro_familia'] else 'No tienes'}"
+                    f"\n Fotocopia dni->{'Tienes' if data['fotocopia_dni'] else 'No tienes'}"
+                    f"\n Prestaciones->{'Tienes' if data['prestaciones'] else 'No tienes'}"
+                    f"\n Nomnia->{'Tienes' if data['nomnia'] else 'No tienes'}"
+                    f"\n Certificado negativo->{'Tienes' if data['cert_negativo'] else 'No tienes'}"
+                    f"\n Aquiler O Hipoteca ->{'Tienes' if data['aquiler_hipoteca'] else 'No tienes'}"
+                    f"\n Recibos -> {'Tienes' if data['recibos'] else 'No tienes'}"
+                )
+            else:
                 update.message.reply_text("El beneficario no existe!")
 
         def status_servers(update, context):
@@ -56,8 +66,7 @@ class Command(BaseCommand):
             # status = p.stdout.read()
             # print(status)
             for line in io.TextIOWrapper(p.stdout, encoding="utf-8"):
-                update.message.reply_text(f'{ str(line)}')
-
+                update.message.reply_text(f'{str(line)}')
 
         def echo(update, context):
             """Echo the user message."""

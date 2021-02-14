@@ -30,6 +30,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = str(env('SECRET_KEY'))
+Token_KEY_USER = str(env('SECRET_KEY_USER'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
@@ -111,7 +112,7 @@ USER_DB = str(str(env('mysql_user')))
 PASSWORD_DB = str(str(env('mysql_password')))
 
 if DEBUG:
-
+    SITE_DOAMIN='http://localhost:8000/'
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -124,6 +125,7 @@ if DEBUG:
         }
     }
 else:
+    SITE_DOAMIN = 'http://164.90.211.207/'
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',

@@ -13,7 +13,7 @@ class AlimentosSerializer(serializers.ModelSerializer):
 class HijosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hijo
-        fields = ['nombre_apellido', 'dni', 'fecha_nacimiento','parentesco']
+        fields = ['nombre_apellido', 'dni', 'fecha_nacimiento', 'parentesco']
 
 
 class PersonaSerializer(serializers.HyperlinkedModelSerializer):
@@ -24,8 +24,11 @@ class PersonaSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Persona
-        fields = ['id', 'nombre_apellido', 'numero_adra', 'dni', 'telefono',
-                  'mensaje', 'modificado_por', 'fecha_nacimiento', 'alimentos','hijo']
+        fields = ['id', 'nombre_apellido', 'numero_adra', 'dni', 'telefono', 'empadronamiento', 'libro_familia',
+                  'mensaje', 'domingo',
+                  'modificado_por', 'fecha_nacimiento', 'alimentos', 'hijo', 'fotocopia_dni', 'prestaciones',
+                  'nomnia', 'cert_negativo', 'aquiler_hipoteca', 'recibos'
+                  ]
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
