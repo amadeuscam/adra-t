@@ -31,7 +31,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = str(env('SECRET_KEY'))
 
-Token_KEY_USER = str(env('Token_KEY_USER'))
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
@@ -40,7 +40,7 @@ ALLOWED_HOSTS = ['*']
 # django-allauth config
 SITE_ID = 1
 SESSION_COOKIE_AGE = 86400
-
+Token_KEY_USER = str(env('Token_KEY_USER'))
 # Application definition
 
 INSTALLED_APPS = [
