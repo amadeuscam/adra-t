@@ -11,9 +11,10 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 class Command(BaseCommand):
 
-    token = settings.Token_KEY_USER
-
     def handle(self, *args, **options):
+
+        token = settings.Token_KEY_USER
+
         # Enable logging
         logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                             level=logging.INFO)
@@ -37,7 +38,7 @@ class Command(BaseCommand):
 
             # hace una llamada a la api por los datos del beneficiario
             url = f'{settings.SITE_DOAMIN}api/personas/{beneficiario}/'
-            headers = {'Authorization': f'Token {self.token}', 'Content-Type': 'application/json'}
+            headers = {'Authorization': f'Token {token}', 'Content-Type': 'application/json'}
             r = requests.get(url, headers=headers)
             data = json.loads(r.content.decode('utf-8'))
             if data:

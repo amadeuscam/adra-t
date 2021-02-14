@@ -40,6 +40,7 @@ ALLOWED_HOSTS = ['*']
 # django-allauth config
 SITE_ID = 1
 SESSION_COOKIE_AGE = 86400
+
 Token_KEY_USER = str(env('Token_KEY_USER'))
 # Application definition
 
