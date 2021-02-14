@@ -1,19 +1,17 @@
-from django.contrib.sites import requests
-import requests
-from django.core.management.base import BaseCommand, CommandError
-from django.db.models import Q
-import json
-from adra.models import Persona
-import logging
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-import telegram
-from django.conf import settings
-import subprocess
 import io
-from django.contrib.sites.shortcuts import get_current_site
+import json
+import logging
+import subprocess
+import requests
+from django.conf import settings
+from django.contrib.sites import requests
+from django.core.management.base import BaseCommand
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 
 class Command(BaseCommand):
+
+    token = settings.Token_KEY_USER
 
     def handle(self, *args, **options):
         # Enable logging
@@ -39,7 +37,7 @@ class Command(BaseCommand):
 
             # hace una llamada a la api por los datos del beneficiario
             url = f'{settings.SITE_DOAMIN}api/personas/{beneficiario}/'
-            headers = {'Authorization': f'Token {settings.Token_KEY_USER}', 'Content-Type': 'application/json'}
+            headers = {'Authorization': f'Token {self.token}', 'Content-Type': 'application/json'}
             r = requests.get(url, headers=headers)
             data = json.loads(r.content.decode('utf-8'))
             if data:
