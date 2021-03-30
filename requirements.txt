@@ -36,7 +36,7 @@ openpyxl==2.6.0
 Pillow==6.2.0
 pycodestyle==2.5.0
 pycparser==2.20
-Pygments==2.5.2
+Pygments==2.7.4
 PyJWT==1.7.1
 PyPDF2==1.26.0
 pypng==0.0.20
