@@ -64,6 +64,7 @@ def caducidad_alimentos():
 
             message = sendgrid.Mail(
                 from_email=f"admin@adra.es",
+                subject=f'El {alimento_1_name} va a caducar pronto',
                 to_emails=list_email,
             )
             message.dynamic_template_data = {
@@ -82,6 +83,7 @@ def caducidad_alimentos():
             alimento_2_name = AlmacenAlimentos._meta.get_field('alimento_2').verbose_name
             message = sendgrid.Mail(
                 from_email=f"admin@adra.es",
+                subject=f'El {alimento_2_name} va a caducar pronto',
                 to_emails=list_email,
             )
             message.dynamic_template_data = {
@@ -100,6 +102,7 @@ def caducidad_alimentos():
             alimento_3_name = AlmacenAlimentos._meta.get_field('alimento_3').verbose_name
             message = sendgrid.Mail(
                 from_email=f"admin@adra.es",
+                subject=f'El {alimento_3_name} va a caducar pronto',
                 to_emails=list_email,
             )
             message.dynamic_template_data = {
@@ -118,6 +121,7 @@ def caducidad_alimentos():
             alimento_4_name = AlmacenAlimentos._meta.get_field('alimento_4').verbose_name
             message = sendgrid.Mail(
                 from_email=f"admin@adra.es",
+                subject=f'El {alimento_4_name} va a caducar pronto',
                 to_emails=list_email,
             )
             message.dynamic_template_data = {
@@ -136,6 +140,7 @@ def caducidad_alimentos():
             alimento_6_name = AlmacenAlimentos._meta.get_field('alimento_6').verbose_name
             message = sendgrid.Mail(
                 from_email=f"admin@adra.es",
+                subject=f'El {alimento_6_name} va a caducar pronto',
                 to_emails=list_email,
             )
             message.dynamic_template_data = {
@@ -154,6 +159,7 @@ def caducidad_alimentos():
             alimento_7_name = AlmacenAlimentos._meta.get_field('alimento_7').verbose_name
             message = sendgrid.Mail(
                 from_email=f"admin@adra.es",
+                subject=f'El {alimento_7_name} va a caducar pronto',
                 to_emails=list_email,
             )
             message.dynamic_template_data = {
@@ -172,6 +178,7 @@ def caducidad_alimentos():
             alimento_8_name = AlmacenAlimentos._meta.get_field('alimento_8').verbose_name
             message = sendgrid.Mail(
                 from_email=f"admin@adra.es",
+                subject=f'El {alimento_8_name} va a caducar pronto',
                 to_emails=list_email,
             )
             message.dynamic_template_data = {
@@ -190,6 +197,7 @@ def caducidad_alimentos():
             alimento_9_name = AlmacenAlimentos._meta.get_field('alimento_9').verbose_name
             message = sendgrid.Mail(
                 from_email=f"admin@adra.es",
+                subject=f'El {alimento_9_name} va a caducar pronto',
                 to_emails=list_email,
             )
             message.dynamic_template_data = {
@@ -208,6 +216,7 @@ def caducidad_alimentos():
             alimento_10_name = AlmacenAlimentos._meta.get_field('alimento_10').verbose_name
             message = sendgrid.Mail(
                 from_email=f"admin@adra.es",
+                subject=f'El {alimento_10_name} va a caducar pronto',
                 to_emails=list_email,
             )
             message.dynamic_template_data = {
@@ -226,6 +235,7 @@ def caducidad_alimentos():
             alimento_11_name = AlmacenAlimentos._meta.get_field('alimento_11').verbose_name
             message = sendgrid.Mail(
                 from_email=f"admin@adra.es",
+                subject=f'El {alimento_11_name} va a caducar pronto',
                 to_emails=list_email,
             )
             message.dynamic_template_data = {
@@ -244,6 +254,7 @@ def caducidad_alimentos():
             alimento_12_name = AlmacenAlimentos._meta.get_field('alimento_12').verbose_name
             message = sendgrid.Mail(
                 from_email=f"admin@adra.es",
+                subject=f'El {alimento_12_name} va a caducar pronto',
                 to_emails=list_email,
             )
             message.dynamic_template_data = {
@@ -262,6 +273,7 @@ def caducidad_alimentos():
             alimento_13_name = AlmacenAlimentos._meta.get_field('alimento_13').verbose_name
             message = sendgrid.Mail(
                 from_email=f"admin@adra.es",
+                subject=f'El {alimento_13_name} va a caducar pronto',
                 to_emails=list_email,
             )
             message.dynamic_template_data = {
@@ -280,6 +292,7 @@ def caducidad_alimentos():
             alimento_14_name = AlmacenAlimentos._meta.get_field('alimento_14').verbose_name
             message = sendgrid.Mail(
                 from_email=f"admin@adra.es",
+                subject=f'El {alimento_14_name} va a caducar pronto',
                 to_emails=list_email,
             )
             message.dynamic_template_data = {
@@ -298,6 +311,7 @@ def caducidad_alimentos():
             alimento_15_name = AlmacenAlimentos._meta.get_field('alimento_15').verbose_name
             message = sendgrid.Mail(
                 from_email=f"admin@adra.es",
+                subject=f'El {alimento_15_name} va a caducar pronto',
                 to_emails=list_email,
             )
             message.dynamic_template_data = {
@@ -320,6 +334,7 @@ def caducidad_alimentos():
 )
 def restart_telefram_bot():
     subprocess.call(["supervisorctl", "restart", "telegram"])
+
 
 @periodic_task(
     run_every=crontab(hour=15, minute=15, day_of_week='sun'),

@@ -1,12 +1,32 @@
 from django.core.management.base import BaseCommand, CommandError
 from datetime import date
-from adra.models import Persona,Alimentos
+from adra.models import Persona, Alimentos
+
 
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
         persona = Persona.objects.all()
-        today = date.today()
+
         for p in persona:
-            print(p.persona)
-            # print( today.year - p.fecha_nacimiento.year - ((today.month, today.day) < (p.fecha_nacimiento.month, p.fecha_nacimiento.day)))
+            p.empadronamiento = False
+            p.libro_familia = False
+            p.fotocopia_dni = False
+            p.prestaciones = False
+            p.nomnia = False
+            p.cert_negativo = False
+            p.aquiler_hipoteca = False
+            p.recibos = False
+            p.are_acte = False
+
+            # print(p.nombre_apellido)
+            # print(p.empadronamiento)
+            # print(p.libro_familia)
+            # print(p.fotocopia_dni)
+            # print(p.prestaciones)
+            # print(p.nomnia)
+            # print(p.cert_negativo)
+            # print(p.aquiler_hipoteca)
+            # print(p.recibos)
+            # print("*" * 90)
+            p.save()

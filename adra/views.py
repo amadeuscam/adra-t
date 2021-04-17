@@ -1018,6 +1018,8 @@ def get_data(request):
     list_ano.append(registro_2019.count())
     registro_2020 = Persona.objects.filter(created_at__year=2020)
     list_ano.append(registro_2020.count())
+    registro_2021 = Persona.objects.filter(created_at__year=2021)
+    list_ano.append(registro_2021.count())
 
     return JsonResponse({"reg": list_ano})
 
@@ -1043,6 +1045,7 @@ class CustomAllauthAdapter(DefaultAccountAdapter):
             sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
             message = Mail(
                 from_email=f"admin@adra.es",
+                subject=f'Activación de la cuenta',
                 to_emails=f"{user.email}",
             )
             message.dynamic_template_data = {
@@ -1063,6 +1066,7 @@ class CustomAllauthAdapter(DefaultAccountAdapter):
             sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
             message = Mail(
                 from_email=f"admin@adra.es",
+                subject=f'Cambio de contraseña',
                 to_emails=f"{user.email}",
             )
             message.dynamic_template_data = {
@@ -1077,3 +1081,24 @@ class CustomAllauthAdapter(DefaultAccountAdapter):
 
             message.template_id = 'd-ab0adafe4dd14cb4b9aba688b7200830'
             response = sg.send(message)
+
+
+@login_required
+def reset_papeles(request):
+    persona = Persona.objects.all()
+    if request.POST:
+        print("cambiar el estado de los papeles")
+        for p in persona:
+            p.empadronamiento = False
+            p.libro_familia = False
+            p.fotocopia_dni = False
+            p.prestaciones = False
+            p.nomnia = False
+            p.cert_negativo = False
+            p.aquiler_hipoteca = False
+            p.recibos = False
+            p.are_acte = False
+            p.save()
+        messages.success(request, 'La tarea se ha relizado correctamente ')
+
+    return render(request, 'acciones/index.html', {'nbar': "acciones"})

@@ -92,6 +92,15 @@
                             <i class="large material-icons" style="font-size: 14px;color: darkslategrey">send</i>
                             Telegram</a>
                     </li>
+                    {% if user.is_staff %}
+                        <li>
+                            <a href="{% url 'adra:reset-papeles' %}"
+                               class="{% if nbar == 'acciones' %}text-primary{% endif %}">
+                                <i class="large material-icons"
+                                   style="font-size: 14px;color: darkslategrey">settings</i>
+                                Acciones</a>
+                        </li>
+                    {% endif %}
 
                 </ul>
             </div>
@@ -156,6 +165,17 @@
                             <p>Telegram</p>
                         </a>
                     </li>
+                    {% if user.is_staff %}
+                        <li class="{% if nbar == 'acciones' %}active{% endif %}">
+                            <a href="{% url 'adra:reset-papeles' %}"
+                               class="d-flex justify-content-start align-items-center ">
+                                <i class="large material-icons"
+                                   style="font-size: 36px;color: darkslategrey">settings</i>
+                                <p>Acciones</p>
+                            </a>
+                        </li>
+                    {% endif %}
+
 
                 </ul>
             </nav>

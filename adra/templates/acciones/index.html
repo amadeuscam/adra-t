@@ -1,0 +1,35 @@
+{% extends "_base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+    Adra-acciones
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 col-sm-12  ">
+            <a class="btn btn-warning mb-3" data-toggle="collapse" href="#collapseExample" role="button"
+               aria-expanded="false"
+               aria-controls="collapseExample">Resetear papeles beneficiarios</a>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12  ">
+                            <form action="{% url 'adra:reset-papeles' %}" method="post">
+                                {% csrf_token %}
+                               <h3>¿Estas seguro?</h3>
+                                <input type="submit" value="Si,haz tu trabajo" class="btn btn-outline btn-success mt-4">
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock content %}
