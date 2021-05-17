@@ -286,7 +286,7 @@
                 {% endfor %}
             {% endif %}
             <div class="section__content section__content--p30">
-                <div class="container" style="background-color: white; padding: 20px;">
+                <div class="container-fluid" style="background-color: white; padding: 20px;">
 
                     {% block content %}
 
@@ -544,8 +544,18 @@
 <script src="{% static 'vendor/wow/wow.min.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
 <script src="{% static 'js/base.js' %}"></script>
+
+
+{% if debug %}
+    <script src="{% static 'js/vue/vue2-6.js' %}"></script>
+{% else %}
+    <script src="{% static 'js/vue/vue-prod.js' %}"></script>
+{% endif %}
+
+<script src="{% static 'js/axios.js' %}"></script>
+<script src="{% static 'js/pagination.js' %}"></script>
+
 <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts.min-v3110-english.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/world.js"></script>
 
 {% block script %}

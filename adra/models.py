@@ -124,6 +124,7 @@ class Hijo(models.Model):
                 (today.month, today.day) < (self.fecha_nacimiento.month, self.fecha_nacimiento.day))
 
 
+
 class Alimentos(models.Model):
     alimento_1 = models.IntegerField(default=None, verbose_name="Arroz Blanco")
     alimento_2 = models.IntegerField(default=None, verbose_name="Alubia cocida")

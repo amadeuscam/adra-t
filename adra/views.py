@@ -70,7 +70,6 @@ class PersonaListView(LoginRequiredMixin, ListView):
     template_name = 'adra/index.html'
     context_object_name = 'ultima_persona'
     model = Persona
-    paginate_by = 15
     login_url = 'account_login'
 
     def get_context_data(self, **kwargs):
@@ -79,6 +78,7 @@ class PersonaListView(LoginRequiredMixin, ListView):
         context['hijo'] = Hijo.objects
         context['hijomenor'] = Hijo
         context['nbar'] = "home"
+        context['debug'] = settings.DEBUG
         context['platform_name'] = settings.PLATFORM_NAME
 
         return context

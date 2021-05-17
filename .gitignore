@@ -10,3 +10,5 @@ media/
 /celerybeat.pid
 /staticfiles
 /venv/
+celerybeat-schedule.db
+celery_comands.txt
