@@ -12,8 +12,8 @@ class Persona(models.Model):
         ('hombre', "Hombre")
     ]
     DOMINGO = [
-        ('1', "Domingo 1"),
-        ('2', "Domingo 2")
+        ('1', "Domingo 2"),
+        ('2', "Domingo 4")
     ]
     CIUDAD = [
         ('Torrejon de ardoz', "Torrejon de ardoz"),
