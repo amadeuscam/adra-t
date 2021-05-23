@@ -11,3 +11,4 @@ media/
 /staticfiles
 /venv/
 celery_comands.txt
+celerybeat-schedule.db
