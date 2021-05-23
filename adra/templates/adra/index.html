@@ -4,8 +4,8 @@
 {% block content %}
 
     {% if ultima_persona %}
-        <div id="beneficiarios_list_app">
-            <div class="row">
+        <div id="beneficiarios_list_app" >
+            <div class="row" v-cloak>
 
                 <div class="col-md-6 col-lg-3" v-for="persona in displayBeneficiarios">
                     <div class="card wow fadeIn" data-wow-duration="2s"

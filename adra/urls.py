@@ -18,21 +18,17 @@ from . import views
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views as vs
 
+
 app_name = 'adra'
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
 router.register(r'personas', views.PersonaViewSet)
+router.register(r'almacen', views.AlmacenViewSet)
 router.register(r'users', views.UserViewSet)
 
 urlpatterns = [
     path('api/', include((router.urls, 'api'), namespace='api')),
     path('api-token-auth/', vs.obtain_auth_token, name="api-token-auth"),
-    # API
-    # path('api/', views.api_root),
-    # path('api/persona/', persona_list, name="persona-list"),
-    # path('api/persona/<int:pk>/', persona_detail, name='persona-api-detail'),
-    # path('api/users/', user_list, name='user-list'),
-    # path('api/users/<int:pk>/', user_detail),
 
     # personas url
     path('', PersonaListView.as_view(), name="persona-home"),
@@ -84,7 +80,4 @@ urlpatterns = [
     path('adra-anuncios/', views.anuncios, name='anuncio'),
     path('reset-papeles/', views.reset_papeles, name='reset-papeles'),
 
-]
-urlpatterns += [
-    path('api-auth/', include('rest_framework.urls')),
 ]

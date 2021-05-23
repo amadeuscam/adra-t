@@ -1,8 +1,6 @@
-import time
-
-from django.contrib.messages.views import SuccessMessageMixin
 import logging
 import os
+import time
 from datetime import date
 import telegram
 from PyPDF2 import PdfFileReader, PdfFileWriter
@@ -19,6 +17,7 @@ from django.db.models import Sum
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.views.decorators.cache import cache_page
 from django.views.generic import (ListView, DetailView, DeleteView, UpdateView, CreateView)
 from mailmerge import MailMerge
 from openpyxl import Workbook
@@ -30,9 +29,7 @@ from sendgrid.helpers.mail import (Mail)
 from .filters import AlimentosFilters
 from .forms import AlimentosFrom, HijoForm, PersonaForm, ProfileEditForm, UserEditForm
 from .models import Persona, Alimentos, AlmacenAlimentos, Hijo
-from .serializers import PersonaSerializer, UserSerializer
-from .tasks import export_zip, restart
-from django.views.decorators.cache import cache_page
+from .serializers import PersonaSerializer, AlacenAlimentosSerializer, UserSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -484,12 +481,6 @@ def calculate_age(age):
 def statistics_persona(request):
     mod = 2
     if request.POST:
-        if request.POST.get('fecha_val', None):
-            fecha_val = request.POST.get('fecha_val', None)
-            rep = export_zip(fecha_val)
-            restart.apply_async()
-            return rep
-
         if request.POST.get('mod', None):
             mod = request.POST.get('mod', None)
 
@@ -573,51 +564,6 @@ def statistics_persona(request):
     }
     toc = time.perf_counter()
     print(f"Load page in {toc - tic:0.4f} seconds")
-    # beneficiar_mujer = Persona.objects.filter(active=True, sexo__icontains="mujer")
-    # iter_mujer_02 = len([b.age for b in beneficiar_mujer if b.age >= 0 and b.age <= 2])
-    # iter_mujer_3_15 = len([b.age for b in beneficiar_mujer if b.age >= 3 and b.age <= 15])
-    # iter_mujer_16_64 = len([b.age for b in beneficiar_mujer if b.age >= 16 and b.age <= 64])
-    # iter_mujer_65 = len([b.age for b in beneficiar_mujer if b.age >= 65])
-    #
-    # beneficiar_hombre = Persona.objects.filter(active=True, sexo__icontains="hombre")
-    # iter_hombre_02 = len([b.age for b in beneficiar_hombre if b.age >= 0 and b.age <= 2])
-    # iter_hombre_3_15 = len([b.age for b in beneficiar_hombre if b.age >= 3 and b.age <= 15])
-    # iter_hombre_16_64 = len([b.age for b in beneficiar_hombre if b.age >= 16 and b.age <= 64])
-    # iter_hombre_65 = len([b.age for b in beneficiar_hombre if b.age >= 65])
-    #
-    # familiares_mujer = Hijo.objects.filter(active=True, sexo="m")
-    # iter_familiares_mujer_02 = len([b.age for b in familiares_mujer if b.age >= 0 and b.age <= 2])
-    # iter_familiares_mujer_3_15 = len([b.age for b in familiares_mujer if b.age >= 3 and b.age <= 15])
-    # iter_familiares_mujer_16_64 = len([b.age for b in familiares_mujer if b.age >= 16 and b.age <= 64])
-    # iter_familiares_mujer_65 = len([b.age for b in familiares_mujer if b.age >= 65])
-    #
-    # familiares_hombre = Hijo.objects.filter(active=True, sexo="h")
-    # iter_familiares_hombre_02 = len([b.age for b in familiares_hombre if b.age >= 0 and b.age <= 2])
-    # iter_familiares_hombre_3_15 = len([b.age for b in familiares_hombre if b.age >= 3 and b.age <= 15])
-    # iter_familiares_hombre_16_64 = len([b.age for b in familiares_hombre if b.age >= 16 and b.age <= 64])
-    # iter_familiares_hombre_65 = len([b.age for b in familiares_hombre if b.age >= 65])
-    #
-    # total_mujer_02 = iter_mujer_02 + iter_familiares_mujer_02
-    # total_mujer_3_15 = iter_mujer_3_15 + iter_familiares_mujer_3_15
-    # total_mujer_15_64 = iter_mujer_16_64 + iter_familiares_mujer_16_64
-    # total_mujer_65 = iter_mujer_65 + iter_familiares_mujer_65
-    # total_mujeres = total_mujer_02 + total_mujer_3_15 + total_mujer_15_64 + total_mujer_65
-    #
-    # total_hombre_02 = iter_hombre_02 + iter_familiares_hombre_02
-    # total_hombre_3_15 = iter_hombre_3_15 + iter_familiares_hombre_3_15
-    # total_hombre_15_64 = iter_hombre_16_64 + iter_familiares_hombre_16_64
-    # total_hombre_65 = iter_hombre_65 + iter_familiares_hombre_65
-    # total_hombres = total_hombre_02 + total_hombre_3_15 + total_hombre_15_64 + total_hombre_65
-    #
-    # total_02 = total_hombre_02 + total_mujer_02
-    # total_3_15 = total_hombre_3_15 + total_mujer_3_15
-    # total_15_64 = total_hombre_15_64 + total_mujer_15_64
-    # total_65 = total_hombre_65 + total_mujer_65
-    # total = total_02 + total_3_15 + total_15_64 + total_65
-    #
-    # discapacidad = Persona.objects.filter(discapacidad=True, active=True).count()
-    # total_beneficiarios = Persona.objects.filter(active=True).count()
-    # total_familiares = Hijo.objects.filter(active=True).count()
 
     return render(request, 'statistics/index.html', data_statistics)
 
@@ -941,51 +887,6 @@ def generar_hoja_valoracion_social(request, pk):
     return response
 
 
-# API ADRA
-# @api_view(['GET', 'POST'])
-# def persona_list(request,format=None):
-#     """
-#     Listado todas las personas
-#     """
-#     if request.method == 'GET':
-#         personas = Persona.objects.all()
-#         serializer = PersonaSerializer(personas, many=True)
-#         return Response(serializer.data)
-#
-#     elif request.method == 'POST':
-#         serializer = PersonaSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#
-#
-# @api_view(['GET', 'PUT', 'DELETE'])
-# def persona_detail(request, pk,format=None):
-#     """
-#     Crud persona.
-#     """
-#     try:
-#         persona = Persona.objects.get(pk=pk)
-#     except Persona.DoesNotExist:
-#         return Response(status=status.HTTP_404_NOT_FOUND)
-#
-#     if request.method == 'GET':
-#         serializer = PersonaSerializer(persona)
-#         return Response(serializer.data)
-#
-#     elif request.method == 'PUT':
-#         serializer = PersonaSerializer(persona, data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#
-#     elif request.method == 'DELETE':
-#         persona.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
 class PersonaViewSet(viewsets.ModelViewSet):
     """
         This viewset automatically provides `list`, `create`, `retrieve`,
@@ -1000,12 +901,21 @@ class PersonaViewSet(viewsets.ModelViewSet):
         serializer.save(modificado_por=self.request.user)
 
 
+class AlmacenViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+        This viewset automatically provides `list`, `create`, `retrieve`,
+        `update` and `destroy` actions.
+        """
+    queryset = AlmacenAlimentos.objects.all()
+    serializer_class = AlacenAlimentosSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
     This viewset automatically provides `list` and `detail` actions.
     """
-
-    queryset = get_user_model().objects.all()
+    queryset = get_user_model().objects.filter(is_superuser=True)
     serializer_class = UserSerializer
 
 

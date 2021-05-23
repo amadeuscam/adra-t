@@ -8,7 +8,7 @@
 
 {% block content %}
     <a class="btn btn-info mb-3" href="{% url 'adra:exportar-users-csv' %}">Exportar beneficiarios</a>
-    <a class="btn btn-info mb-3" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+{% comment %}    <a class="btn btn-info mb-3" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
        aria-controls="collapseExample">Exportar valoracion social</a>
     <div class="collapse" id="collapseExample">
         <div class="card card-body">
@@ -27,7 +27,7 @@
             </div>
 
         </div>
-    </div>
+    </div>{% endcomment %}
 
 
 
@@ -161,7 +161,7 @@
 
         axios.get("{% url 'adra:get_data' %}")
             .then(function (response) {
-                console.log(response);
+                {#console.log(response);#}
                 myChart.setOption({
                     series: [{
                         data: response.data.reg,
