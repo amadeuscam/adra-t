@@ -2,128 +2,109 @@
 {% load verbose_names %}
 
 {% block title %}
-Almacen
+    Almacen
 {% endblock %}
 <div class="row">
     {% block content %}
 
 
-    <div class="col-md-12">
-        <aside class="profile-nav alt">
-            <section class="card">
-                <div class="card-header user-header alt bg-dark">
-                    <div class="media">
+        <div class="col-md-12">
+            <aside class="profile-nav alt">
+                <section class="card">
+                    <div class="card-header user-header alt bg-dark">
+                        <div class="media">
 
-                        <div class="media-body">
-                            <h2 class="text-light display-6">Almacen</h2>
-                            <p class="text-danger">Unidades disponibles</p>
+                            <div class="media-body">
+                                <h2 class="text-light display-6">Almacen</h2>
+                                <p class="text-danger">Unidades disponibles</p>
+                            </div>
                         </div>
                     </div>
-                </div>
 
 
+                    <ul class="list-group list-group-flush">
+                        {% for alimento in almacen_adra %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {% get_verbose_field_name alimento "alimento_1" %}
+                                <span class="badge badge-primary">{{ alimento.alimento_1 }}</span>
+                            </li>
 
-                <ul class="list-group list-group-flush">
+                            <li class="list-group-item  d-flex justify-content-between align-items-center">
+                                {% get_verbose_field_name alimento "alimento_2" %}
+                                <span class="badge badge-primary ">{{ alimento.alimento_2 }}</span>
 
-                    {% for alimento in almacen_adra %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {% get_verbose_field_name alimento "alimento_1" %}
-                        <span class="badge badge-primary">{{ alimento.alimento_1 }}</span>
-                    </li>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {% get_verbose_field_name alimento "alimento_3" %}
+                                <span class="badge badge-primary ">{{ alimento.alimento_3 }}</span>
 
-                    <li class="list-group-item  d-flex justify-content-between align-items-center">
-                        {% get_verbose_field_name alimento "alimento_2" %}
-                        <span class="badge badge-primary ">{{ alimento.alimento_2 }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {% get_verbose_field_name alimento "alimento_4" %}
+                                <span class="badge badge-primary ">{{ alimento.alimento_4 }}</span>
 
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {% get_verbose_field_name alimento "alimento_3" %}
-                        <span class="badge badge-primary ">{{ alimento.alimento_3 }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {% get_verbose_field_name alimento "alimento_5" %}
+                                <span class="badge badge-primary ">{{ alimento.alimento_5 }}</span>
 
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {% get_verbose_field_name alimento "alimento_4" %}
-                        <span class="badge badge-primary ">{{ alimento.alimento_4 }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {% get_verbose_field_name alimento "alimento_6" %}
+                                <span class="badge badge-primary ">{{ alimento.alimento_6 }}</span>
 
-                        {% get_verbose_field_name alimento "alimento_6" %}
-                        <span class="badge badge-primary ">{{ alimento.alimento_6 }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {% get_verbose_field_name alimento "alimento_7" %}
+                                <span class="badge badge-primary ">{{ alimento.alimento_7 }}</span>
 
-                       {% get_verbose_field_name alimento "alimento_7" %}
-                        <span class="badge badge-primary ">{{ alimento.alimento_7}}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {% get_verbose_field_name alimento "alimento_8" %}
+                                <span class="badge badge-primary ">{{ alimento.alimento_8 }}</span>
 
-                        {% get_verbose_field_name alimento "alimento_8" %}
-                        <span class="badge badge-primary ">{{ alimento.alimento_8}}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {% get_verbose_field_name alimento "alimento_9" %}
+                                <span class="badge badge-primary ">{{ alimento.alimento_9 }}</span>
 
-                       {% get_verbose_field_name alimento "alimento_9" %}
-                        <span class="badge badge-primary ">{{ alimento.alimento_9}}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {% get_verbose_field_name alimento "alimento_10" %}
+                                <span class="badge badge-primary ">{{ alimento.alimento_10 }}</span>
 
-                        {% get_verbose_field_name alimento "alimento_10" %}
-                        <span class="badge badge-primary ">{{ alimento.alimento_10}}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {% get_verbose_field_name alimento "alimento_11" %}
+                                <span class="badge badge-primary ">{{ alimento.alimento_11 }}</span>
 
-                       {% get_verbose_field_name alimento "alimento_11" %}
-                        <span class="badge badge-primary ">{{ alimento.alimento_11}}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {% get_verbose_field_name alimento "alimento_12" %}
+                                <span class="badge badge-primary ">{{ alimento.alimento_12 }}</span>
 
-                        {% get_verbose_field_name alimento "alimento_12" %}
-                        <span class="badge badge-primary ">{{ alimento.alimento_12}}</span>
+                            </li>
+                        {% empty %}
+                            <p>Almacen vacio</p>
+                        {% endfor %}
+                    </ul>
 
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-
-                       {% get_verbose_field_name alimento "alimento_13" %}
-                        <span class="badge badge-primary ">{{ alimento.alimento_13}}</span>
-
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-
-                        {% get_verbose_field_name alimento "alimento_14" %}
-                        <span class="badge badge-primary ">{{ alimento.alimento_14}}</span>
-
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-
-                        {% get_verbose_field_name alimento "alimento_15" %}
-                        <span class="badge badge-primary ">{{ alimento.alimento_15}}</span>
-
-                    </li>
-{#                    <li class="list-group-item d-flex justify-content-between align-items-center">#}
-{#                        {% get_verbose_field_name alimento "alimento_2" %}#}
-{#                        <span class="badge badge-primary ">{{ alimento.alimento_14}}</span>#}
-{#                    </li>#}
-                    {% empty %}
-                    <p>Almacen vacio</p>
-                    {% endfor %}
-                </ul>
-
-            </section>
-        </aside>
-    </div>
+                </section>
+            </aside>
+        </div>
 
 
 
 
 
-    <!-- 
+        <!--
     <div class="col-md-12 col-sm-12">
 
         <table class="table  table-sm table-responsive">
@@ -168,8 +149,10 @@ Almacen
                     <td>{{ alimento.aceite_de_oliva }}</td>
                     <td>{{ alimento.modificado_por }}</td>
                     {#                <td><a href="{% url 'adra:persona-detail' persona.id %}">Ver</a></td>#}
-                    {#                <td><a href="{% url 'adra:persona-update-alimentos' alimento.id %}">Editar</a></td>#}
-                    {#                <td><a href="{% url 'adra:persona-alimentos-delete' alimento.id %}">Sterge</a></td>#}
+
+        {#                <td><a href="{% url 'adra:persona-update-alimentos' alimento.id %}">Editar</a></td>#}
+
+        {#                <td><a href="{% url 'adra:persona-alimentos-delete' alimento.id %}">Sterge</a></td>#}
                 </tr>
                 {% empty %}
                 <p>Nu sa dat alimente acestei personane :(</p>
@@ -177,7 +160,8 @@ Almacen
             </tbody>
         </table>
     </div>
-    {#    <a class="btn btn-success" role="button" href="{% url 'adra:alimentos-create' persona.id %}">Repartir Alimento#}
+
+        {#    <a class="btn btn-success" role="button" href="{% url 'adra:alimentos-create' persona.id %}">Repartir Alimento#}
     {#        para {{ object.nombre_apellido }}</a>#}
     {% endblock %} -->
 

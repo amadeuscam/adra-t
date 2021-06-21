@@ -57,13 +57,9 @@ def caducidad_alimentos():
 
     list_email = [e['email'] for e in users_data]
 
-    for number in range(1, 16):
-        if number == 5:
-            continue
-
+    for number in range(1, 13):
         if check_caducidad(data_aliemntos[f'alimento_{number}_caducidad']) == 37:
             send_email_sendgrid(data_aliemntos[f'alimento_{number}_name'], list_email)
-
 
 
 @periodic_task(
@@ -90,7 +86,6 @@ def make_backup_mysql():
 
     dc = subprocess.Popen(command_line, shell=True)
     dc.wait()
-
 
 # @shared_task
 # def restart():

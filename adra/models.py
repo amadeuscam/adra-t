@@ -124,24 +124,19 @@ class Hijo(models.Model):
                 (today.month, today.day) < (self.fecha_nacimiento.month, self.fecha_nacimiento.day))
 
 
-
 class Alimentos(models.Model):
     alimento_1 = models.IntegerField(default=None, verbose_name="Arroz Blanco")
-    alimento_2 = models.IntegerField(default=None, verbose_name="Alubia cocida")
-    alimento_3 = models.IntegerField(verbose_name="Conserva de atún", default=None)
-    alimento_4 = models.IntegerField(default=None, verbose_name="Conserva de sardina")
-    alimento_5 = models.IntegerField(default=None, blank=True, null=True,
-                                     verbose_name="Conserva de carne (magro de cerdo)")
-    alimento_6 = models.IntegerField(default=None, verbose_name="Pasta alimenticia tipo macarrón")
-    alimento_7 = models.IntegerField(default=None, verbose_name="Tomate frito en conserva")
-    alimento_8 = models.IntegerField(default=None, verbose_name="Galletas")
-    alimento_9 = models.IntegerField(default=None, verbose_name="Macedonia de verduras en conserva")
-    alimento_10 = models.IntegerField(default=None, verbose_name="Fruta en conserva")
-    alimento_11 = models.IntegerField(default=None, verbose_name="Tarritos infantiles con pollo")
-    alimento_12 = models.IntegerField(default=None, verbose_name="Tarritos infantiles de fruta")
-    alimento_13 = models.IntegerField(default=None, verbose_name="Leche entera UHT")
-    alimento_14 = models.IntegerField(default=None, verbose_name="Batidos de chocolate")
-    alimento_15 = models.IntegerField(default=None, verbose_name="Aceite de oliva")
+    alimento_2 = models.IntegerField(default=None, verbose_name="Garbanzos cocidos")
+    alimento_3 = models.IntegerField(default=None, verbose_name="Conserva de atún")
+    alimento_4 = models.IntegerField(default=None, verbose_name="Pasta alimenticia tipo espagueti")
+    alimento_5 = models.IntegerField(default=None, verbose_name="Tomate frito en conserva")
+    alimento_6 = models.IntegerField(default=None, verbose_name="Galletas")
+    alimento_7 = models.IntegerField(default=None, verbose_name="Macedonia de verduras en conserva")
+    alimento_8 = models.IntegerField(default=None, verbose_name="Cacao soluble")
+    alimento_9 = models.IntegerField(default=None, verbose_name="Tarritos infantiles con pollo")
+    alimento_10 = models.IntegerField(default=None, verbose_name="Tarritos infantiles de fruta")
+    alimento_11 = models.IntegerField(default=None, verbose_name="Leche entera UHT")
+    alimento_12 = models.IntegerField(default=None, verbose_name="Aceite de oliva")
 
     modificado_por = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     persona = models.ForeignKey(Persona, on_delete=models.CASCADE, related_name="alimentos")
@@ -160,51 +155,34 @@ class Alimentos(models.Model):
 
 class AlmacenAlimentos(models.Model):
     alimento_1 = models.IntegerField(blank=True, null=True, verbose_name="Arroz Blanco")
-    alimento_2 = models.IntegerField(blank=True, null=True, verbose_name="Alubia cocida")
+    alimento_2 = models.IntegerField(blank=True, null=True, verbose_name="Garbanzos cocidos")
     alimento_3 = models.IntegerField(blank=True, null=True, verbose_name="Conserva de atún")
-    alimento_4 = models.IntegerField(blank=True, null=True, verbose_name="Conserva de sardina")
-    alimento_5 = models.IntegerField(blank=True, null=True, verbose_name="Conserva de carne (magro de cerdo)")
-    alimento_6 = models.IntegerField(blank=True, null=True, verbose_name="Pasta alimenticia tipo macarrón")
-    alimento_7 = models.IntegerField(blank=True, null=True, verbose_name="Tomate frito en conserva")
-    alimento_8 = models.IntegerField(blank=True, null=True, verbose_name="Galletas")
-    alimento_9 = models.IntegerField(blank=True, null=True, verbose_name="Macedonia de verduras en conserva")
-    alimento_10 = models.IntegerField(blank=True, null=True, verbose_name="Fruta en conserva")
-    alimento_11 = models.IntegerField(blank=True, null=True, verbose_name="Tarritos infantiles con pollo")
-    alimento_12 = models.IntegerField(blank=True, null=True, verbose_name="Tarritos infantiles de fruta")
-    alimento_13 = models.IntegerField(blank=True, null=True, verbose_name="Leche entera UHT")
-    alimento_14 = models.IntegerField(blank=True, null=True, verbose_name="Batidos de chocolate")
-    alimento_15 = models.IntegerField(blank=True, null=True, verbose_name="Aceite de oliva")
+    alimento_4 = models.IntegerField(blank=True, null=True, verbose_name="Pasta alimenticia tipo espagueti")
+    alimento_5 = models.IntegerField(blank=True, null=True, verbose_name="Tomate frito en conserva")
+    alimento_6 = models.IntegerField(blank=True, null=True, verbose_name="Galletas")
+    alimento_7 = models.IntegerField(blank=True, null=True, verbose_name="Macedonia de verduras en conserva")
+    alimento_8 = models.IntegerField(blank=True, null=True, verbose_name="Cacao soluble")
+    alimento_9 = models.IntegerField(blank=True, null=True, verbose_name="Tarritos infantiles con pollo")
+    alimento_10 = models.IntegerField(blank=True, null=True, verbose_name="Tarritos infantiles de fruta")
+    alimento_11 = models.IntegerField(blank=True, null=True, verbose_name="Leche entera UHT")
+    alimento_12 = models.IntegerField(blank=True, null=True, verbose_name="Aceite de oliva")
 
     modificado_por = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
     alimento_1_caducidad = models.DateField(auto_now_add=False, blank=True, default=None, verbose_name="Arroz Blanco")
-    alimento_2_caducidad = models.DateField(auto_now_add=False, blank=True, default=None, verbose_name="Alubia cocida")
-    alimento_3_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,
-                                            verbose_name="Conserva de atún")
-    alimento_4_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,
-                                            verbose_name="Conserva de sardina")
-    # alimento_5_caducidad = models.DateField(auto_now_add=False, blank=True, default=None)
-    alimento_6_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,
-                                            verbose_name="Pasta alimenticia tipo macarrón")
-    alimento_7_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,
-                                            verbose_name="Tomate frito en conserva")
-    alimento_8_caducidad = models.DateField(auto_now_add=False, blank=True, default=None, verbose_name="Galletas")
-    alimento_9_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,
-                                            verbose_name="Macedonia de verduras en conserva")
-    alimento_10_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,
-                                             verbose_name="Fruta en conserva")
-    alimento_11_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,
-                                             verbose_name="Tarritos infantiles con pollo")
-    alimento_12_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,
-                                             verbose_name="Tarritos infantiles de fruta")
-    alimento_13_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,
-                                             verbose_name="Leche entera UHT")
-    alimento_14_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,
-                                             verbose_name="Batidos de chocolate")
-    alimento_15_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,
-                                             verbose_name="Aceite de oliva")
+    alimento_2_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,verbose_name="Garbanzos cocidos")
+    alimento_3_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,verbose_name="Conserva de atún")
+    alimento_4_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,verbose_name="Pasta alimenticia tipo espagueti")
+    alimento_5_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,verbose_name="Tomate frito en conserva")
+    alimento_6_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,verbose_name="Galletas")
+    alimento_7_caducidad = models.DateField(auto_now_add=False, blank=True, default=None, verbose_name="Macedonia de verduras en conserva")
+    alimento_8_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,verbose_name="Cacao soluble")
+    alimento_9_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,verbose_name="Tarritos infantiles con pollo")
+    alimento_10_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,verbose_name="Tarritos infantiles de fruta")
+    alimento_11_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,verbose_name="Leche entera UHT")
+    alimento_12_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,verbose_name="Aceite de oliva")
 
     class Meta:
         verbose_name = "Almacen Alimento"

@@ -12,6 +12,7 @@ class AlimentosFrom(ModelForm):
             'alimento_2',
             'alimento_3',
             'alimento_4',
+            'alimento_5',
             'alimento_6',
             'alimento_7',
             'alimento_8',
@@ -19,9 +20,6 @@ class AlimentosFrom(ModelForm):
             'alimento_10',
             'alimento_11',
             'alimento_12',
-            'alimento_13',
-            'alimento_14',
-            'alimento_15',
             'fecha_recogida'
         )
         widgets = {

@@ -20,8 +20,8 @@ class AlacenAlimentosSerializer(serializers.ModelSerializer):
     alimento_4_name = serializers.CharField(default=f"{AlmacenAlimentos._meta.get_field('alimento_4').verbose_name}",
                                             read_only=True)
 
-    # alimento_5_name = serializers.CharField(default=f"{AlmacenAlimentos._meta.get_field('alimento_5').verbose_name}",
-    #                                         read_only=True)
+    alimento_5_name = serializers.CharField(default=f"{AlmacenAlimentos._meta.get_field('alimento_5').verbose_name}",
+                                            read_only=True)
     alimento_6_name = serializers.CharField(default=f"{AlmacenAlimentos._meta.get_field('alimento_6').verbose_name}",
                                             read_only=True)
     alimento_7_name = serializers.CharField(default=f"{AlmacenAlimentos._meta.get_field('alimento_7').verbose_name}",
@@ -36,13 +36,6 @@ class AlacenAlimentosSerializer(serializers.ModelSerializer):
     alimento_11_name = serializers.CharField(default=f"{AlmacenAlimentos._meta.get_field('alimento_11').verbose_name}",
                                              read_only=True)
     alimento_12_name = serializers.CharField(default=f"{AlmacenAlimentos._meta.get_field('alimento_12').verbose_name}",
-                                             read_only=True)
-
-    alimento_13_name = serializers.CharField(default=f"{AlmacenAlimentos._meta.get_field('alimento_13').verbose_name}",
-                                             read_only=True)
-    alimento_14_name = serializers.CharField(default=f"{AlmacenAlimentos._meta.get_field('alimento_14').verbose_name}",
-                                             read_only=True)
-    alimento_15_name = serializers.CharField(default=f"{AlmacenAlimentos._meta.get_field('alimento_15').verbose_name}",
                                              read_only=True)
 
     class Meta:

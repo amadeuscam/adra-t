@@ -13,7 +13,9 @@
                 {{ filter.form|crispy }}
 
                 <div class="form-group">
-                    <button class="btn  btn-block" style="background: darkslategrey;color: white;" type="submit">Buscar</button>
+                    <button class="btn  btn-block" style="background: darkslategrey;color: white;" type="submit">
+                        Buscar
+                    </button>
                 </div>
             </form>
 
@@ -43,6 +45,13 @@
                 {% for key,val in alimento_4.items %}
                     <li class="list-group-item d-flex justify-content-between align-items-center ">
                         {% get_verbose_field_name alimento "alimento_4" %}
+                        <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
+                            {{ val }}{% endif %}</span>
+                    </li>
+                {% endfor %}
+                {% for key,val in alimento_5.items %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center ">
+                        {% get_verbose_field_name alimento "alimento_5" %}
                         <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
                             {{ val }}{% endif %}</span>
                     </li>
@@ -96,42 +105,6 @@
                             {{ val }}{% endif %}</span>
                     </li>
                 {% endfor %}
-                {% for key,val in alimento_13.items %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        {% get_verbose_field_name alimento "alimento_13" %}
-                        <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
-                            {{ val }}{% endif %}</span>
-                    </li>
-                {% endfor %}
-                {% for key,val in alimento_14.items %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        {% get_verbose_field_name alimento "alimento_14" %}
-                        <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
-                            {{ val }}{% endif %}</span>
-                    </li>
-                {% endfor %}
-                {% for key,val in alimento_15.items %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        {% get_verbose_field_name alimento "alimento_15" %}
-                        <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
-                            {{ val }}{% endif %}</span>
-                    </li>
-                {% endfor %}
-
-                {% comment %} {% for key,val in alimento_1.items %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        Batido de Chocolate
-                        <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
-                            {{ val }}{% endif %}</span>
-                    </li>
-                {% endfor %}
-                {% for key,val in alimento_1.items %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        Aceite
-                        <span class="badge badge-dark badge-pill">{% if val == None %} 0{% else %}
-                            {{ val }}{% endif %}</span>
-                    </li>
-                {% endfor %}{% endcomment %}
             </ul>
         </div>
         <div class="col-md-8 col-sm-12">
@@ -166,6 +139,10 @@
                         <span class="badge badge-primary badge-pill">{{ alimento.alimento_4 }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {% get_verbose_field_name alimento "alimento_5" %}
+                        <span class="badge badge-primary badge-pill">{{ alimento.alimento_5 }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
                         {% get_verbose_field_name alimento "alimento_6" %}
                         <span class="badge badge-primary badge-pill">{{ alimento.alimento_6 }}</span>
                     </li>
@@ -193,24 +170,6 @@
                         {% get_verbose_field_name alimento "alimento_12" %}
                         <span class="badge badge-primary badge-pill">{{ alimento.alimento_12 }}</span>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {% get_verbose_field_name alimento "alimento_13" %}
-                        <span class="badge badge-primary badge-pill">{{ alimento.alimento_13 }}</span>
-                    </li>
-
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {% get_verbose_field_name alimento "alimento_14" %}
-                        <span class="badge badge-primary badge-pill">{{ alimento.alimento_14 }}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {% get_verbose_field_name alimento "alimento_15" %}
-                        <span class="badge badge-primary badge-pill">{{ alimento.alimento_15 }}</span>
-                    </li>
-
-{#                    <li class="list-group-item d-flex justify-content-between align-items-center">#}
-{#                        Aceite de Oliva#}
-{#                        <span class="badge badge-primary badge-pill">{{ alimento.aceite_de_oliva }}</span>#}
-{#                    </li>#}
 
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         Modificado por

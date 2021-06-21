@@ -3,6 +3,7 @@ import os
 import time
 from datetime import date
 import telegram
+import xlsxwriter
 from PyPDF2 import PdfFileReader, PdfFileWriter
 from PyPDF2.generic import BooleanObject, NameObject, IndirectObject
 from allauth.account.adapter import DefaultAccountAdapter
@@ -21,6 +22,7 @@ from django.views.decorators.cache import cache_page
 from django.views.generic import (ListView, DetailView, DeleteView, UpdateView, CreateView)
 from mailmerge import MailMerge
 from openpyxl import Workbook
+from openpyxl.worksheet.dimensions import ColumnDimension
 from openpyxl.styles import Alignment, PatternFill
 from rest_framework import permissions
 from rest_framework import viewsets
@@ -185,7 +187,7 @@ def adauga_alimentos_persona(request, pk):
             almacen.alimento_2 -= alimentos.alimento_2
             almacen.alimento_3 -= alimentos.alimento_3
             almacen.alimento_4 -= alimentos.alimento_4
-            # almacen.alimento_5 -= alimentos.alimento_5
+            almacen.alimento_5 -= alimentos.alimento_5
             almacen.alimento_6 -= alimentos.alimento_6
             almacen.alimento_7 -= alimentos.alimento_7
             almacen.alimento_8 -= alimentos.alimento_8
@@ -193,9 +195,6 @@ def adauga_alimentos_persona(request, pk):
             almacen.alimento_10 -= alimentos.alimento_10
             almacen.alimento_11 -= alimentos.alimento_11
             almacen.alimento_12 -= alimentos.alimento_12
-            almacen.alimento_13 -= alimentos.alimento_13
-            almacen.alimento_14 -= alimentos.alimento_14
-            almacen.alimento_15 -= alimentos.alimento_15
 
             alimentos.persona = persona
             alimentos.modificado_por = request.user
@@ -217,6 +216,7 @@ class PersonaAlimentosUpdateView(LoginRequiredMixin, UpdateView):
         'alimento_2',
         'alimento_3',
         'alimento_4',
+        'alimento_5',
         'alimento_6',
         'alimento_7',
         'alimento_8',
@@ -224,9 +224,6 @@ class PersonaAlimentosUpdateView(LoginRequiredMixin, UpdateView):
         'alimento_10',
         'alimento_11',
         'alimento_12',
-        'alimento_13',
-        'alimento_14',
-        'alimento_15',
         'fecha_recogida'
 
     ]
@@ -270,6 +267,15 @@ class PersonaAlimentosUpdateView(LoginRequiredMixin, UpdateView):
             else:
                 restante = abs(form.instance.alimento_4 - valor_anterior_alimento_4)
                 almacen.alimento_4 += restante
+
+        if "alimento_5" in clean:
+            valor_anterior_alimento_5 = form.initial["alimento_5"]
+            if form.instance.alimento_5 > valor_anterior_alimento_5:
+                restante = abs(form.instance.alimento_5 - valor_anterior_alimento_5)
+                almacen.alimento_5 -= restante
+            else:
+                restante = abs(form.instance.alimento_5 - valor_anterior_alimento_5)
+                almacen.alimento_5 += restante
 
         if "alimento_6" in clean:
             valor_anterior_alimento_6 = form.initial["alimento_6"]
@@ -328,49 +334,11 @@ class PersonaAlimentosUpdateView(LoginRequiredMixin, UpdateView):
         if "alimento_12" in clean:
             valor_anterior_alimento_12 = form.initial["alimento_12"]
             if form.instance.alimento_12 > valor_anterior_alimento_12:
-                restante = abs(form.instance.tarito_fruta - valor_anterior_alimento_12)
+                restante = abs(form.instance.alimento_12 - valor_anterior_alimento_12)
                 almacen.alimento_12 -= restante
             else:
-                restante = abs(form.instance.tarito_fruta - valor_anterior_alimento_12)
+                restante = abs(form.instance.alimento_12 - valor_anterior_alimento_12)
                 almacen.alimento_12 += restante
-
-        if "alimento_13" in clean:
-            valor_anterior_alimento_13 = form.initial["alimento_13"]
-            if form.instance.alimento_13 > valor_anterior_alimento_13:
-                restante = abs(form.instance.alimento_13 - valor_anterior_alimento_13)
-                almacen.alimento_13 -= restante
-            else:
-                restante = abs(form.instance.alimento_13 - valor_anterior_alimento_13)
-                almacen.alimento_13 += restante
-
-        if "alimento_14" in clean:
-            valor_anterior_alimento_14 = form.initial["alimento_14"]
-            if form.instance.alimento_14 > valor_anterior_alimento_14:
-                restante = abs(form.instance.alimento_14 - valor_anterior_alimento_14)
-                almacen.alimento_14 -= restante
-            else:
-                restante = abs(form.instance.alimento_14 - valor_anterior_alimento_14)
-                almacen.alimento_14 += restante
-
-        if "alimento_15" in clean:
-            valor_anterior_alimento_15 = form.initial["alimento_15"]
-            if form.instance.alimento_15 > valor_anterior_alimento_15:
-                restante = abs(form.instance.alimento_15 - valor_anterior_alimento_15)
-                almacen.alimento_15 -= restante
-            else:
-                restante = abs(form.instance.alimento_15 - valor_anterior_alimento_15)
-                almacen.alimento_15 += restante
-
-        # if "aceite_de_oliva" in clean:
-        #     valor_anterior_aceite_de_oliva = form.initial["aceite_de_oliva"]
-        #     if form.instance.aceite_de_oliva > valor_anterior_aceite_de_oliva:
-        #         restante = abs(form.instance.aceite_de_oliva -
-        #                        valor_anterior_aceite_de_oliva)
-        #         almacen.aceite_de_oliva -= restante
-        #     else:
-        #         restante = abs(form.instance.aceite_de_oliva -
-        #                        valor_anterior_aceite_de_oliva)
-        #         almacen.aceite_de_oliva += restante
 
         almacen.save()
         form.instance.modificado_por = self.request.user
@@ -671,45 +639,76 @@ def export_users_csv(request):
 def buscar_fecha(request):
     alimentos_list = Alimentos.objects.all()
     user_filter = AlimentosFilters(request.GET, queryset=alimentos_list)
-    # EXCEL ZONE
-    # # Create a workbook and add a worksheet.
-    # workbook = xlsxwriter.Workbook('AlimentosEnero-Julio.xlsx')
-    # worksheet = workbook.add_worksheet()
-    # # Start from the first cell. Rows and columns are zero indexed.
-    # row = 0
-    # col = 0
-    # bold = workbook.add_format({'bold': True})
+
+    # response = HttpResponse(
+    #     content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    # )
+    # response['Content-Disposition'] = 'attachment; filename=beneficiarios.xlsx'
+    # workbook = Workbook()
+    #
+    # # Get active worksheet/tab
+    # worksheet = workbook.active
+    # worksheet.title = 'Beneficiarios'
+    #
+    # columns = []
+    # for index, rs in enumerate(alimentos_list, start=1):
+    #     if index < 16:
+    #         columns.append(Alimentos._meta.get_field(f'alimento_{index}').verbose_name)
+    #
+    # columns.append("Beneficiario")
+    # columns.append("Fecha recogida")
+    # columns.append("Responsable")
     #
     #
-    # for u in user_filter.qs:
-    #     worksheet.write(row, col, f'{u.persona}')
-    #     worksheet.write(row, col + 1, f'{u.fecha_recogida}')
-    #     worksheet.write_number(row, col + 2, u.arroz_blanco)
-    #     worksheet.write_number(row, col + 3, u.garbanzo_cocido)
-    #     worksheet.write_number(row, col + 4, u.atun_sardina)
-    #     worksheet.write_number(row, col + 5, u.sardina)
-    #     worksheet.write_number(row, col + 6, u.pasta_espagueti)
-    #     worksheet.write_number(row, col + 7, u.tomate_frito)
-    #     worksheet.write_number(row, col + 8, u.galletas)
-    #     worksheet.write_number(row, col + 9, u.macedonia_verdura_conserva)
-    #     worksheet.write_number(row, col + 10, u.fruta_conserva_pera)
-    #     worksheet.write_number(row, col + 11, u.fruta_conserva_coctel)
-    #     worksheet.write_number(row, col + 12, u.tarito_pollo)
-    #     worksheet.write_number(row, col + 13, u.tarito_fruta)
-    #     worksheet.write_number(row, col + 14, u.leche)
-    #     worksheet.write_number(row, col + 15, u.batido_chocolate)
-    #     worksheet.write_number(row, col + 16, u.aceite_de_oliva)
-    #     worksheet.write(row, col + 17, f'{u.modificado_por}')
-    #     row += 1
+    # row_num = 1
     #
-    #     print(u.fecha_recogida)
-    # workbook.close()
-    # print(arroz_sum)
-    # alubia_sum = user_filter.qs.aggregate(Sum('alubia_blanca'))
+    # # Assign the titles for each cell of the header
+    # for col_num, column_title in enumerate(columns, 1):
+    #     cell = worksheet.cell(row=row_num, column=col_num)
+    #     cell.value = column_title
+    #
+    # for index, rs in enumerate(alimentos_list):
+    #     row_num += 1
+    #
+    #     row = [
+    #         rs.alimento_1,
+    #         rs.alimento_2,
+    #         rs.alimento_3,
+    #         rs.alimento_4,
+    #         rs.alimento_5,
+    #         rs.alimento_6,
+    #         rs.alimento_7,
+    #         rs.alimento_8,
+    #         rs.alimento_9,
+    #         rs.alimento_10,
+    #         rs.alimento_11,
+    #         rs.alimento_12,
+    #         rs.alimento_13,
+    #         rs.alimento_14,
+    #         rs.alimento_15,
+    #         rs.persona.nombre_apellido,
+    #         rs.fecha_recogida.strftime("%d/%m/%Y"),
+    #         rs.modificado_por.last_name,
+    #
+    #     ]
+    #
+    #     # Assign the data for each cell of the row
+    #     for col_num, cell_value in enumerate(row, 1):
+    #         cell = worksheet.cell(row=row_num, column=col_num)
+    #         cell.value = cell_value
+    #         # cell.fill = fill
+    #         cell.alignment = Alignment(horizontal='center')
+    #
+    # ColumnDimension(worksheet, auto_size=True)
+    # workbook.save(response)
+    #
+    # return response
+
     alimento_1 = user_filter.qs.aggregate(Sum('alimento_1'))
     alimento_2 = user_filter.qs.aggregate(Sum('alimento_2'))
     alimento_3 = user_filter.qs.aggregate(Sum('alimento_3'))
     alimento_4 = user_filter.qs.aggregate(Sum('alimento_4'))
+    alimento_5 = user_filter.qs.aggregate(Sum('alimento_5'))
     alimento_6 = user_filter.qs.aggregate(Sum('alimento_6'))
     alimento_7 = user_filter.qs.aggregate(Sum('alimento_7'))
     alimento_8 = user_filter.qs.aggregate(Sum('alimento_8'))
@@ -717,10 +716,6 @@ def buscar_fecha(request):
     alimento_10 = user_filter.qs.aggregate(Sum('alimento_10'))
     alimento_11 = user_filter.qs.aggregate(Sum('alimento_11'))
     alimento_12 = user_filter.qs.aggregate(Sum('alimento_12'))
-    alimento_13 = user_filter.qs.aggregate(Sum('alimento_13'))
-    alimento_14 = user_filter.qs.aggregate(Sum('alimento_14'))
-    alimento_15 = user_filter.qs.aggregate(Sum('alimento_15'))
-    # aceite_de_oliva_sum = user_filter.qs.aggregate(Sum('aceite_de_oliva'))
 
     return render(request, 'busqueda_a/view.html',
                   {
@@ -729,6 +724,7 @@ def buscar_fecha(request):
                       'alimento_2': alimento_2,
                       'alimento_3': alimento_3,
                       'alimento_4': alimento_4,
+                      'alimento_5': alimento_5,
                       'alimento_6': alimento_6,
                       'alimento_7': alimento_7,
                       'alimento_8': alimento_8,
@@ -736,9 +732,6 @@ def buscar_fecha(request):
                       'alimento_10': alimento_10,
                       'alimento_11': alimento_11,
                       'alimento_12': alimento_12,
-                      'alimento_13': alimento_13,
-                      'alimento_14': alimento_14,
-                      'alimento_15': alimento_15,
                       'nbar': "buscar_av"
 
                   })
@@ -776,7 +769,8 @@ def generar_hoja_entrega(request, pk):
     :param pk: id persona
     :return: pdf generado
     """
-    infile = file_path = os.path.join(settings.PROJECT_ROOT, 'entrega2020.pdf')
+    # infile = file_path = os.path.join(settings.PROJECT_ROOT, 'entrega2020.pdf')
+    infile = file_path = os.path.join(os.path.abspath('pdfs'), '2021_entrega.pdf')
     inputStream = open(infile, "rb")
     pdf_reader = PdfFileReader(inputStream, strict=False)
     if "/AcroForm" in pdf_reader.trailer["/Root"]:
