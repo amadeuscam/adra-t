@@ -39,6 +39,8 @@ jobs:
 #          coverage run manage.py test
 #          coverage report
       - name: Django testing
+        env:
+          SECRET_KEY: your-genereated-secret_key
         run: |
           python3 manage.py test
 
