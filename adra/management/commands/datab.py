@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-import  subprocess
+import subprocess
 from datetime import datetime
 from django.conf import settings
 
