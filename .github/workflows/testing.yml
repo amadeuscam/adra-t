@@ -40,8 +40,13 @@ jobs:
 #          coverage report
       - name: Django testing
         env:
-          SECRET_KEY: your-genereated-secret_key
-          Token_KEY_USER: your token
+          SECRET_KEY: hola
+          SENDGRID_API_KEY: hola
+          sentry_sdk_key_url: hola
+          mysql_user: hola
+          mysql_password: hola
+          telegram_token: hola
+          Token_KEY_USER: hola
         run: |
           python3 manage.py test
 
