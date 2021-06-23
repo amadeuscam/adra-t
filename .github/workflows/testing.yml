@@ -41,6 +41,7 @@ jobs:
       - name: Django testing
         env:
           SECRET_KEY: your-genereated-secret_key
+          Token_KEY_USER: your token
         run: |
           python3 manage.py test
 
