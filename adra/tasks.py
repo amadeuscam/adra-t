@@ -1,35 +1,27 @@
+import subprocess
 from datetime import datetime
 import sendgrid
 from celery.decorators import periodic_task
 from celery.task.schedules import crontab
-from django.contrib.auth.models import User
-from .models import AlmacenAlimentos, Persona
 from django.conf import settings
-import subprocess
-import shutil
-import glob, os
-import zipfile
-from io import BytesIO;
-from celery import shared_task
-from mailmerge import MailMerge
-from django.http import HttpResponse
+
 from adra.api_consume.get_api_data import get_caducidades
 
 
 def send_email_sendgrid(name: str, email_lst: list) -> None:
     sg = sendgrid.SendGridAPIClient(settings.SENDGRID_API_KEY)
     message = sendgrid.Mail(
-        from_email=f"admin@adra.es",
+        from_email="admin@adra.es",
         subject=f'El {name} va a caducar pronto',
         to_emails=email_lst,
     )
     message.dynamic_template_data = {
         "alimento": f"{name}",
-        "Sender_Name": f"Adra Torrejon de ardoz",
-        "Sender_Address": f"calle primavera 15",
-        "Sender_City": f"Torrejon de ardoz",
-        "Sender_State": f"Madrid",
-        "Sender_Zip": f"28850"
+        "Sender_Name": "Adra Torrejon de ardoz",
+        "Sender_Address": "calle primavera 15",
+        "Sender_City": "Torrejon de ardoz",
+        "Sender_State": "Madrid",
+        "Sender_Zip": "28850"
     }
     message.template_id = 'd-b3a251b22c7442b39b79ddc901020457'
     res = sg.send(message)

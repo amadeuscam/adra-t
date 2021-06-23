@@ -5,7 +5,6 @@ from .models import Profile
 from rest_framework.authtoken.models import Token
 
 
-
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:

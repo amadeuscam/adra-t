@@ -35,7 +35,7 @@ class Command(BaseCommand):
             today = date.today()
             return today.year - age.year - ((today.month, today.day) < (age.month, age.day))
 
-        infile = file_path = os.path.join(settings.PROJECT_ROOT, 'entrega2020.pdf')
+        infile = file_path = os.path.join(os.path.abspath('pdfs'), '2021_entrega.pdf')
         inputStream = open(infile, "rb")
         pdf_reader = PdfFileReader(inputStream, strict=False)
         if "/AcroForm" in pdf_reader.trailer["/Root"]:
@@ -55,7 +55,7 @@ class Command(BaseCommand):
         pdf_writer.addPage(pdf_reader.getPage(0))
         for persona in personas:
             if persona.active:
-                print(persona.id)
+
                 familiares = persona.hijo.all()
                 familiares_gr = persona.hijo.filter(edad__gt=3)
                 # print(familiares_pq.count())
