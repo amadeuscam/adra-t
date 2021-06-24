@@ -50,10 +50,17 @@ jobs:
       - name: Run Migrations
         run: python manage.py migrate
         env:
+          SECRET_KEY: hola
+          SENDGRID_API_KEY: hola
+          sentry_sdk_key_url: hola
+          mysql_user: root
+          mysql_password: ${{ job.services.mysql.env.MYSQL_ROOT_PASSWORD }}
+          telegram_token: hola
+          Token_KEY_USER: hola
           DBENGINE: django.db.backends.mysql
           DBNAME: adra_torrejon_new
           DBUSER: root
-          DBPASSWORD: test
+          DBPASSWORD: ${{ job.services.mysql.env.MYSQL_ROOT_PASSWORD }}
           DBHOST: 127.0.0.1
           DBPORT: ${{ job.services.mysql.ports[3306] }}
 
@@ -83,5 +90,5 @@ jobs:
           script: |
             cd /home/lucian/adra-t/
             git pull
-            sudo supervisorctl restart  gunicorn
+            echo '' | sudo -S  supervisorctl restart  gunicorn
             echo 'Deployment successful to digital ocean'
