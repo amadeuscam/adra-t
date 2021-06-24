@@ -41,14 +41,22 @@ jobs:
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-      - name: Run Migrations
-        run: python manage.py migrate
-
       #      - name: Coverage report
       #        run: |
       #          pip install coverage
       #          coverage run manage.py test
       #          coverage report
+
+      - name: Run Migrations
+        run: python manage.py migrate
+        env:
+          DBENGINE: django.db.backends.mysql
+          DBNAME: adra_torrejon_new
+          DBUSER: root
+          DBPASSWORD: test
+          DBHOST: 127.0.0.1
+          DBPORT: ${{ job.services.mysql.ports[3306] }}
+
       - name: Django testing
         env:
           SECRET_KEY: hola
@@ -75,4 +83,5 @@ jobs:
           script: |
             cd /home/lucian/adra-t/
             git pull
+            sudo supervisorctl restart  gunicorn
             echo 'Deployment successful to digital ocean'
