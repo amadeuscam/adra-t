@@ -62,7 +62,7 @@ jobs:
           DBNAME: adra_torrejon_new
           DBUSER: root
           DBPASSWORD: ${{ job.services.mysql.env.MYSQL_ROOT_PASSWORD }}
-          DBHOST: 127.0.0.1
+          DBHOST: localhost
           DBPORT: ${{ job.services.mysql.ports[3306] }}
 
       - name: Django testing
@@ -78,7 +78,7 @@ jobs:
           DBNAME: adra_torrejon_new
           DBUSER: root
           DBPASSWORD: ${{ job.services.mysql.env.MYSQL_ROOT_PASSWORD }}
-          DBHOST: 127.0.0.1
+          DBHOST: localhost
           DBPORT: ${{ job.services.mysql.ports[3306] }}
         run: |
           python3 manage.py test
