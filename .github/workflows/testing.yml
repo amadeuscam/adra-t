@@ -18,6 +18,7 @@ jobs:
         image: mysql:5.7
         env:
           MYSQL_ROOT_PASSWORD: test
+          MYSQL_USER: root
           MYSQL_DATABASE: adra_torrejon_new
         ports: [ '3306:3306' ]
 
@@ -73,6 +74,12 @@ jobs:
           mysql_password: ${{ job.services.mysql.env.MYSQL_ROOT_PASSWORD }}
           telegram_token: hola
           Token_KEY_USER: hola
+          DBENGINE: django.db.backends.mysql
+          DBNAME: adra_torrejon_new
+          DBUSER: root
+          DBPASSWORD: ${{ job.services.mysql.env.MYSQL_ROOT_PASSWORD }}
+          DBHOST: 127.0.0.1
+          DBPORT: ${{ job.services.mysql.ports[3306] }}
         run: |
           python3 manage.py test
 
@@ -90,5 +97,5 @@ jobs:
           script: |
             cd /home/lucian/adra-t/
             git pull
-            echo '' | sudo -S  supervisorctl restart  gunicorn
+            echo 'masina' | sudo -S  supervisorctl restart  gunicorn
             echo 'Deployment successful to digital ocean'
