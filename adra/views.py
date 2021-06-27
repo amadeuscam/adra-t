@@ -937,7 +937,7 @@ def get_beneficiarios_activos(request, number):
         query = f"SELECT COUNT(*) as ben_activo from (SELECT COUNT(adra_alimentos.persona_id) as ben_activos FROM `adra_alimentos`  GROUP BY adra_alimentos.persona_id HAVING COUNT(adra_alimentos.persona_id) >= {number}) as td"
         cursor.execute(query)
         data = cursor.fetchone()[0]
-    return JsonResponse({"num": data, "query": query})
+    return JsonResponse({"num": data})
 
 
 class CustomAllauthAdapter(DefaultAccountAdapter):
