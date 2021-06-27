@@ -35,7 +35,7 @@ class Command(BaseCommand):
             today = date.today()
             return today.year - age.year - ((today.month, today.day) < (age.month, age.day))
 
-        infile = file_path = os.path.join(os.path.abspath('pdfs'), '2021_entrega.pdf')
+        infile = file_path = os.path.join(os.path.abspath('source_files'), '2021_entrega.pdf')
         inputStream = open(infile, "rb")
         pdf_reader = PdfFileReader(inputStream, strict=False)
         if "/AcroForm" in pdf_reader.trailer["/Root"]:

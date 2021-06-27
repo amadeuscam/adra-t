@@ -32,6 +32,7 @@ from .filters import AlimentosFilters
 from .forms import AlimentosFrom, HijoForm, PersonaForm, ProfileEditForm, UserEditForm
 from .models import Persona, Alimentos, AlmacenAlimentos, Hijo
 from .serializers import PersonaSerializer, AlacenAlimentosSerializer, UserSerializer
+from django.db import connection, connections
 
 logger = logging.getLogger(__name__)
 
@@ -770,7 +771,7 @@ def generar_hoja_entrega(request, pk):
     :return: pdf generado
     """
     # infile = file_path = os.path.join(settings.PROJECT_ROOT, 'entrega2020.pdf')
-    infile = file_path = os.path.join(os.path.abspath('pdfs'), '2021_entrega.pdf')
+    infile = file_path = os.path.join(os.path.abspath('source_files'), '2021_entrega.pdf')
     inputStream = open(infile, "rb")
     pdf_reader = PdfFileReader(inputStream, strict=False)
     if "/AcroForm" in pdf_reader.trailer["/Root"]:
@@ -828,8 +829,8 @@ def generar_hoja_entrega(request, pk):
 
 def generar_hoja_valoracion_social(request, pk):
     persona = Persona.objects.get(pk=pk, active=True)
-    infile = file_path = os.path.join(settings.PROJECT_ROOT, 'vl.docx')
-    template = infile
+
+    template = os.path.join(os.path.abspath('source_files'), 'vl.docx')
     document = MailMerge(template)
 
     hijos = []
@@ -926,6 +927,17 @@ def get_data(request):
     list_ano.append(registro_2021.count())
 
     return JsonResponse({"reg": list_ano})
+
+
+def get_beneficiarios_activos(request, number):
+
+    data = None
+
+    with connection.cursor() as cursor:
+        query = f"SELECT COUNT(*) as ben_activo from (SELECT COUNT(adra_alimentos.persona_id) as ben_activos FROM `adra_alimentos`  GROUP BY adra_alimentos.persona_id HAVING COUNT(adra_alimentos.persona_id) >= {number}) as td"
+        cursor.execute(query)
+        data = cursor.fetchone()[0]
+    return JsonResponse({"num": data, "query": query})
 
 
 class CustomAllauthAdapter(DefaultAccountAdapter):

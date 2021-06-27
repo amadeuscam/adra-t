@@ -8,7 +8,7 @@
 
 {% block content %}
     <a class="btn btn-info mb-3" href="{% url 'adra:exportar-users-csv' %}">Exportar beneficiarios</a>
-{% comment %}    <a class="btn btn-info mb-3" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+    {% comment %}    <a class="btn btn-info mb-3" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
        aria-controls="collapseExample">Exportar valoracion social</a>
     <div class="collapse" id="collapseExample">
         <div class="card card-body">
@@ -111,7 +111,7 @@
         <div class="col-md-4">
             <h5>Conteo con</h5>
             <form action="{% url 'adra:statistics-personas' %}" method="post">
-             {% csrf_token %}
+                {% csrf_token %}
                 <div class="form-row align-items-center">
                     <div class="col-auto my-1">
                         <label class="mr-sm-4 sr-only" for="inlineFormCustomSelect">Preference</label>
@@ -130,6 +130,19 @@
             </form>
         </div>
     </div>
+
+        <div class="col col-md-6" style="height: 25vh;min-height: 25vh;position:relative;">
+            <h3 class="text-left pt-5">Usuarios activos por busqueda</h3>
+            <p><b>introduce el numero de entregas</b></p>
+            <div id="app-activos">
+                <div class="input-group col-sm-6 d-flex justify-content-center align-items-center text-black-50" style="padding-left: 0;margin-top: 2vh;">
+                    <input type="number" v-model="number_search" class="form-control" min="1" id="active_ben">
+                    <label for="active_ben"></label>
+                </div>
+                <h4 style="margin-top: 1vh">Beneficiarios activos: <span style="font-size: 20px;color: red;margin-left: 2%;">{beneficiarios} </span></h4>
+            </div>
+        </div>
+
     <div class="row">
         <div class="col">
             <h1 class="text-center pt-5">Registros por años</h1>
@@ -140,6 +153,43 @@
 {% endblock content %}
 {% block script %}
     <script>
+
+        var app = new Vue({
+            el: '#app-activos',
+            delimiters: ['{', '}'],
+            data: {
+                number_search: 1,
+                beneficiarios: ''
+            },
+            watch: {
+                number_search: function (old) {
+                    this.get_data()
+
+                }
+            },
+            mounted() {
+                this.get_data()
+            },
+            methods: {
+                get_data: function () {
+                    let vm = this;
+                    if (vm.number_search) {
+                        axios.get(`/get-beneficiarios-activos/${this.number_search}`)
+                            .then(function (response) {
+                                vm.beneficiarios = response.data.num
+                                console.log(response.data)
+
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            })
+                    }
+
+                }
+            }
+        })
+
+
         // based on prepared DOM, initialize echarts instance
         var myChart = echarts.init(document.getElementById('main'));
 
@@ -151,7 +201,7 @@
             },
             xAxis: {
                 type: 'category',
-                data: ['2018', '2019', '2020','2021']
+                data: ['2018', '2019', '2020', '2021']
             },
             yAxis: {
                 type: 'value'
