@@ -1,11 +1,13 @@
 import subprocess
 from datetime import datetime
 import sendgrid
-from celery.decorators import periodic_task
-from celery.task.schedules import crontab
 from django.conf import settings
-
+from celery.schedules import crontab
+from celery.utils.log import get_task_logger
+from adra_project.celery import app
 from adra.api_consume.get_api_data import get_caducidades
+
+logger = get_task_logger(__name__)
 
 
 def send_email_sendgrid(name: str, email_lst: list) -> None:
@@ -35,12 +37,20 @@ def check_caducidad(fecha):
     return delta_aceite.days
 
 
-# crontab(minute=0, hour='6,18')
-@periodic_task(
-    run_every=crontab(minute=0, hour='8'),
-    name="caducidad_alimentos",
-    ignore_result=False
-)
+@app.on_after_finalize.connect
+def setup_periodic_tasks(**kwargs):
+    # Executes every day  at 8 am
+    app.add_periodic_task(crontab(minute=0, hour='8'), caducidad_alimentos,
+                          name="comprobar las caducidades de los alimentos")
+    # Executes every day  at 6 am and 18 pm
+    app.add_periodic_task(crontab(minute=0, hour='6,18'), restart_telefram_bot,
+                          name="reiniciar el bot de telegram")
+    # Executes every sunday at 15:15 pm
+    app.add_periodic_task(crontab(hour=15, minute=15, day_of_week='sun'), make_backup_mysql,
+                          name="hacer una copia de la base de datos")
+
+
+@app.task
 def caducidad_alimentos():
     ds = get_caducidades(['almacen', 'users'])
 
@@ -54,20 +64,12 @@ def caducidad_alimentos():
             send_email_sendgrid(data_aliemntos[f'alimento_{number}_name'], list_email)
 
 
-@periodic_task(
-    run_every=crontab(minute=0, hour='6,18'),
-    name="restart_telefram_bot",
-    ignore_result=True
-)
+@app.task
 def restart_telefram_bot():
     subprocess.call(["supervisorctl", "restart", "telegram"])
 
 
-@periodic_task(
-    run_every=crontab(hour=15, minute=15, day_of_week='sun'),
-    name="make_backup_mysql",
-    ignore_result=True
-)
+@app.task
 def make_backup_mysql():
     username = settings.USER_DB
     password = settings.PASSWORD_DB

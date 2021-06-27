@@ -4,7 +4,6 @@ import logging
 import subprocess
 import requests
 from django.conf import settings
-# from django.contrib.sites import requests
 from django.core.management.base import BaseCommand
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
@@ -97,9 +96,3 @@ class Command(BaseCommand):
         # start_polling() is non-blocking and will stop the bot gracefully.
         updater.idle()
 
-        # bot = telegram.Bot(token=settings.TELEGRAM_TOKEN_KEY)
-        # # print(bot.getUpdates())
-        # persona = Persona.objects.filter(active=True).filter(Q(domingo="Domingo 1") | Q(domingo=1), ciudad__icontains="Torrejon de ardoz").exclude(covid=True)
-        # per_list = [p.nombre_apellido for p in persona]
-        # print(len(per_list))
-        # bot.send_message('-1001438819726', f"*{per_list}*",parse_mode=telegram.ParseMode.MARKDOWN_V2)

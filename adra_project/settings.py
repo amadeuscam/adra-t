@@ -223,12 +223,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 CORS_ORIGIN_ALLOW_ALL = True
 
 sentry_sdk.init(
-    dsn="https://c65bac75837247648592312de561bab2@sentry.io/1515282",
+    dsn=f"{env('sentry_sdk_key_url')}",
     integrations=[DjangoIntegration()]
 )
 
 CELERY_BROKER_URL = 'amqp://localhost'
-# CELERY_BROKER_URL = 'amqp://guest@localhost//'
 
 TELEGRAM_TOKEN_KEY = str(env('telegram_token'))
 
@@ -236,14 +235,33 @@ PLATFORM_NAME = "Adra Torrejon"
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'console': {
+            'format': '%(asctime)s  %(name)-12s %(levelname)-8s %(message)s'
+        },
+        'file': {
+            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
+        }
+    },
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
+            'formatter': 'console'
         }
     },
     'root': {
         'handlers': ['console'],
-        'level': 'WARNING'
-    }
+        'level': 'INFO'
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'propagate': True,
+        },
+        'celery': {
+            'handlers': ['console'],
+            'propagate': True,
+        },
+    },
 
 }
