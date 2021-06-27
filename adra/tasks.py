@@ -1,4 +1,3 @@
-import os
 import subprocess
 from datetime import datetime
 import sendgrid
@@ -7,7 +6,6 @@ from celery.schedules import crontab
 from celery.utils.log import get_task_logger
 from adra_project.celery import app
 from adra.api_consume.get_api_data import get_caducidades
-import gzip
 
 logger = get_task_logger(__name__)
 
@@ -77,11 +75,8 @@ def make_backup_mysql():
     password = settings.PASSWORD_DB
     database = settings.NAME_DB
 
-    command_line = f"mysqldump -u {username} -p{password}  {database} > {datetime.now().day}-{datetime.now().month}.sql"
-    dc = subprocess.Popen(command_line, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    path = os.path.join(os.path.abspath('backup_mysql'), '2021_entrega.sql')
-    with gzip.open(path, "wb") as f:
-        f.writelines(dc.stdout)
+    command_line = f"mysqldump -u {username} -p{password}  {database} > /backup_mysql/{datetime.now().day}-{datetime.now().month}.sql"
+    dc = subprocess.Popen(command_line, shell=True)
     dc.wait()
 
 # @shared_task
