@@ -79,7 +79,7 @@ def make_backup_mysql():
 
     command_line = f"mysqldump -u {username} -p{password}  {database} > {datetime.now().day}-{datetime.now().month}.sql"
     dc = subprocess.Popen(command_line, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    path = os.path.join(os.path.abspath('backup_mysql'))
+    path = os.path.join(os.path.abspath('backup_mysql'), '2021_entrega.sql')
     with gzip.open(path, "wb") as f:
         f.writelines(dc.stdout)
     dc.wait()
