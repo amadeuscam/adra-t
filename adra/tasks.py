@@ -75,7 +75,7 @@ def make_backup_mysql():
     password = settings.PASSWORD_DB
     database = settings.NAME_DB
 
-    command_line = f"mysqldump -u {username} -p{password}  {database} > /backup_mysql/{datetime.now().day}-{datetime.now().month}.sql"
+    command_line = f"mysqldump -u {username} -p{password}  {database} > /home/lucian/adra-t/backup_mysql/{datetime.now().day}-{datetime.now().month}.sql"
     dc = subprocess.Popen(command_line, shell=True)
     dc.wait()
 
