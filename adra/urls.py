@@ -1,4 +1,8 @@
 from django.urls import path, include
+from rest_framework.authtoken import views as vs
+from rest_framework.routers import DefaultRouter
+
+from . import views
 from .views import (
     PersonaDetailView,
     PersonaCreateView,
@@ -8,16 +12,9 @@ from .views import (
     HijoUpdateView,
     HijoDeleteView,
     PersonaListView,
-    PersonaAlimentosUpdateView,
-    statistics_persona,
-    export_users_csv
+    PersonaAlimentosUpdateView
 
 )
-from rest_framework.urlpatterns import format_suffix_patterns
-from . import views
-from rest_framework.routers import DefaultRouter
-from rest_framework.authtoken import views as vs
-
 
 app_name = 'adra'
 # Create a router and register our viewsets with it.

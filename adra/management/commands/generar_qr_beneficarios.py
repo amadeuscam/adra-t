@@ -1,15 +1,10 @@
-from django.core.management.base import BaseCommand, CommandError
-from django.db.models import Q
-import pyqrcode
-import png
-from pyqrcode import QRCode
-from adra.models import Persona,Hijo
+from django.core.management.base import BaseCommand
+from adra.models import Hijo
 
 
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-
 
         personas = Hijo.objects.all()
         for ben in personas:
@@ -33,4 +28,3 @@ class Command(BaseCommand):
             #
             # # Create and save the png file naming "myqr.png"
             # url.png(f'{ben.numero_adra}.png', scale=6)
-

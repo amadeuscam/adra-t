@@ -1,12 +1,7 @@
-from django.core.management.base import BaseCommand, CommandError
 import subprocess
 from datetime import datetime
-from pathlib import Path
-import shutil
-import time
-import shlex
-import os
 from django.conf import settings
+from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):
@@ -16,8 +11,7 @@ class Command(BaseCommand):
         password = settings.PASSWORD_DB
         database = settings.NAME_DB
 
-        command_line = f"mysqldump -u {username} -p{password}  {database} > {datetime.now().day}-{datetime.now().month}.sql"
-        # os.popen(command_line)
-
+        command_line = f"mysqldump -u {username} -p{password}  {database} > " \
+                       f"{datetime.now().day}-{datetime.now().month}.sql"
         dc = subprocess.Popen(command_line, shell=True)
         dc.wait()

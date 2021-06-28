@@ -1,16 +1,19 @@
-from django.core.management.base import BaseCommand, CommandError
-from datetime import date
-from adra.models import Persona
-from mailmerge import MailMerge
-from pathlib import Path
+import glob
+import os
 import shutil
 import time
-import glob, os
+from pathlib import Path
+
+from django.core.management.base import BaseCommand
+from mailmerge import MailMerge
+
+from adra.models import Persona
+
 
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        persona = Persona.objects.filter(active=True,numero_adra__gt=203,numero_adra__lt=229).order_by("numero_adra")
+        persona = Persona.objects.filter(active=True, numero_adra__gt=203, numero_adra__lt=229).order_by("numero_adra")
         Path("./valoracion").mkdir(parents=True, exist_ok=True)
 
         for p in persona[10:50]:
@@ -39,21 +42,21 @@ class Command(BaseCommand):
                 ciudad=f'{p.ciudad}',
                 numar_telefon=f'{p.telefono}',
                 # fecha_hoy=f"{'{:%d-%m-%Y}'.format(p.created_at)}",
-                fecha_hoy=f"03-02-2020",
+                fecha_hoy="03-02-2020",
 
             )
             if p.empadronamiento:
-                document.merge(a = "x")
+                document.merge(a="x")
             if p.libro_familia:
-                document.merge(b = "x")
+                document.merge(b="x")
             if p.fotocopia_dni:
-                document.merge(c = "x")
+                document.merge(c="x")
             if p.prestaciones:
-                document.merge(d = "x")
+                document.merge(d="x")
             if p.nomnia:
-                document.merge(e = "x")
+                document.merge(e="x")
             if p.cert_negativo:
-                document.merge(f = "x")
+                document.merge(f="x")
             if p.aquiler_hipoteca:
                 document.merge(g="x")
             if p.recibos:
@@ -61,7 +64,6 @@ class Command(BaseCommand):
             document.merge_rows('parentesco', hijos)
 
             document.write(f'./valoracion/{p.numero_adra}.docx')
-
 
         os.chdir("./valoracion")
         for file in glob.glob("*.docx"):

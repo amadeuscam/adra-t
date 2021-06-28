@@ -1,9 +1,5 @@
-from django.core.management.base import BaseCommand, CommandError
-from datetime import date
-
-from django.db.models import Count
-
-from adra.models import Persona, Alimentos, Hijo
+from django.core.management.base import BaseCommand
+from adra.models import Persona, Hijo
 
 
 class Command(BaseCommand):

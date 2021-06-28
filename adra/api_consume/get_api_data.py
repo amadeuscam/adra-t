@@ -15,4 +15,3 @@ def get_caducidades(endpoints: list) -> dict:
         data_ret[endpoint] = json.loads(data_res.content.decode('utf-8'))
 
     return data_ret
-

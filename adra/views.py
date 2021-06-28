@@ -3,7 +3,6 @@ import os
 import time
 from datetime import date
 import telegram
-import xlsxwriter
 from PyPDF2 import PdfFileReader, PdfFileWriter
 from PyPDF2.generic import BooleanObject, NameObject, IndirectObject
 from allauth.account.adapter import DefaultAccountAdapter
@@ -13,6 +12,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db import connection
 from django.db.models import Q
 from django.db.models import Sum
 from django.http import HttpResponse, JsonResponse
@@ -22,17 +22,16 @@ from django.views.decorators.cache import cache_page
 from django.views.generic import (ListView, DetailView, DeleteView, UpdateView, CreateView)
 from mailmerge import MailMerge
 from openpyxl import Workbook
-from openpyxl.worksheet.dimensions import ColumnDimension
 from openpyxl.styles import Alignment, PatternFill
 from rest_framework import permissions
 from rest_framework import viewsets
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import (Mail)
+
 from .filters import AlimentosFilters
 from .forms import AlimentosFrom, HijoForm, PersonaForm, ProfileEditForm, UserEditForm
 from .models import Persona, Alimentos, AlmacenAlimentos, Hijo
 from .serializers import PersonaSerializer, AlacenAlimentosSerializer, UserSerializer
-from django.db import connection, connections
 
 logger = logging.getLogger(__name__)
 
@@ -116,7 +115,7 @@ class PersonaCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.modificado_por = self.request.user
-        messages.add_message(self.request, messages.SUCCESS, f'Beneficiaru sa adaugat cu success!')
+        messages.add_message(self.request, messages.SUCCESS, 'Beneficiaru sa adaugat cu success!')
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -771,7 +770,7 @@ def generar_hoja_entrega(request, pk):
     :return: pdf generado
     """
     # infile = file_path = os.path.join(settings.PROJECT_ROOT, 'entrega2020.pdf')
-    infile = file_path = os.path.join(os.path.abspath('source_files'), '2021_entrega.pdf')
+    infile = os.path.join(os.path.abspath('source_files'), '2021_entrega.pdf')
     inputStream = open(infile, "rb")
     pdf_reader = PdfFileReader(inputStream, strict=False)
     if "/AcroForm" in pdf_reader.trailer["/Root"]:
@@ -786,7 +785,6 @@ def generar_hoja_entrega(request, pk):
 
     persona = Persona.objects.get(id=pk)
     familiares = persona.hijo.all()
-    familiares_gr = persona.hijo.filter(edad__gt=3)
 
     mayores = 0
     menores = 0
@@ -930,11 +928,13 @@ def get_data(request):
 
 
 def get_beneficiarios_activos(request, number):
-
     data = None
 
     with connection.cursor() as cursor:
-        query = f"SELECT COUNT(*) as ben_activo from (SELECT COUNT(adra_alimentos.persona_id) as ben_activos FROM `adra_alimentos`  GROUP BY adra_alimentos.persona_id HAVING COUNT(adra_alimentos.persona_id) >= {number}) as td"
+        query = f"SELECT COUNT(*) as ben_activo from (SELECT COUNT(adra_alimentos.persona_id) as ben_activos" \
+                f" FROM `adra_alimentos`  GROUP BY adra_alimentos.persona_id HAVING " \
+                f"COUNT(adra_alimentos.persona_id) >= {number}) as td"
+
         cursor.execute(query)
         data = cursor.fetchone()[0]
     return JsonResponse({"num": data})
@@ -960,43 +960,43 @@ class CustomAllauthAdapter(DefaultAccountAdapter):
 
             sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
             message = Mail(
-                from_email=f"admin@adra.es",
-                subject=f'Activación de la cuenta',
+                from_email="admin@adra.es",
+                subject='Activación de la cuenta',
                 to_emails=f"{user.email}",
             )
             message.dynamic_template_data = {
                 "activate_url": f"{context.get('activate_url')}",
                 "user": f"{context.get('user')}",
-                "Sender_Name": f"Adra Torrejon de ardoz",
-                "Sender_Address": f"calle primavera 15",
-                "Sender_City": f"Torrejon de ardoz",
-                "Sender_State": f"Madrid",
-                "Sender_Zip": f"28850"
+                "Sender_Name": "Adra Torrejon de ardoz",
+                "Sender_Address": "calle primavera 15",
+                "Sender_City": "Torrejon de ardoz",
+                "Sender_State": "Madrid",
+                "Sender_Zip": "28850"
             }
             message.template_id = 'd-8dddee085b5e4479a28b7dace0adf686'
-            response = sg.send(message)
+            sg.send(message)
 
         elif context.get('password_reset_url'):
 
             user = context.get('user')
             sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
             message = Mail(
-                from_email=f"admin@adra.es",
-                subject=f'Cambio de contraseña',
+                from_email="admin@adra.es",
+                subject='Cambio de contraseña',
                 to_emails=f"{user.email}",
             )
             message.dynamic_template_data = {
                 "url_cambiar": f"{context.get('password_reset_url')}",
                 "user": f"{user}",
-                "Sender_Name": f"Adra Torrejon de ardoz",
-                "Sender_Address": f"calle primavera 15",
-                "Sender_City": f"Torrejon de ardoz",
-                "Sender_State": f"Madrid",
-                "Sender_Zip": f"28850"
+                "Sender_Name": "Adra Torrejon de ardoz",
+                "Sender_Address": "calle primavera 15",
+                "Sender_City": "Torrejon de ardoz",
+                "Sender_State": "Madrid",
+                "Sender_Zip": "28850"
             }
 
             message.template_id = 'd-ab0adafe4dd14cb4b9aba688b7200830'
-            response = sg.send(message)
+            sg.send(message)
 
 
 @login_required

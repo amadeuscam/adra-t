@@ -1,9 +1,7 @@
-from django.core.management.base import BaseCommand, CommandError
-from adra.models import Persona
-import xlwt
+from django.core.management.base import BaseCommand
 from openpyxl import Workbook
-from openpyxl.styles import Font, Alignment, Border, Side, PatternFill
-from openpyxl.utils import get_column_letter
+from openpyxl.styles import Alignment
+from adra.models import Persona
 
 
 class Command(BaseCommand):
@@ -30,8 +28,8 @@ class Command(BaseCommand):
 
         ]
         row_num = 1
-        fill = PatternFill(start_color='43fb32',
-                           fill_type='solid')
+        # fill = PatternFill(start_color='43fb32',
+        #                    fill_type='solid')
         # Assign the titles for each cell of the header
         for col_num, column_title in enumerate(columns, 1):
             cell = worksheet.cell(row=row_num, column=col_num)

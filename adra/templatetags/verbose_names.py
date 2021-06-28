@@ -1,7 +1,7 @@
 from django import template
+from adra.models import Alimentos
 
 register = template.Library()
-from ..models import Alimentos
 
 
 @register.simple_tag

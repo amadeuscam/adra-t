@@ -40,21 +40,27 @@ class Persona(models.Model):
     discapacidad = models.BooleanField(default=False)
     domingo = models.CharField(max_length=30, choices=DOMINGO)
     empadronamiento = models.BooleanField(default=False,
-                                          verbose_name="Certificado de empadronamiento actualizado con fecha de menos de tres meses ")
+                                          verbose_name="Certificado de empadronamiento actualizado "
+                                                       "con fecha de menos de tres meses ")
     libro_familia = models.BooleanField(
         default=False, verbose_name="Fotocopia del Libro de Familia ")
     fotocopia_dni = models.BooleanField(default=False,
-                                        verbose_name="Fotocopia del DNI/NIE o pasaporte de todos los miembros del núcleo familiar")
+                                        verbose_name="Fotocopia del DNI/NIE o pasaporte de todos los "
+                                                     "miembros del núcleo familiar")
     prestaciones = models.BooleanField(default=False,
-                                       verbose_name="Fotocopia de la documentación que acredite de prestación, pensión, paro, etc")
+                                       verbose_name="Fotocopia de la documentación que acredite de"
+                                                    " prestación, pensión, paro, etc")
     nomnia = models.BooleanField(
         default=False, verbose_name="Fotocopia de la nómina en caso de trabajar.")
     cert_negativo = models.BooleanField(default=False,
-                                        verbose_name="En caso de no tener ingresos: certificado negativo de rentas, de la Agencia Tributaria.")
+                                        verbose_name="En caso de no tener ingresos: certificado"
+                                                     " negativo de rentas, de la Agencia Tributaria.")
     aquiler_hipoteca = models.BooleanField(default=False,
-                                           verbose_name="Ultimo recibo alquiler o  hipoteca de vivienda familiar en la que están empadronados")
+                                           verbose_name="Ultimo recibo alquiler o  hipoteca de"
+                                                        " vivienda familiar en la que están empadronados")
     recibos = models.BooleanField(default=False,
-                                  verbose_name="Recibo de gastos básicos: luz, agua, gas, calefacción, comunidad y  comedor escolar.")
+                                  verbose_name="Recibo de gastos básicos: luz, agua, gas, "
+                                               "calefacción, comunidad y  comedor escolar.")
 
     class Meta:
         ordering = ('-created_at',)
@@ -172,17 +178,26 @@ class AlmacenAlimentos(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
 
     alimento_1_caducidad = models.DateField(auto_now_add=False, blank=True, default=None, verbose_name="Arroz Blanco")
-    alimento_2_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,verbose_name="Garbanzos cocidos")
-    alimento_3_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,verbose_name="Conserva de atún")
-    alimento_4_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,verbose_name="Pasta alimenticia tipo espagueti")
-    alimento_5_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,verbose_name="Tomate frito en conserva")
-    alimento_6_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,verbose_name="Galletas")
-    alimento_7_caducidad = models.DateField(auto_now_add=False, blank=True, default=None, verbose_name="Macedonia de verduras en conserva")
-    alimento_8_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,verbose_name="Cacao soluble")
-    alimento_9_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,verbose_name="Tarritos infantiles con pollo")
-    alimento_10_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,verbose_name="Tarritos infantiles de fruta")
-    alimento_11_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,verbose_name="Leche entera UHT")
-    alimento_12_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,verbose_name="Aceite de oliva")
+    alimento_2_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,
+                                            verbose_name="Garbanzos cocidos")
+    alimento_3_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,
+                                            verbose_name="Conserva de atún")
+    alimento_4_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,
+                                            verbose_name="Pasta alimenticia tipo espagueti")
+    alimento_5_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,
+                                            verbose_name="Tomate frito en conserva")
+    alimento_6_caducidad = models.DateField(auto_now_add=False, blank=True, default=None, verbose_name="Galletas")
+    alimento_7_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,
+                                            verbose_name="Macedonia de verduras en conserva")
+    alimento_8_caducidad = models.DateField(auto_now_add=False, blank=True, default=None, verbose_name="Cacao soluble")
+    alimento_9_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,
+                                            verbose_name="Tarritos infantiles con pollo")
+    alimento_10_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,
+                                             verbose_name="Tarritos infantiles de fruta")
+    alimento_11_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,
+                                             verbose_name="Leche entera UHT")
+    alimento_12_caducidad = models.DateField(auto_now_add=False, blank=True, default=None,
+                                             verbose_name="Aceite de oliva")
 
     class Meta:
         verbose_name = "Almacen Alimento"

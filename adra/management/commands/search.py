@@ -1,6 +1,5 @@
-from django.core.management.base import BaseCommand, CommandError
-from datetime import date
-from adra.models import Persona, Alimentos
+from django.core.management.base import BaseCommand
+from adra.models import Persona
 
 
 class Command(BaseCommand):

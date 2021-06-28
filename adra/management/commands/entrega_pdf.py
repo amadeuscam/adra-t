@@ -1,11 +1,10 @@
-from django.core.management.base import BaseCommand, CommandError
-from datetime import date
-from adra.models import Persona
-from mailmerge import MailMerge
 import os
-from django.conf import settings
+from datetime import date
 from PyPDF2 import PdfFileReader, PdfFileWriter
 from PyPDF2.generic import BooleanObject, NameObject, IndirectObject
+from django.core.management.base import BaseCommand
+
+from adra.models import Persona
 
 
 class Command(BaseCommand):
@@ -35,7 +34,7 @@ class Command(BaseCommand):
             today = date.today()
             return today.year - age.year - ((today.month, today.day) < (age.month, age.day))
 
-        infile = file_path = os.path.join(os.path.abspath('source_files'), '2021_entrega.pdf')
+        infile = os.path.join(os.path.abspath('source_files'), '2021_entrega.pdf')
         inputStream = open(infile, "rb")
         pdf_reader = PdfFileReader(inputStream, strict=False)
         if "/AcroForm" in pdf_reader.trailer["/Root"]:
@@ -57,8 +56,6 @@ class Command(BaseCommand):
             if persona.active:
 
                 familiares = persona.hijo.all()
-                familiares_gr = persona.hijo.filter(edad__gt=3)
-                # print(familiares_pq.count())
                 mayores = 0
                 menores = 0
                 for f in familiares:
@@ -93,7 +90,6 @@ class Command(BaseCommand):
                 # pdf_writer.encrypt(str.lower(f"{persona.numero_adra}"))
                 with open(f"./entregas/{persona.numero_adra}.pdf", "wb") as out_file:
                     pdf_writer.write(out_file)
-
 
                 # extractedPage = open(pdf_file_path, 'rb')
                 # response = HttpResponse(content_type='application/pdf')

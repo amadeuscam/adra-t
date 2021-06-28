@@ -26,7 +26,7 @@ def send_email_sendgrid(name: str, email_lst: list) -> None:
         "Sender_Zip": "28850"
     }
     message.template_id = 'd-b3a251b22c7442b39b79ddc901020457'
-    res = sg.send(message)
+    sg.send(message)
 
 
 def check_caducidad(fecha):
@@ -75,7 +75,8 @@ def make_backup_mysql():
     password = settings.PASSWORD_DB
     database = settings.NAME_DB
 
-    command_line = f"mysqldump -u {username} -p{password}  {database} > /home/lucian/adra-t/backup_mysql/{datetime.now().day}-{datetime.now().month}.sql"
+    command_line = f"mysqldump -u {username} -p{password}  {database} > /home/lucian/adra-t/backup_mysql/" \
+                   f"{datetime.now().day}-{datetime.now().month}.sql"
     dc = subprocess.Popen(command_line, shell=True)
     dc.wait()
 
